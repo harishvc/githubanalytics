@@ -1,0 +1,9 @@
+<h1>Top New GitHub Respositories</h1>
+
+{% for row in data %}
+<p>
+  <a href="{{row.url}}">{{row.name}}</a>&nbsp;Language: {{row.lang}} &nbsp; Stargazers: {{row.count}}+
+  <br/>{{row.desc}} 
+</p>
+{% endfor %}
+Generated at {{time}}
