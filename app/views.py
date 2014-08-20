@@ -9,12 +9,20 @@ import os.path, time
 # configuration
 JSON_DATA = 'app/data/toprepositories.json'
 DEBUG = True
-f = open(JSON_DATA, 'r')
-data = json.load(f)
-f.close()
+#f = open(JSON_DATA, 'r')
+#data = json.load(f)
+#f.close()
 
 mydata = []
-for row in data['rows']:
+
+def refresh_data():
+    #http://stackoverflow.com/questions/850795/clearing-python-lists
+    mydata[:] = [] #clear list on the module scope
+    with open(JSON_DATA) as f:
+        data = json.load(f)
+        f.close()
+
+    for row in data['rows']:
             #print ("\n")
             result_row = []
             for field in row['f']:
@@ -32,7 +40,11 @@ now = time.ctime(os.path.getmtime(JSON_DATA))
 @app.route('/')
 @app.route('/index')
 def index():
+    refresh_data()
     return render_template("index.html",
         title = 'GitHub Analytics',
         time  = now,
         data = mydata )
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
