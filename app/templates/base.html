@@ -1,14 +1,11 @@
 <html>
   <head>
     {% if title %}
-    <title>{{title}} - microblog</title>
-    {% else %}
-    <title>microblog</title>
+    <title>{{title}}</title>
     {% endif %}
+    <link rel="stylesheet" type="text/css" href="static/styles.css">
   </head>
   <body>
-    <div>Microblog: <a href="/index">Home</a></div>
-    <hr>
     {% block content %}{% endblock %}
   </body>
 </html>

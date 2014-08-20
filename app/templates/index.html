@@ -1,9 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
 <h1>Top New GitHub Respositories</h1>
-
+<ul>
 {% for row in data %}
-<p>
+<li>
   <a href="{{row.url}}">{{row.name}}</a>&nbsp;Language: {{row.lang}} &nbsp; Stargazers: {{row.count}}+
   <br/>{{row.desc}} 
-</p>
+</li>
 {% endfor %}
-Generated at {{time}}
+</ul>
+<hr/>
+<p>Generated at {{time}}</p>
+{% endblock %}
