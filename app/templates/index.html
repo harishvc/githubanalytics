@@ -1,11 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Top New GitHub Respositories</h1>
+<h1>GitHub Analyics</h1>
+</p>#Commits in the past 60 minutes: {{numcommits}}</p>
+<h2>Top active repositories</h2>
 <ul>
-{% for row in data %}
+{% for key, value in repositories %}
 <li>
-  <a href="{{row.url}}">{{row.name}}</a>&nbsp;Language: {{row.lang}} &nbsp; Stargazers: {{row.count}}+
-  <br/>{{row.desc}} 
+      <a href="{{value['url']}}">{{value['url']}}</a>&nbsp;&nbsp;(commits: {{value['count']}})
+</li>
+{% endfor %}
+</ul>
+<h2>Top active users</h2>
+<ul>
+{% for key, value in users %}
+<li>
+      {{value['actorlogin']}} {{value['count']}} 
+</li>
+{% endfor %}
+</ul>
+
+<h2>Top active languages</h2>
+<ul>
+{% for key, value in languages %}
+<li>
+      {{key}} {{value}} 
 </li>
 {% endfor %}
 </ul>
