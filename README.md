@@ -7,21 +7,21 @@ Python & Node.js are used in this project. Node.js is used for fetching and pars
 Python is used for processing and hosted using the Flask framework. 
 
 ### Usage 
-1. Get GitHub Archive public activity for the past hour
+* Get GitHub Archive public activity for the past hour
 ````
 $> node FetchParseGitHubArchive.js  
 #Generates app/data/PushEvent.json with PushEvent
 ```` 
-2. Start Flask
+* Start Flask
 ````
 $> python RunFlash.py
 # Host and port  displayed
 ````
 
-3. Visit localhost:5000 
+* Visit localhost:5000 
 
-4. Sample output
-[Github Analytics](http://github.com/harishvc/githubanalytics/pics/sample-output.png "GitHub Analytics")
+* Sample output
+[Github Analytics](https://github.com/harishvc/githubanalytics/blob/master/pics/sample-output.png "GitHub Analytics")
 
 ###TODO
 1. Deploy app (ran into issues deploying on Heroku)
