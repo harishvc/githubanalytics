@@ -20,7 +20,8 @@ $> python RunFlash.py
 
 * Visit localhost:5000 
 
-* Sample output
+### Sample output
+
 ![picture alt](https://github.com/harishvc/githubanalytics/blob/master/pics/sample-output.png "GitHub Analytics")
 
 ###TODO
