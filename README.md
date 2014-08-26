@@ -21,7 +21,7 @@ $> python RunFlash.py
 * Visit localhost:5000 
 
 * Sample output
-[Github Analytics](https://github.com/harishvc/githubanalytics/blob/master/pics/sample-output.png "GitHub Analytics")
+![picture alt](https://github.com/harishvc/githubanalytics/blob/master/pics/sample-output.png "GitHub Analytics")
 
 ###TODO
 1. Deploy app (ran into issues deploying on Heroku)
