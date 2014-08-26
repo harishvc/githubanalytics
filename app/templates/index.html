@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>GitHub Analytics</h1>
-</p>#Commits in the past 60 minutes: {{numcommits}}</p>
+</p>What's trending in past 60 minutes?</p>
 <h2>Top active repositories</h2>
 <ul>
 {% for key, value in repositories %}
 <li>
-      <a href="{{value['url']}}">{{value['url']}}</a>&nbsp;&nbsp;(commits: {{value['count']}})
+      <a href="{{value['url']}}">{{value['name']}}</a>&nbsp;&nbsp;(commits: {{value['count']}})
+      <br/>{{value['description']}}
 </li>
 {% endfor %}
 </ul>
@@ -14,7 +15,7 @@
 <ul>
 {% for key, value in users %}
 <li>
-      {{value['actorlogin']}} {{value['count']}} 
+      <a href=http://github.com/{{value['actorlogin']}}>{{value['actorname']}}</a>&nbsp;&nbsp;(commits:{{value['count']}}) 
 </li>
 {% endfor %}
 </ul>
@@ -28,5 +29,5 @@
 {% endfor %}
 </ul>
 <hr/>
-<p>Generated at {{time}}</p>
+<p>Based on {{numcommits}} commits generated on {{time}}</p>
 {% endblock %}
