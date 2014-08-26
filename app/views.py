@@ -8,24 +8,19 @@ import os.path, time
 import operator
 
 # configuration
-json_data=open('./app/data/PushEvent.json')
+myfile='./app/data/PushEvent.json'
+json_data=open(myfile)
 data = json.load(json_data)
 DEBUG = True
-#f = open(JSON_DATA, 'r')
-#data = json.load(f)
-#f.close()
 
 #Global variables
-#mydata = []
-#now = time.ctime(os.path.getmtime(json_data))
-now ="TODO"
+now = time.ctime(os.path.getmtime(myfile))
 numcommits = 0
 languages = dict()
 repositories= dict()
 users= dict()
  
 def find_term(term,type,max):
-    #WORKS!!!
     d = dict()
     d2 = dict()
     for key, value in data.items():
@@ -36,8 +31,6 @@ def find_term(term,type,max):
             d[value[term]] = 1
          
     d2 = sorted(d.iteritems(), key=lambda (k,v): (v,k),reverse=type)[:max]
-    for key, value in d2:
-        print "%s: %s" % (key, value)
     return d2
     
 
@@ -67,23 +60,14 @@ def find_active_users(what,max):
 
 
 
-
+#http://stackoverflow.com/questions/850795/clearing-python-lists    
 def refresh_data():
-    #http://stackoverflow.com/questions/850795/clearing-python-lists
-    #mydata[:] = [] #clear list on the module scope
-    
-    #Refresh
-    #users = {}
-    #repositories = {}    
-    #languages = {}  
-    
-    #TODO: Timestamp not getting updated when JSON file changes. Read ONE TIME!!!!!
-    now = None
-    now = datetime.today().strftime('%Y-%m-%d %H:%M:%S') + " PSD"
+    global now
+    now = time.ctime(os.path.getmtime(myfile)) + " PSD"
  
     #Commits
     global numcommits
-    numcommits = len(data)  
+    numcommits = "{:,}".format(len(data))  
     
     #Find Top Languages 
     #languages = dict()

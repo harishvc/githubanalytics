@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>GitHub Analyics</h1>
+<h1>GitHub Analytics</h1>
 </p>#Commits in the past 60 minutes: {{numcommits}}</p>
 <h2>Top active repositories</h2>
 <ul>
@@ -23,7 +23,7 @@
 <ul>
 {% for key, value in languages %}
 <li>
-      {{key}} {{value}} 
+      {{key}} &nbsp;&nbsp; {{value}} 
 </li>
 {% endfor %}
 </ul>
