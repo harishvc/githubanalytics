@@ -3,22 +3,25 @@ GitHub Analytics
 
 Analyze GitHub public timeline to provide valuable insights.
 
+Python & Node.js are used in this project. Node.js is used for fetching and parsing public activity from GitHub Archive. 
+Python is used for processing and hosted using the Flask framework. 
+
 ### Usage 
-1. Sign up for Bigquery (https://developers.google.com/bigquery/sign-up)
-2. Rename config-sample.py as config.py
-   * PROJECT_NUMBER
-   * SERVICE_ACCOUNT_EMAIL
-   * KEY_FILE
-6. Run Trainman.py
-7. Run RunFlash.py
-8. Visit localhost:5000 
-
+1. Get GitHub Archive public activity for the past hour
 ````
-$> python Trainman.py
-#Generates output on screen
-#Stores output in JSON format inside  app/data/toprepositories.json
-
-$> python RunFlask.py
-#Start Flask
+$> node FetchParseGitHubArchive.js  
+#Generates app/data/PushEvent.json with PushEvent
+```` 
+2. Start Flask
+# Host and port  displayed
 ````
+$> python RunFlash.py
+````
+3. Visit localhost:5000 
 
+4. Sample output
+
+###TODO
+1. Deploy app (ran into issues deploying on Heroku)
+2. Integrate with GitHub API to provide more information about users and repositories
+3. Inegrate with Neo4j to depelop recmmendations
