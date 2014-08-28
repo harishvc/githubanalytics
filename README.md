@@ -6,6 +6,10 @@ Analyze GitHub public timeline to provide valuable insights.
 Python & Node.js are used in this project. Node.js is used for fetching and parsing public activity from GitHub Archive. 
 Python is used for processing and hosted using the Flask framework. 
 
+###GitHub Data Challenge
+
+branch "datachallenge" contains the code branch for <a href="https://github.com/blog/1864-third-annual-github-data-challenge">GitHub third annual data challenge</a>
+
 ### Usage 
 * Get GitHub Archive public activity for the past hour
 ````
