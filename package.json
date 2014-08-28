@@ -1,10 +1,9 @@
 {
   "name": "githubanalytics",
-  "engine": "node 0.10.2",
   "description": "GitHub Analytics",
   "main": "FetchParseGitHubArchive.js",
   "dependencies": {
-    "JSONStream": "~0.4.4",
+    "JSONStream": "~0.4.2",
     "assert": "~1.1.1",
     "githubarchive": "~0.0.1",
     "moment": "~2.8.2",
@@ -27,5 +26,7 @@
   "author": "Harish Chakravarthy",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "gitHead": "de93e514a470d5586dd39673e63b1254470f96df"
+  "engine": {
+	"node":  0.10.2"
+  }
 }
