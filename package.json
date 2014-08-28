@@ -27,6 +27,6 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "engine": {
-	"node":  0.10.2"
+	"node":  "0.10.2"
   }
 }
