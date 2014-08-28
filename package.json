@@ -1,5 +1,6 @@
 {
   "name": "githubanalytics",
+  "engine": "node 0.10.2",
   "version": "0.1",
   "description": "GitHub Analytics",
   "main": "FetchParseGitHubArchive.js",
