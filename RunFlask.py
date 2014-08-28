@@ -1,11 +1,3 @@
-#!flask/bin/python
-#old
-#from app import app
-#app.run(debug = True)
-#app.run(host="glacial-lake-7558.herokuapp.com",port="5000")
-
-#new
-#http://stackoverflow.com/questions/13714205/deploying-flask-app-to-heroku
 import os  
 from app import app  
 port = int(os.environ.get('PORT', 5000)) 
