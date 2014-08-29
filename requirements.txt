@@ -21,6 +21,7 @@ docutils==0.11
 github-suggestion-engine==0.0.1a1
 github2==0.6.2
 google-api-python-client==1.2
+gunicorn==19.1.1
 gyp==0.1
 html5lib==0.999
 httplib2==0.9

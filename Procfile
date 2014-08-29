@@ -1,2 +1,2 @@
-web: python RunFlask.py
+web: gunicorn RunFlask:app
 
