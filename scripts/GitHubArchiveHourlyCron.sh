@@ -1,2 +1,2 @@
 #!/bin/sh
-node FetchParseGitHubArchive.js  >> ~/output/FetchParseGitHubArchive.log
+node ~/scripts/FetchParseGitHubArchive.js  >> ~/output/FetchParseGitHubArchive.log
