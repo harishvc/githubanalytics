@@ -1,2 +1,1 @@
-web: gunicorn RunFlask:app --workers $WEB_CONCURRENCY
-
+web: gunicorn RunFlask:app --log-file -
