@@ -1,4 +1,4 @@
-var archive = require('../lib/mikeal-githubarchive.js');
+var archive = require('~/lib/mikeal-githubarchive.js');
 var path = require('path');
 var assert = require('assert');
 var underscore = require('underscore');
