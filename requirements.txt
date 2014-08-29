@@ -8,7 +8,6 @@ Pygments==1.6
 SQLAlchemy==0.9.7
 Sphinx==1.2.2
 Sys==1.0
-Twisted-Core==13.2.0
 Werkzeug==0.9.6
 apiclient==1.0.2
 argparse==1.2.1
