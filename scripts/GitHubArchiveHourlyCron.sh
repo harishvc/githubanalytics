@@ -1,2 +1,3 @@
 #!/bin/sh
-node ~/scripts/FetchParseGitHubArchive.js  >> ~/output/FetchParseGitHubArchive.log
+cd;cd ./github/githubanalytics
+node ./scripts/FetchParseGitHubArchive.js  >> ./output/FetchParseGitHubArchive.log
