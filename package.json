@@ -12,7 +12,8 @@
     "stream": "~0.0.1",
     "timezone": "~0.0.34",
     "underscore": "~1.6.0",
-    "underscore-cli": "~0.2.17"
+    "underscore-cli": "~0.2.17",
+    "zlib": "~1.0.5"
   },
   "devDependencies": {},
   "scripts": {
