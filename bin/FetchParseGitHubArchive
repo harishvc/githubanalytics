@@ -4,11 +4,16 @@ console.log("1");
 var fs = require('fs');
 var util = require('util');
 console.log("2");
-
-//var logStream = fs.createWriteStream('output/FetchParseGitHubArchive.log', {flags: 'a'});
-//console.log = function(d) { 
-//  logStream.write(util.format(d) + '\n');
-//};
+//var absolute_path = __dirname;
+//console.log("2b " + absolute_path);
+var p1 = 'log/FetchParseGitHubArchive.log';
+var p2 = 'log/PushEvent.json';
+console.log (p1);
+console.log (p2);
+var logStream = fs.createWriteStream(p1, {flags: 'a'});
+console.log = function(d) { 
+  logStream.write(util.format(d) + '\n');
+};
 console.log("3");
 
 var archive = require('./mikeal-githubarchive.js');
@@ -31,7 +36,7 @@ console.log (TimeNow + " processing " + URL);
 var a = archive(URL, {gzip:true});
 var com = a.MyParser(function (err, commits) {
   console.log(JSON.stringify(com.commits));
-  fs.writeFile("data/PushEvent.json", JSON.stringify(com.commits), function (err) {
+  fs.writeFile(p2, JSON.stringify(com.commits), function (err) {
 	  if (err) return console.log(err);
 	});
   if (err) return console.log(err);
