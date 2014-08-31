@@ -5,10 +5,10 @@ var fs = require('fs');
 var util = require('util');
 console.log("2");
 
-var logStream = fs.createWriteStream('output/FetchParseGitHubArchive.log', {flags: 'a'});
-console.log = function(d) { 
-  logStream.write(util.format(d) + '\n');
-};
+//var logStream = fs.createWriteStream('output/FetchParseGitHubArchive.log', {flags: 'a'});
+//console.log = function(d) { 
+//  logStream.write(util.format(d) + '\n');
+//};
 console.log("3");
 
 var archive = require('./mikeal-githubarchive.js');
