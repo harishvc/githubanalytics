@@ -4,10 +4,12 @@ console.log("1");
 var fs = require('fs');
 var util = require('util');
 console.log("2");
-//var absolute_path = __dirname;
-//console.log("2b " + absolute_path);
-var p1 = '.log/FetchParseGitHubArchive.log';
-var p2 = '.log/PushEvent.json';
+var path = require("path");
+var tmp_dir = path.join(process.cwd(), "log/");
+if (!fs.existsSync(temp_dir))
+    fs.mkdirSync(temp_dir);
+var p1 = tmp_dir + 'FetchParseGitHubArchive.log';
+var p2 = tmp_dir + 'PushEvent.json';
 console.log (p1);
 console.log (p2);
 var logStream = fs.createWriteStream(p1, {flags: 'a'});
@@ -19,7 +21,7 @@ console.log("3");
 var archive = require('./mikeal-githubarchive.js');
 console.log("4");
 
-var path = require('path');
+//var path = require('path');
 var assert = require('assert');
 var underscore = require('underscore');
 var moment = require('moment');
