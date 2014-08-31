@@ -8,7 +8,7 @@ import os.path, time
 import operator
 
 # configuration
-myfile='./data/PushEvent.json'
+myfile='./log/PushEvent.json'
 json_data=open(myfile)
 data = json.load(json_data)
 DEBUG = True
