@@ -1,20 +1,26 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --debug 
 //http://www.spacjer.com/blog/2014/02/10/defining-node-dot-js-task-for-heroku-scheduler/
+console.log("1");
 var fs = require('fs');
 var util = require('util');
+console.log("2");
 
 var logStream = fs.createWriteStream('output/FetchParseGitHubArchive.log', {flags: 'a'});
 console.log = function(d) { 
   logStream.write(util.format(d) + '\n');
 };
+console.log("3");
 
 var archive = require('./mikeal-githubarchive.js');
+console.log("4");
+
 var path = require('path');
 var assert = require('assert');
 var underscore = require('underscore');
 var moment = require('moment');
 var TimeNow = moment().format("YYYY-MM-DD HH:MM:SS");
 var TimeAgo = moment().subtract(2, 'hours').format("YYYY-MM-DD-H");
+console.log("5");
 
 //Testing
 //TimeAgo ="2014-08-28-10"  
