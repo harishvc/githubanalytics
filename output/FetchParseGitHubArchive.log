@@ -1,7 +1,0 @@
-Processing: http://data.githubarchive.org/2014-08-28-10.json.gz
-Processing: http://data.githubarchive.org/2014-08-29-19.json.gz
-{ [Error: ENOENT, open '~/data/PushEvent.json'] errno: 34, code: 'ENOENT', path: '~/data/PushEvent.json' }
-Processing: http://data.githubarchive.org/2014-08-29-19.json.gz
-{ [Error: ENOENT, open '../data/PushEvent.json'] errno: 34, code: 'ENOENT', path: '../data/PushEvent.json' }
-Processing: http://data.githubarchive.org/2014-08-29-19.json.gz
-Processing: http://data.githubarchive.org/2014-08-29-19.json.gz
