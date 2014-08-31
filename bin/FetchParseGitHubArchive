@@ -1,28 +1,32 @@
 #!/usr/bin/env node
 //http://www.spacjer.com/blog/2014/02/10/defining-node-dot-js-task-for-heroku-scheduler/
-
+console.log("0");
 var fs = require('fs');
 var util = require('util');
 var logStream = fs.createWriteStream('output/FetchParseGitHubArchive.log', {flags: 'a'});
 console.log = function(d) { 
   logStream.write(util.format(d) + '\n');
 };
-
+console.log("1");
 var archive = require('./mikeal-githubarchive.js');
+console.log("2");
 var path = require('path');
 var assert = require('assert');
 var underscore = require('underscore');
 var moment = require('moment');
 var TimeNow = moment().format("YYYY-MM-DD HH:MM:SS");
 var TimeAgo = moment().subtract(2, 'hours').format("YYYY-MM-DD-HH");
+console.log("3");
 
 //Testing
 //TimeAgo ="2014-08-28-10"  
 URL = "http://data.githubarchive.org/" + TimeAgo + ".json.gz";
 console.log (TimeNow + " processing " + URL);
+console.log("4");
 
 //Fetch GitHub Archives & Generate JSON file with 'PushEvent' event notifications
 var a = archive(URL, {gzip:true});
+console.log("5");
 var com = a.MyParser(function (err, commits) {
   //console.log(JSON.stringify(com.commits));
   fs.writeFile("data/PushEvent.json", JSON.stringify(com.commits), function (err) {
@@ -30,3 +34,4 @@ var com = a.MyParser(function (err, commits) {
 	});
   if (err) return console.log(err);
 })
+console.log("6");
