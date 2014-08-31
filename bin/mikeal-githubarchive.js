@@ -68,25 +68,27 @@ module.exports.MyParser = function (cb) {
   s.commits = {}
   var actorname="";
   s.on("data", function (d) {
-    if (d.type === "PushEvent") {
+    //Handle "PushEvent" with no repository  information
+    if ( (d.type === "PushEvent") && (d.repository)) {
     	d.payload.shas.forEach(function (sha) {
-	    //console.log("Processing ===> " + sha[0] + " " + d.actor_attributes.name + " URL ===> " + d.repository.url);
+	    //console.log("Processing ===> " + sha[0]);
+	    //console.log("\t\t name ===> " + d.actor_attributes.name  + " URL ===> " + d.repository.url);
             var info = {};
             //Handle empty name attribute
             if (d.actor_attributes.name != null && d.actor_attributes.name != 'undefined'){
             	actorname = d.actor_attributes.name;
             }
             else {
+                //console.log("##no name:" + d.actor_attributes.login);
             	actorname =  d.actor_attributes.login;
-                //console.log ("### Caught no name " + d.actor_attributes.login); 
             }
     		info = { 
-   				created_at: d.created_at,
+   		    created_at: d.created_at,
                     full_name: d.repository.full_name,
-    				name: d.repository.name,
-    				url: d.repository.url,
-    				language: d.repository.language,
-    				description: d.repository.description,
+    		    name: d.repository.name,
+    		    url: d.repository.url,
+    		    language: d.repository.language,
+    		    description: d.repository.description,
                     watchers: d.repository.watchers_count,
                     stargazers: d.repository.stargazers_count,
                     forks: d.repository.forks_count,
@@ -118,12 +120,15 @@ function wrap (obj) {
   obj.once('write', function () {
     Object.keys(module.exports).forEach(function (i) {
       obj[i] = function () { throw new Error('Cannot ask for new parsing after the first write.') }
-    })
+     })
   })
   obj.on('end', function () {
     Object.keys(module.exports).forEach(function (i) {
       obj[i] = function () { throw new Error('Cannot ask for new parsing after the stream has ended.') }
     })
+  })
+  obj.on('error', function (err) {
+    console.log(err); 
   })
   return obj
 }
