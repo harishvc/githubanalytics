@@ -1,4 +1,4 @@
-#!/usr/bin/env node --debug 
+#!/usr/bin/env node 
 //http://www.spacjer.com/blog/2014/02/10/defining-node-dot-js-task-for-heroku-scheduler/
 console.log("1");
 var fs = require('fs');
