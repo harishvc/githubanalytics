@@ -6,8 +6,8 @@ var util = require('util');
 console.log("2");
 var path = require("path");
 var tmp_dir = path.join(process.cwd(), "log/");
-if (!fs.existsSync(temp_dir))
-    fs.mkdirSync(temp_dir);
+if (!fs.existsSync(tmp_dir))
+    fs.mkdirSync(tmp_dir);
 var p1 = tmp_dir + 'FetchParseGitHubArchive.log';
 var p2 = tmp_dir + 'PushEvent.json';
 console.log (p1);
