@@ -5,7 +5,7 @@ var fs = require('fs');
 var util = require('util');
 console.log("2");
 var path = require("path");
-var tmp_dir = path.join(process.cwd(), "log/");
+var tmp_dir = path.join(process.cwd(), "tmp/");
 if (!fs.existsSync(tmp_dir))
     fs.mkdirSync(tmp_dir);
 var p1 = tmp_dir + 'FetchParseGitHubArchive.log';
