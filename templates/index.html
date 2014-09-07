@@ -1,33 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>GitHub Analytics</h1>
-</p>What's trending in past 60 minutes?</p>
-<h2>Top active repositories</h2>
+<h1>GitHub Trends</h1>
+
+<h2>Active languages</h2>
 <ul>
-{% for key, value in repositories %}
-<li>
-      <a href="{{value['url']}}">{{value['name']}}</a>&nbsp;&nbsp;(commits: {{value['count']}})
-      <br/>{{value['description']}}
-</li>
-{% endfor %}
+	{% for record in AL["result"] %}
+    <li> {{record["language"]}} &nbsp;&nbsp; {{record["count"]}} </li>
+    {% endfor %}
 </ul>
-<h2>Top active users</h2>
+
+
+<h2>Active repositories</h2>
 <ul>
-{% for key, value in users %}
+{% for record in AR["result"] %}
 <li>
-      <a href=http://github.com/{{value['actorlogin']}}>{{value['actorname']}}</a>&nbsp;&nbsp;(commits:{{value['count']}}) 
+      <a href="{{record['url']}}">{{record['name']}}</a>&nbsp;&nbsp;(commits: {{record['count']}}) &nbsp;&nbsp;(Language: {{record['language']}})
 </li>
 {% endfor %}
 </ul>
 
-<h2>Top active languages</h2>
+<h2>Active users</h2>
 <ul>
-{% for key, value in languages %}
+{% for record in AU["result"] %}
 <li>
-      {{key}} &nbsp;&nbsp; {{value}} 
+      <a href="{{record['actorlogin']}}">{{record['actorname']}}</a>&nbsp;&nbsp;(commits: {{record['count']}})
 </li>
 {% endfor %}
 </ul>
+
+
 <hr/>
-<p>Based on {{numcommits}} commits generated on {{time}}</p>
+<p>Based on {{total}} commits generated between {{start}}&nbsp;-&nbsp;{{end}}. <a href="http://github.com/harishvc/githubanalytics">Interested?</a></p>
 {% endblock %}
