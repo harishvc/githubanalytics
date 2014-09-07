@@ -6,12 +6,9 @@ from datetime import datetime, timedelta
 import json
 import os.path, time
 import operator
-from settings import settings #local settings
 from pymongo import MongoClient
 
-MONGO_URL = settings['connectURL']
-if newenv is None:
-        MONGO_URL = os.environ['connectURL']
+MONGO_URL = os.environ['connectURL']
 connection = MongoClient(MONGO_URL)
 #TODO: Remove hardcoded value + read from settings
 db = connection.github.pushevent

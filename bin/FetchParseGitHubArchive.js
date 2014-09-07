@@ -3,7 +3,6 @@
 //http://www.spacjer.com/blog/2014/02/10/defining-node-dot-js-task-for-heroku-scheduler/
 //http://stackoverflow.com/questions/25659134/insert-error-using-node-js-async-series
 var archive = require('./mikeal-githubarchive.js');
-var myconfig = require('./myconfig.js');
 var fs = require('fs');
 var util = require('util');
 var mongodb = require('mongodb');
@@ -69,8 +68,8 @@ function GetParse() {
 
 function MongoInsert(rows,count)
 {
-	var connectURL  = process.env.connectURL ||  myconfig.connectURL;
-	var mycollection= process.env.mycollection || myconfig.mycollection;
+	var connectURL  = process.env.connectURL;
+	var mycollection= process.env.mycollection;
 	var db;
 	var col;
 
