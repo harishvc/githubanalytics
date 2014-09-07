@@ -6,96 +6,90 @@ from datetime import datetime, timedelta
 import json
 import os.path, time
 import operator
+from settings import settings #local settings
+from pymongo import MongoClient
 
-# configuration
-myfile='./log/PushEvent.json'
-json_data=open(myfile)
-data = json.load(json_data)
-DEBUG = True
+#MONGO_URL = "mongodb://harishvc:gitmongo2306@kahana.mongohq.com:10095/github"
+MONGO_URL = settings['connectURL']
+connection = MongoClient(MONGO_URL)
+#TODO: Remove hardcoded value + read from settings
+db = connection.github.pushevent
+
 
 #Global variables
-now = time.ctime(os.path.getmtime(myfile))
-numcommits = 0
-languages = dict()
-repositories= dict()
-users= dict()
+LimitActiveLanguages=5
+LimitActiveRepositories=5
+LimitActiveUsers=5
 
-def find_term(term,type,max):
-    d = dict()
-    d2 = dict()
-    for key, value in data.items():
-        #print key,"============>" ,value[term]
-        if value[term] in d:
-            d[value[term]] += 1
-        else:
-            d[value[term]] = 1
-         
-    d2 = sorted(d.iteritems(), key=lambda (k,v): (v,k),reverse=type)[:max]
-    return d2
+
+def TotalEntries ():
+    return db.count()
+
+def FindOneTimeStamp(type):
+    pipeline= [
+           { '$match': {} }, 
+           { '$project': { '_id': 0, 'created_at': '$created_at'}},
+           { '$sort' : { 'created_at': type }},
+           { '$limit': 1}
+           ]
+    mycursor = db.aggregate(pipeline)
+    for record in mycursor["result"]:
+        return (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(record["created_at"]/1000)))
     
+def ActiveLanguages ():
+    pipeline= [
+           { '$match': {"language":{"$ne":"null"}}}, 
+           { '$group': {'_id': {'language': '$language'}, 'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'language': '$_id.language', 'count': '$count' } },
+           { '$sort' : { 'count': -1 }},
+           { '$limit': LimitActiveLanguages}
+           ]
+    mycursor = db.aggregate(pipeline)
+    return mycursor
 
-def find_active_repositories(what,max):
-    d = {}
-    term=what
-    for key, value in data.items():
-        if value[term] in d:
-            d[value[term]]['count'] +=1            
-        else:
-            tmp1 = {'count':1,'name':value['name'],'url':value['url'],'language':value['name']}
-            d[value[term]] = tmp1
-            
-    return sorted(d.iteritems(), key=lambda (x, y): (y['count']),reverse=True)[:max]
+def ActiveRepositories ():
+    pipeline= [
+           { '$match': {}}, 
+           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language"}, 'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language" } },
+           { '$sort' : { 'count': -1 }},
+           { '$limit': LimitActiveRepositories}
+           ]
+    mycursor = db.aggregate(pipeline)
+    #print "#############" , mycursor['result']
+    return mycursor
 
-def find_active_users(what,max):
-    d = {}
-    term=what
-    for key, value in data.items():
-        if value[term] in d:
-            d[value[term]]['count'] +=1            
-        else:
-            tmp1 = {'count':1,'actorname':value['actorname'],'actorlogin':value['actorlogin']}
-            d[value[term]] = tmp1
-
-    return sorted(d.iteritems(), key=lambda (x, y): (y['count']),reverse=True)[:max]
+def ActiveUsers ():
+    pipeline= [
+           { '$match': {}}, 
+           { '$group': {'_id': {'actorlogin': '$actorlogin',  'actorname': "$actorname"}, 'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'actorname': '$_id.actorname', 'count': '$count',  'actorlogin': "$_id.actorlogin"} },
+           { '$sort' : { 'count': -1 }},
+           { '$limit': LimitActiveUsers}
+           ]
+    mycursor = db.aggregate(pipeline)
+    #TODO: NEW LOCATION???
+    connection.close()
+    return mycursor
 
 
 #http://stackoverflow.com/questions/850795/clearing-python-lists    
-def refresh_data():
-    global now
-    now = time.ctime(os.path.getmtime(myfile)) + " PSD"
- 
-    #Commits
-    global numcommits
-    numcommits = "{:,}".format(len(data))  
-    
-    #Find Top Languages 
-    #languages = dict()
-    global languages
-    languages = find_term("language",True,5)
-    
-    #Find active repositories
-    global repositories
-    repositories = find_active_repositories("url",5)
-    
-    #Find active users
-    global users
-    users = find_active_users("actorlogin",5)
-
-
+#def refresh_data():
 
 app = Flask(__name__)
  
 @app.route('/')
 @app.route('/index')
 def index():
-    refresh_data()
+    #refresh_data()
     return render_template("index.html",
         title = 'GitHub Analytics',
-        numcommits = numcommits,
-        time  = now,
-        languages = languages,
-        repositories = repositories,
-        users = users
+        AL = ActiveLanguages(),
+        AR = ActiveRepositories(),
+        AU = ActiveUsers(),
+        total = TotalEntries(),
+        start = FindOneTimeStamp(1),
+        end = FindOneTimeStamp(-1)
         )
 @app.errorhandler(404)
 def page_not_found(e):
