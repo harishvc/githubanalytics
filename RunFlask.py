@@ -98,4 +98,4 @@ def hello(name=None):
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(host=os.environ['host'],port=os.environ['PORT'])
