@@ -9,8 +9,9 @@ import operator
 from settings import settings #local settings
 from pymongo import MongoClient
 
-#MONGO_URL = "mongodb://harishvc:gitmongo2306@kahana.mongohq.com:10095/github"
 MONGO_URL = settings['connectURL']
+if newenv is None:
+        print MONGO_URL = os.environ['connectURL']
 connection = MongoClient(MONGO_URL)
 #TODO: Remove hardcoded value + read from settings
 db = connection.github.pushevent
