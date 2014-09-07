@@ -9,6 +9,7 @@ var util = require('util')
   , timezone = require('timezone')
   , request = require('request').defaults({pool:{maxSockets:1}})
   ;
+var mytime = require('./mytime.js');
 
 function CallbackStream (cb) {
   this.readable = true
@@ -61,34 +62,32 @@ module.exports.users = function (cb) {
 }
 
 module.exports.MyParser = function (cb) {
-  var commits = {}
+  var commits = {};
   var s = new CallbackStream(function () {
     cb(null, commits)
   })
   s.commits = {}
   var actorname="";
   s.on("data", function (d) {
-    //Handle "PushEvent" with no repository  information
-    if ( (d.type === "PushEvent") && (d.repository)) {
+    if (d.type === "PushEvent" && (d.repository)) {
     	d.payload.shas.forEach(function (sha) {
-	    //console.log("Processing ===> " + sha[0]);
-	    //console.log("\t\t name ===> " + d.actor_attributes.name  + " URL ===> " + d.repository.url);
             var info = {};
             //Handle empty name attribute
-            if (d.actor_attributes.name != null && d.actor_attributes.name != 'undefined'){
+            if (d.actor_attributes.name != null && d.actor_attributes.name != 'undefined' ){
             	actorname = d.actor_attributes.name;
             }
             else {
-                //console.log("##no name:" + d.actor_attributes.login);
             	actorname =  d.actor_attributes.login;
             }
-    		info = { 
-   		    created_at: d.created_at,
-                    full_name: d.repository.full_name,
-    		    name: d.repository.name,
-    		    url: d.repository.url,
-    		    language: d.repository.language,
-    		    description: d.repository.description,
+            info = { 
+    				sha: sha[0],
+    				//created_at: d.created_at,
+                    created_at:mytime.tE(d.created_at),
+    				full_name: d.repository.full_name,
+    				name: d.repository.name,
+    				url: d.repository.url,
+    				language: d.repository.language,
+    				description: d.repository.description,
                     watchers: d.repository.watchers_count,
                     stargazers: d.repository.stargazers_count,
                     forks: d.repository.forks_count,
@@ -120,15 +119,12 @@ function wrap (obj) {
   obj.once('write', function () {
     Object.keys(module.exports).forEach(function (i) {
       obj[i] = function () { throw new Error('Cannot ask for new parsing after the first write.') }
-     })
+    })
   })
   obj.on('end', function () {
     Object.keys(module.exports).forEach(function (i) {
       obj[i] = function () { throw new Error('Cannot ask for new parsing after the stream has ended.') }
     })
-  })
-  obj.on('error', function (err) {
-    console.log(err); 
   })
   return obj
 }
