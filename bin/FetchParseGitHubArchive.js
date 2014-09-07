@@ -69,8 +69,8 @@ function GetParse() {
 
 function MongoInsert(rows,count)
 {
-	var connectURL  = myconfig.connectURL;
-	var mycollection= myconfig.mycollection;
+	var connectURL  = process.env.connectURL ||  myconfig.connectURL;
+	var mycollection= process.env.mycollection || myconfig.mycollection;
 	var db;
 	var col;
 
