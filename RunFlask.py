@@ -84,7 +84,7 @@ app = Flask(__name__)
 def index():
     #refresh_data()
     return render_template("index.html",
-        title = 'GitHub Trends',
+        title = 'GitHub Analytics',
 	AL = ActiveLanguages(),
         AR = ActiveRepositories(),
         AU = ActiveUsers(),
