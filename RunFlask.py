@@ -8,6 +8,9 @@ import os.path, time
 import operator
 from pymongo import MongoClient
 
+#TODO: https://pythonhosted.org/Flask-Cache/
+#from flask.ext.cache import Cache
+
 MONGO_URL = os.environ['connectURL']
 connection = MongoClient(MONGO_URL)
 #TODO: Remove hardcoded value + read from settings
@@ -18,7 +21,6 @@ db = connection.githublive.pushevent
 LimitActiveLanguages=5
 LimitActiveRepositories=5
 LimitActiveUsers=5
-
 
 def TotalEntries ():
     return db.count()
@@ -33,7 +35,7 @@ def FindOneTimeStamp(type):
     mycursor = db.aggregate(pipeline)
     for record in mycursor["result"]:
         return (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(record["created_at"]/1000)))
-    
+
 def ActiveLanguages ():
     pipeline= [
            { '$match': {"language":{"$ne":"null"}}}, 
