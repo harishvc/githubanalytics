@@ -77,7 +77,7 @@ function MongoInsert(rows,count)
 	  // Connect to DB
 	  function(callback) {
 		  MongoClient.connect(connectURL,function(error, db2) {
-			  if (error) {console.log("db connect error");callback(error,"db connect error"); return;} 
+			  if (error) {console.log("db connect error" + error);callback(error,"db connect error"); return;} 
 			  db = db2;
 			  callback(null,"connect success");
 		  });
