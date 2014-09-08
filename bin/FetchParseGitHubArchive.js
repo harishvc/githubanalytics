@@ -22,7 +22,7 @@ GetParse();
 function GetParse() {
 	var count = 0; //number of entries
 	var rows = [];
-	var TimeNow = moment().format("YYYY-MM-DD HH:MM:SS");
+	var TimeNow = moment().format();
 	var TimeAgo = moment().subtract(2, 'hours').format("YYYY-MM-DD-H");
 	
 	//Test 1 - fetch prior URL
@@ -51,7 +51,7 @@ function GetParse() {
     	}
     	console.log ("## entries: " + count);
     	//Insert into MongoDB
-    	console.log("## start insert: "+ moment().format("YYYY-MM-DD HH:MM:SS"));
+    	console.log("## start insert: "+ moment().format());
     	MongoInsert(rows,count);
 	 
     //Debug - store to external file
@@ -93,6 +93,7 @@ function MongoInsert(rows,count)
 		    function() { return i <= count },
 		    function(callback) {
 		    	var mydocument = rows.shift();
+                        //TODO: Check for unique SHA before insert
 		        col.insert(mydocument,function(error,result) {
 		            if (error) {
 		                console.log("insert error:" + error);
@@ -102,7 +103,7 @@ function MongoInsert(rows,count)
 		            //console.log ("inserted ...");
 		            i++;
 		            callback(error);
-		        });
+		        }); //end insert
 		    },
 		    function(error) {
 		      callback(error,"insert sucess")
@@ -112,7 +113,7 @@ function MongoInsert(rows,count)
 	  function (callback){
 		  //console.log ("close db");
 		  db.close();
-		  console.log("## end insert: "+ moment().format("YYYY-MM-DD HH:MM:SS"));
+		  console.log("## end insert: "+ moment().format());
 		  callback(null,"connection closed");
 	  }
 	 ], function(error, results) {
