@@ -11,7 +11,7 @@ from pymongo import MongoClient
 MONGO_URL = os.environ['connectURL']
 connection = MongoClient(MONGO_URL)
 #TODO: Remove hardcoded value + read from settings
-db = connection.github.pushevent
+db = connection.githublive.pushevent
 
 
 #Global variables
@@ -66,9 +66,10 @@ def ActiveUsers ():
            { '$limit': LimitActiveUsers}
            ]
     mycursor = db.aggregate(pipeline)
-    #TODO: NEW LOCATION???
-    connection.close()
     return mycursor
+
+def CloseDB():
+    connection.close()
 
 
 #http://stackoverflow.com/questions/850795/clearing-python-lists    
@@ -81,14 +82,14 @@ app = Flask(__name__)
 def index():
     #refresh_data()
     return render_template("index.html",
-        title = 'GitHub Analytics',
-        AL = ActiveLanguages(),
+        title = 'GitHub Trends',
+	AL = ActiveLanguages(),
         AR = ActiveRepositories(),
         AU = ActiveUsers(),
         total = TotalEntries(),
         start = FindOneTimeStamp(1),
         end = FindOneTimeStamp(-1)
-        )
+	)
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
