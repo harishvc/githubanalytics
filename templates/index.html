@@ -23,7 +23,7 @@
 <ul>
 {% for record in AU["result"] %}
 <li>
-      <a href="{{record['actorlogin']}}">{{record['actorname']}}</a>&nbsp;&nbsp;(commits: {{record['count']}})
+      <a href="http://github.com/{{record['actorlogin']}}">{{record['actorname']}}</a>&nbsp;&nbsp;(commits: {{record['count']}})
 </li>
 {% endfor %}
 </ul>
