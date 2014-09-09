@@ -38,7 +38,7 @@ def FindOneTimeStamp(type):
 
 def ActiveLanguages ():
     pipeline= [
-           { '$match': {"language":{"$ne":"null"}}}, 
+           { '$match': {'$and': [{"language":{"$ne":"null"}},{"language":{"$ne":None}}] }},  
            { '$group': {'_id': {'language': '$language'}, 'count': { '$sum' : 1 }}},
            { '$project': { '_id': 0, 'language': '$_id.language', 'count': '$count' } },
            { '$sort' : { 'count': -1 }},
