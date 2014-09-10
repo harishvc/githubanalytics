@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h1>GitHub Analytics</h1>
+
+
 
 <h2>Active languages</h2>
 <ul>
 	{% for record in AL["result"] %}
-    <li> {{record["language"]}} &nbsp;&nbsp; {{record["count"]}} </li>
-    {% endfor %}
+           <li> {{record["language"]}} &nbsp;&nbsp; {{ record["count"] | numformat }} </li>
+         {% endfor %}
 </ul>
 
 
@@ -14,7 +17,11 @@
 <ul>
 {% for record in AR["result"] %}
 <li>
-      <a href="{{record['url']}}">{{record['name']}}</a>&nbsp;&nbsp;(commits: {{record['count']}}) &nbsp;&nbsp;(Language: {{record['language']}})
+      {% if record["language"] == None %}
+        <a href="{{record['url']}}">{{record['name']}}</a>&nbsp;&nbsp;(commits: {{ record['count'] | numformat }})
+      {% else %}
+        <a href="{{record['url']}}">{{record['name']}}</a>&nbsp;&nbsp;(language: {{record['language']}}, commits: {{ record['count'] | numformat }})
+      {% endif %}
 </li>
 {% endfor %}
 </ul>
@@ -23,12 +30,12 @@
 <ul>
 {% for record in AU["result"] %}
 <li>
-      <a href="http://github.com/{{record['actorlogin']}}">{{record['actorname']}}</a>&nbsp;&nbsp;(commits: {{record['count']}})
+      <a href="http://github.com/{{record['actorlogin']}}">{{record['actorname']}}</a>&nbsp;&nbsp;(commits: {{record['count'] | numformat }})
 </li>
 {% endfor %}
 </ul>
 
 
 <hr/>
-<p>Based on {{total}} commits generated between {{start}}&nbsp;-&nbsp;{{end}}. <a href="http://github.com/harishvc/githubanalytics">Interested?</a></p>
+<p>Based on {{total | numformat}} commits generated between {{start}}&nbsp;-&nbsp;{{end}}. <a href="http://github.com/harishvc/githubanalytics">Interested?</a></p>
 {% endblock %}
