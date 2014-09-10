@@ -1,4 +1,6 @@
 #Source: https://github.com/mganache/helloapp/
+#References
+#https://realpython.com/blog/python/primer-on-jinja-templating/
 
 from flask import Flask
 from flask import render_template
@@ -7,6 +9,7 @@ import json
 import os.path, time
 import operator
 from pymongo import MongoClient
+from jinja2 import Template
 
 #TODO: https://pythonhosted.org/Flask-Cache/
 #from flask.ext.cache import Cache
@@ -16,11 +19,17 @@ connection = MongoClient(MONGO_URL)
 #TODO: Remove hardcoded value + read from settings
 db = connection.githublive.pushevent
 
+#DEV settings
+#MONGO_URL = ""
+#connection = MongoClient(MONGO_URL)
+#db =""
+
 
 #Global variables
 LimitActiveLanguages=5
 LimitActiveRepositories=5
 LimitActiveUsers=5
+
 
 def TotalEntries ():
     return db.count()
@@ -74,10 +83,17 @@ def CloseDB():
     connection.close()
 
 
+#TODO
 #http://stackoverflow.com/questions/850795/clearing-python-lists    
 #def refresh_data():
 
 app = Flask(__name__)
+
+#Format integers with comma
+@app.template_filter()
+def numformat(value):
+    return "{:,}".format(value)
+app.jinja_env.filters['numformat'] = numformat
  
 @app.route('/')
 @app.route('/index')
@@ -103,3 +119,5 @@ def hello(name=None):
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5000))
 	app.run(host='0.0.0.0', port=os.environ['PORT'])
+        #DEV
+        #app.run(debug=True)
