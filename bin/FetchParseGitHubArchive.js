@@ -90,6 +90,15 @@ function MongoInsert(rows,count)
 		    }
 		  );
 	  },
+	  function (callback) {
+		  //Delete entries older than 24 hours
+		  var TimePeriod = moment().subtract(24, 'hours').valueOf();
+		  console.log ("Deleting entries older than " + moment(TimePeriod).format());
+		  col.remove({created_at: {$lt: TimePeriod}},function(error,numberRemoved){
+			  console.log("## deleted: " + numberRemoved);
+			  callback(null,"delete sucess");
+    	});
+      },
 	  function (callback){
 		  //console.log ("close db");
 		  db.close();
