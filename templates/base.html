@@ -1,11 +1,18 @@
+<!DOCTYPE HTML>
 <html>
-  <head>
-    {% if title %}
-    <title>{{title}}</title>
-    {% endif %}
-    <link rel="stylesheet" type="text/css" href="static/styles.css">
+ <head>
+    {% if title %}<title>{{title}}</title>{% endif %}
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="/static/js/jquery-2.0.3.min.js"></script>
+    <script src="/static/js/charts.js"></script>
+    <script src="/static/js/main.js"></script>  
+    <script>
+    	var LANGUAGESCOUNTARRAY = JSON.stringify({{ LCA | safe}}); 	
+    	</script>
   </head>
+
   <body>
-    {% block content %}{% endblock %}
+  	    {% block content %}{% endblock %}
   </body>
 </html>
