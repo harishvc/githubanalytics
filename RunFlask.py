@@ -10,23 +10,27 @@ import os.path, time
 import operator
 from pymongo import MongoClient
 from jinja2 import Template
+import HTMLParser
+from json import loads
 
 #TODO: https://pythonhosted.org/Flask-Cache/
 #from flask.ext.cache import Cache
 
+#Production settings
 MONGO_URL = os.environ['connectURL']
 connection = MongoClient(MONGO_URL)
 #TODO: Remove hardcoded value + read from settings
 db = connection.githublive.pushevent
 
-#DEV settings
+#Development settings
 #MONGO_URL = ""
 #connection = MongoClient(MONGO_URL)
-#db =""
+#db =
 
 
 #Global variables
 LimitActiveLanguages=5
+LimitActiveLanguagesBubble=10
 LimitActiveRepositories=5
 LimitActiveUsers=5
 
@@ -56,6 +60,26 @@ def ActiveLanguages ():
     mycursor = db.aggregate(pipeline)
     return mycursor
 
+def ActiveLanguagesBubble ():
+    a1 =[]
+    pipeline= [
+           { '$match': {'$and': [{"language":{"$ne":"null"}},{"language":{"$ne":None}}] }},  
+           { '$group': {'_id': {'language': '$language'}, 'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'language': '$_id.language', 'count': '$count' } },
+           { '$sort' : { 'count': -1 }},
+           { '$limit': LimitActiveLanguagesBubble}
+           ]
+    mycursor = db.aggregate(pipeline);
+    #convert cursor to array
+    for record in mycursor["result"]:
+           #remove unicode
+           t1 = "{:,}".format(record["count"])
+           #size2 is formatted
+           a1.append({"name":str(record["language"]), "size":str(record["count"]),"size2":str(t1)});  
+    #create custom dictionary
+    return ({"name": "something", "children": a1})
+
+
 def ActiveRepositories ():
     pipeline= [
            { '$match': {}}, 
@@ -82,6 +106,10 @@ def ActiveUsers ():
 def CloseDB():
     connection.close()
 
+class mydict(dict):
+        def __str__(self):
+            return json.dumps(self) 
+        
 
 #TODO
 #http://stackoverflow.com/questions/850795/clearing-python-lists    
@@ -94,14 +122,14 @@ app = Flask(__name__)
 def numformat(value):
     return "{:,}".format(value)
 app.jinja_env.filters['numformat'] = numformat
- 
+   
 @app.route('/')
 @app.route('/index')
 def index():
     #refresh_data()
     return render_template("index.html",
         title = 'GitHub Analytics',
-	AL = ActiveLanguages(),
+	    LCA = ActiveLanguagesBubble(),
         AR = ActiveRepositories(),
         AU = ActiveUsers(),
         total = TotalEntries(),
@@ -117,7 +145,7 @@ def hello(name=None):
 
 
 if __name__ == '__main__':
-	port = int(os.environ.get("PORT", 5000))
-	app.run(host='0.0.0.0', port=os.environ['PORT'])
-        #DEV
-        #app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=os.environ['PORT'])
+    #DEV
+    #app.run(debug=True)
