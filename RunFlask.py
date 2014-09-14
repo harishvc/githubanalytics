@@ -120,7 +120,7 @@ app.jinja_env.filters['numformat'] = numformat
 def index():
     #refresh_data()
     return render_template("index.html",
-        title = 'GitHub Analytics',
+        title = 'Ask GitHub',
 	    LCA = ActiveLanguagesBubble(),
         AR = ActiveRepositories(),
         AU = ActiveUsers(),
