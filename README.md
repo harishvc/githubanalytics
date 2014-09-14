@@ -9,10 +9,19 @@ Python is used for processing and hosted using the Flask framework. Data is stor
 ### Usage
 * Set environment variables
 ````
-connectURL=""   //enter mongo connect URL
-database=""     //enter database name
-mycollection=""  //enter collection name
-BUILDPACK_URL=https://github.com/ayyar/heroku-buildpack-python-nodejs  //Heroku specific for Python & node.js 
+export deployEnv=""    #enter production or development
+export PORT=5000       #pick a non-standard port
+BUILDPACK_URL="https://github.com/ayyar/heroku-buildpack-python-nodejs"  #Heroku specific for Python & node.js 
+#Production specific environment variables
+connectURL=""          #enter mongo connect URL
+database=""            #enter database name
+mycollection=""        #enter collection name
+#Development specific environment variables
+connectURLdev=""       #enter mongo connect URL
+databasedev=""         #enter database name
+mycollectiondev=""     #enter collection name
+myIP=""                #enter development server IP address
+
 ```` 
 * Get GitHub Archive public activity for the past hour
 ````
