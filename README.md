@@ -35,7 +35,7 @@ $> python RunFlash.py
 * Visit localhost:5000 
 
 ### Deployed on Heroku
-Visit <a href="http://rocky-hamlet-2442.herokuapp.com/">Github Analytics</a> to see this project in action!
+Visit <a href="http://askgithub.com/">Ask GitHub</a> to see this project in action!
 
 ### GitHub Data Challenge
 branch "datachallenge" contains the code branch for GitHub <a href="https://github.com/blog/1864-third-annual-github-data-challenge">third annual data challenge</a>
