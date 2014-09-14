@@ -13,20 +13,16 @@ from jinja2 import Template
 import HTMLParser
 from json import loads
 
-#TODO: https://pythonhosted.org/Flask-Cache/
-#from flask.ext.cache import Cache
-
-#Production settings
-MONGO_URL = os.environ['connectURL']
-connection = MongoClient(MONGO_URL)
-#TODO: Remove hardcoded value + read from settings
-db = connection.githublive.pushevent
-
-#Development settings
-#MONGO_URL = ""
-#connection = MongoClient(MONGO_URL)
-#db =
-
+#Configure for production or development based on environment variables
+if (os.environ['deployEnv'] == "production"):
+    MONGO_URL = os.environ['connectURL']
+    connection = MongoClient(MONGO_URL)
+    db = connection.githublive.pushevent
+else: 
+    MONGO_URL = os.environ['connectURLdev']
+    connection = MongoClient(MONGO_URL)
+    db = connection.githubdev.pushevent
+    
 
 #Global variables
 LimitActiveLanguages=5
@@ -106,10 +102,6 @@ def ActiveUsers ():
 def CloseDB():
     connection.close()
 
-class mydict(dict):
-        def __str__(self):
-            return json.dumps(self) 
-        
 
 #TODO
 #http://stackoverflow.com/questions/850795/clearing-python-lists    
@@ -145,7 +137,10 @@ def hello(name=None):
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=os.environ['PORT'])
-    #DEV
-    #app.run(debug=True)
+    #port = int(os.environ.get("PORT", 5000))
+    if (os.environ['deployEnv'] == "production"):
+        app.run(host='0.0.0.0', port=os.environ['PORT'])
+    else:
+        app.run(host=os.environ['myIP'],debug=True)
+        
+    
