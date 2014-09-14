@@ -16,7 +16,8 @@
 this.BubbleChart= function(canvas) { 
 var obj = {};   
 obj.canvas = canvas;
-//var ss = {"name":"something","children":[{"name":"a","size":"5"},{"name":"b","size":"15"},{"name":"c","size":"10"}]}
+//Example
+//var ss = {"name":"something","children":[{"name":"a","size":"5000","size2":"5,000" },{"name":"b","size":"15","size2":"15"}]}
 obj.drawBubbleChart = function(ss) {
 	//console.log ("RECEIVED ===> " + ss);
 	var diameter = 350,
