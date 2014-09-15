@@ -17,7 +17,7 @@ this.BubbleChart= function(canvas) {
 var obj = {};   
 obj.canvas = canvas;
 //Example
-//var ss = {"name":"something","children":[{"name":"a","size":"5000","size2":"5,000" },{"name":"b","size":"15","size2":"15"}]}
+//var ss = [{"name":"something","children":[{"name":"a","size":"5000","size2":"5,000" },{"name":"b","size":"15","size2":"15"}]}]
 obj.drawBubbleChart = function(ss) {
 	//console.log ("RECEIVED ===> " + ss);
 	var diameter = 350,
@@ -76,4 +76,83 @@ obj.drawBubbleChart = function(ss) {
 	   return obj;
 }  // end constructor
 
+
+
+///////////////////////////////////////////////
+//Source:http://bl.ocks.org/mbostock/3887193
+this.DonutChart= function(canvas) {     
+var obj = {};   
+obj.canvas = canvas;
+//Example
+//var ss = [{"commits":"1","count":"1500","count2": "1,500"},{"commits":"2","count":"5","count2": "5"}]
+//////////////////////////
+obj.drawDonutChart = function(ss) {
+	//console.log ("RECEIVED ===> " + ss);
+      var width = 450,
+      height = 200,
+      radius = Math.min(width, height) / 2;
+      var color = d3.scale.category20();
+      var arc = d3.svg.arc()
+      			.outerRadius(radius - 10)
+      			.innerRadius(radius - 70);
+      var pie = d3.layout.pie()
+      			.sort(null)
+      			.value(function(d) { return d.population; });
+      
+      //Generate chart
+      $("#commitfrequency").empty();
+      var svg = d3.select($("#commitfrequency")[0]).append("svg")
+      			   .attr("width", width)
+      			   .attr("height", height)
+      			   .append("g")
+      			   .attr("transform", "translate(" + width / 3 + "," + height / 2 + ")");
+
+      var result = JSON.parse(ss);
+      var data = [];
+      for(var k in result) {
+    	  data.push({"age":result[k].commits,"population":result[k].count, "count2":result[k].count2});
+      }       
+                      
+      data.forEach(function(d) {
+          d.population = +d.population;
+        });   
+
+       var fudge = -80;
+       var fudge2 = 15;
+       var fudge3 = -70;
+       var legend = svg.selectAll("g.arc")
+       .data(data)
+       .enter()
+       .append('g')
+       .attr('class', 'legend');
+
+       legend.append('rect')
+       .attr('x', 110)
+       .attr('y', function(d, i){ return ((i *  15) + fudge);})
+       .attr('width', 10)
+       .attr('height', 10)
+       .style('fill', function(d) { 
+       return color(d.age);
+       });
+
+       legend.append('text')
+       .attr('x', 125)
+       .attr('y', function(d, i){ return (i *  15) + fudge3;})
+       .text(function(d){ return (d.age +" (" + d.count2 + ")"); });
+       
+       var g = svg.selectAll(".arc")
+       			.data(pie(data))
+       			.enter().append("svg:g")
+       			.attr("class", "donutarc");
+
+       g.append("svg:path")
+       	.attr("d", arc)
+       .style("fill", function(d) { return color(d.data.age); });         
+ 	}// end drawDonutChart
+ return obj;
+}  // end constructor 
+
+
+               
+               
 })(jQuery); //end

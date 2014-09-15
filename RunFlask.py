@@ -99,6 +99,42 @@ def ActiveUsers ():
     mycursor = db.aggregate(pipeline)
     return mycursor
 
+#Source:http://stackoverflow.com/questions/25840723/mongo-aggregation-grouped-by-sum
+def CommitFrequency ():
+    output =[]
+    range0 = range1 = range2 = range3 = range4 = range5 = range6 = 0
+    pipeline= [
+           { '$group': {'_id': '$actorlogin', 'commits': { '$sum' : 1 }}},
+           { '$group': {'_id': '$commits', 'frequency': { '$sum' : 1 }}},
+           { '$sort' : { '_id': -1 }}
+           ]
+    mycursor = db.aggregate(pipeline)
+    #Group in multiples of 5
+    for record in mycursor["result"]:
+        if (record['_id']  == 1):
+            range0 += record['frequency']
+        elif (record['_id'] > 1 and (record['_id'] <= 3)):
+            range1 += record['frequency']    
+        elif (record['_id'] > 3 and (record['_id'] <= 5)):
+            range2 += record['frequency']
+        elif (record['_id'] > 5) and (record['_id'] <= 10):
+            range3 += record['frequency']
+        elif(record['_id'] > 10 and record['_id'] <= 15):
+            range4 += record['frequency']
+        elif(record['_id'] > 15 and record['_id'] <= 20):
+            range5 += record['frequency']
+        else:
+            range6 += record['frequency']        
+    output.append({"commits": "1", "count": range0, "count2": numformat(range0)})        
+    output.append({"commits": "2-3",  "count": range1, "count2": numformat(range1)})
+    output.append({"commits": "4-5", "count": range2,"count2": numformat(range2)})
+    output.append({"commits": "6-10", "count": range3,"count2": numformat(range3)})
+    output.append({"commits": "11-15", "count": range4,"count2": numformat(range4)})
+    output.append({"commits": "16-20", "count": range5,"count2": numformat(range5)})
+    output.append({"commits": ">20", "count": range6,"count2": numformat(range6)})
+    return output
+
+
 def CloseDB():
     connection.close()
 
@@ -122,6 +158,7 @@ def index():
     return render_template("index.html",
         title = 'Ask GitHub',
 	    LCA = ActiveLanguagesBubble(),
+        CF = CommitFrequency(),
         AR = ActiveRepositories(),
         AU = ActiveUsers(),
         total = TotalEntries(),

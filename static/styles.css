@@ -2,5 +2,12 @@ li:not(:last-child) {
     margin-bottom: 5px;
 }
 text {
-  font: 10px sans-serif;
+  font: 12px sans-serif;
+}
+body {
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 14px;
+}
+.bubble text {
+	font: 10.5px sans-serif;
 }
