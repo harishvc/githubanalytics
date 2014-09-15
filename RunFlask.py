@@ -1,4 +1,3 @@
-#Source: https://github.com/mganache/helloapp/
 #References
 #https://realpython.com/blog/python/primer-on-jinja-templating/
 
@@ -156,8 +155,8 @@ app.jinja_env.filters['numformat'] = numformat
 def index():
     #refresh_data()
     return render_template("index.html",
-        title = 'Ask GitHub',
-	    LCA = ActiveLanguagesBubble(),
+        title = 'GitHub Analytics',
+        LCA = ActiveLanguagesBubble(),
         CF = CommitFrequency(),
         AR = ActiveRepositories(),
         AU = ActiveUsers(),
@@ -174,7 +173,6 @@ def hello(name=None):
 
 
 if __name__ == '__main__':
-    #port = int(os.environ.get("PORT", 5000))
     if (os.environ['deployEnv'] == "production"):
         app.run(host='0.0.0.0', port=os.environ['PORT'])
     else:
