@@ -26,7 +26,7 @@ else:
 #Global variables
 LimitActiveLanguages=5
 LimitActiveLanguagesBubble=10
-LimitActiveRepositories=5
+LimitActiveRepositories=10
 LimitActiveUsers=5
 
 
@@ -86,6 +86,20 @@ def ActiveRepositories ():
     mycursor = db.aggregate(pipeline)
     #print "#############" , mycursor['result']
     return mycursor
+
+#Source:http://stackoverflow.com/questions/25861471/mongo-aggregation-distinct               
+def ActiveRepositoriesGroupedByDistinctUsers ():
+    pipeline= [
+           { "$group": {  "_id": {"repo": "$url", "actorlogin": "$actorlogin" ,'name': "$name", 'language': "$language" }, "commits": { "$sum": 1 }}},
+           { "$group": {  "_id": {"repo": "$_id.repo", "name": "$_id.name", "language": "$_id.language"},"distinct_users": { "$sum": 1 },"total_commits": { "$sum": "$commits" }}},
+           { "$project": { "_id": 0, "repo_url": "$_id.repo", "repo_name": "$_id.name", "language": "$_id.language", "distinct_users": "$distinct_users","total_commits": "$total_commits"}},
+           { "$sort" : { "distinct_users": -1}},
+           { "$limit": LimitActiveRepositories} 
+           ]
+    mycursor = db.aggregate(pipeline)
+    #print mycursor['result']
+    return mycursor
+
 
 def ActiveUsers ():
     pipeline= [
