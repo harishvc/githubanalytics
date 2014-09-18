@@ -154,7 +154,7 @@ this.HorizontalStackedBarChart= function(canvas) {
 			    .call(yAxis);
 
 			svg.append('rect')
-			    .attr('fill', 'yellow')
+			    .attr('fill', 'white')
 			    .attr('width', 160)
 			    .attr('height', 30 * dataset.length)
 			    .attr('x', width + margins.left)
