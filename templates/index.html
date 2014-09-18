@@ -10,28 +10,13 @@
 <h2>Commit Frequency</h2>
 <div id="commitfrequency">Commit Frequency</div>
 
-<h2>Active repositories</h2>
-<ul>
-{% for record in AR["result"] %}
-<li>
-      {% if record["language"] == None %}
-        <a href="{{record['url']}}">{{record['name']}}</a>&nbsp;&nbsp;(commits: {{ record['count'] | numformat }})
-      {% else %}
-        <a href="{{record['url']}}">{{record['name']}}</a>&nbsp;&nbsp;(language: {{record['language']}}, commits: {{ record['count'] | numformat }})
-      {% endif %}
-</li>
-{% endfor %}
-</ul>
-
-<h2>Active users</h2>
-<ul>
-{% for record in AU["result"] %}
-<li>
-      <a href="http://github.com/{{record['actorlogin']}}">{{record['actorname']}}</a>&nbsp;&nbsp;(commits: {{record['count'] | numformat }})
-</li>
-{% endfor %}
-</ul>
-
+<h2>Active Repositories</h2>
+<div id="activerepositories">Active Repositories
+</div>
+<div id="tooltip" class="hidden">
+    <p><span id="value">100</span>
+    </p>
+</div>
 
 <hr/>
 <p>Based on {{total | numformat}} commits generated between {{start}}&nbsp;-&nbsp;{{end}}. <a href="http://github.com/harishvc/githubanalytics">Interested?</a></p>

@@ -26,7 +26,7 @@ else:
 #Global variables
 LimitActiveLanguages=5
 LimitActiveLanguagesBubble=10
-LimitActiveRepositories=10
+LimitActiveRepositories=15
 LimitActiveUsers=5
 
 
@@ -89,6 +89,9 @@ def ActiveRepositories ():
 
 #Source:http://stackoverflow.com/questions/25861471/mongo-aggregation-distinct               
 def ActiveRepositoriesGroupedByDistinctUsers ():
+    users =[]
+    commits =[]
+    
     pipeline= [
            { "$group": {  "_id": {"repo": "$url", "actorlogin": "$actorlogin" ,'name': "$name", 'language': "$language" }, "commits": { "$sum": 1 }}},
            { "$group": {  "_id": {"repo": "$_id.repo", "name": "$_id.name", "language": "$_id.language"},"distinct_users": { "$sum": 1 },"total_commits": { "$sum": "$commits" }}},
@@ -97,10 +100,15 @@ def ActiveRepositoriesGroupedByDistinctUsers ():
            { "$limit": LimitActiveRepositories} 
            ]
     mycursor = db.aggregate(pipeline)
-    #print mycursor['result']
-    return mycursor
-
-
+    
+    for record in mycursor["result"]:
+        users.append({"month": str(record["repo_url"]),"reponame": str(record["repo_name"]) ,"count": str(record["distinct_users"])})
+        commits.append({"month": str(record["repo_url"]), "reponame": str(record["repo_name"]),"count": str(record["total_commits"])})                    
+    
+    t2 = [{"data":users,"name": "# Unique users"},{"data":commits,"name": "# Commits"} ]
+    return t2
+    
+    
 def ActiveUsers ():
     pipeline= [
            { '$match': {}}, 
@@ -173,7 +181,8 @@ def index():
         LCA = ActiveLanguagesBubble(),
         CF = CommitFrequency(),
         AR = ActiveRepositories(),
-        AU = ActiveUsers(),
+        ARA = ActiveRepositoriesGroupedByDistinctUsers(),
+        #AU = ActiveUsers(),
         total = TotalEntries(),
         start = FindOneTimeStamp(1),
         end = FindOneTimeStamp(-1)
