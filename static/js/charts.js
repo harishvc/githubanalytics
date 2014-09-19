@@ -26,10 +26,10 @@ this.HorizontalStackedBarChart= function(canvas) {
 		$("#activerepositories").empty();    
 		var margins = {
 			    top: 12,
-			    left: 100,  //Handle long repo names!
+			    left: 150,  //Handle long repo names!
 			    right: 24,
 			    bottom: 24,
-			    fudge: 274
+			    fudge: 225
 			},
 			legendPanel = {
 			    width: 180
@@ -163,14 +163,16 @@ this.HorizontalStackedBarChart= function(canvas) {
 			series.forEach(function (s, i) {
 			    svg.append('text')
 			        .attr('fill', 'black')
-			        .attr('x', width + margins.left + 8)
+			        //.attr('x', width + margins.left + 8)
+			        .attr('x', width + margins.left - 100 )
 			        .attr('y', i * 24 + 24)
 			        .text(s);
 			    svg.append('rect')
 			        .attr('fill', colours(i))
 			        .attr('width', 60)
 			        .attr('height', 20)
-			        .attr('x', width + margins.left + 90)
+			        //.attr('x', width + margins.left + 90)
+			         .attr('x', width +  margins.left)
 			        .attr('y', i * 24 + 6);
 			});
 		
