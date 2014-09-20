@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+    {% if title %}<title>{{title}}</title>{% endif %}
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <!-- include GA code -->
+    {% include 'ga.js' %}
+  </head>
+
+  <body>
+  	    {% block content %}{% endblock %}
+  </body>
+</html>

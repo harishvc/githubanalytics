@@ -1,7 +1,4 @@
-{% extends "base.html" %}
+{% extends "base-home.html" %}
 {% block content %}
-
-
-<p>{{total | numformat}} commits generated in the past 24 hours on <a href="http://github.com">GitHub</a>. Checkout <a href="/charts">d3 charts</a></p>.
-
+<p>{{total | numformat}} commits in the past 24 hours on <a href="http://github.com">GitHub</a>. Checkout <a href="/charts">d3 charts.</a></p>
 {% endblock %}
