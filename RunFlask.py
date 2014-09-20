@@ -28,7 +28,8 @@ LimitActiveLanguages=5
 LimitActiveLanguagesBubble=10
 LimitActiveRepositories=15
 LimitActiveUsers=5
-
+ARA =[]
+AR = []
 
 def TotalEntries ():
     return db.count()
@@ -91,7 +92,7 @@ def ActiveRepositories ():
 def ActiveRepositoriesGroupedByDistinctUsers ():
     users =[]
     commits =[]
-    
+    mycursor = []
     pipeline= [
            { "$group": {  "_id": {"repo": "$url", "actorlogin": "$actorlogin" ,'name': "$name", 'language': "$language" }, "commits": { "$sum": 1 }}},
            { "$group": {  "_id": {"repo": "$_id.repo", "name": "$_id.name", "language": "$_id.language"},"distinct_users": { "$sum": 1 },"total_commits": { "$sum": "$commits" }}},
@@ -106,7 +107,7 @@ def ActiveRepositoriesGroupedByDistinctUsers ():
         commits.append({"month": str(record["repo_url"]), "reponame": str(record["repo_name"]),"count": str(record["total_commits"])})                    
     
     t2 = [{"data":users,"name": "# Unique users"},{"data":commits,"name": "# Commits"} ]
-    return t2
+    return mycursor, t2
     
     
 def ActiveUsers ():
@@ -159,6 +160,9 @@ def CommitFrequency ():
 def CloseDB():
     connection.close()
 
+def Generate():
+   global AR, ARA 
+   AR , ARA = ActiveRepositoriesGroupedByDistinctUsers()[0:2]
 
 #TODO
 #http://stackoverflow.com/questions/850795/clearing-python-lists    
@@ -175,18 +179,30 @@ app.jinja_env.filters['numformat'] = numformat
 @app.route('/')
 @app.route('/index')
 def index():
-    #refresh_data()
+    Generate()
     return render_template("index.html",
-        title = 'GitHub Analytics',
-        LCA = ActiveLanguagesBubble(),
-        CF = CommitFrequency(),
-        AR = ActiveRepositories(),
-        ARA = ActiveRepositoriesGroupedByDistinctUsers(),
-        #AU = ActiveUsers(),
+        #title = 'GitHub Analytics',
+        #LCA = ActiveLanguagesBubble(),
+        #CF = CommitFrequency(),
+        #ARA = ARA,
+        #AR = AR,
         total = TotalEntries(),
         start = FindOneTimeStamp(1),
         end = FindOneTimeStamp(-1)
 	)
+@app.route('/charts')
+def charts():
+    Generate()
+    return render_template("charts.html",
+        title = 'GitHub Analytics',
+        LCA = ActiveLanguagesBubble(),
+        CF = CommitFrequency(),
+        ARA = ARA,
+        AR = AR,
+        total = TotalEntries(),
+        start = FindOneTimeStamp(1),
+        end = FindOneTimeStamp(-1)
+    )    
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
