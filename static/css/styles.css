@@ -1,3 +1,14 @@
+@font-face {
+        font-family: 'digi';
+        src: url('/static/css/digi.ttf');
+}
+
+.digital {
+    font-family: 'digi';
+    font-size: 350%;
+    display: inline;
+} 
+
 li:not(:last-child) {
     margin-bottom: 5px;
 }
