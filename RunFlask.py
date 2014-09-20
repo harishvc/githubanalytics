@@ -195,7 +195,7 @@ def index():
 def charts():
     Generate()
     return render_template("charts.html",
-        title = 'GitHub Analytics',
+        title = 'Ask GitHub',
         LCA = ActiveLanguagesBubble(),
         CF = CommitFrequency(),
         ARA = ARA,
