@@ -218,7 +218,7 @@ def hello(name=None):
 
 if __name__ == '__main__':
     if (os.environ['deployEnv'] == "production"):
-        app.run(host='0.0.0.0', port=os.environ['PORT'],debug=True)
+        app.run(host='0.0.0.0', port=os.environ['PORT'])
     else:
         app.run(host=os.environ['myIP'],debug=True)
         
