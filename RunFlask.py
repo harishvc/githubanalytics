@@ -191,6 +191,7 @@ def index():
         end = FindOneTimeStamp(-1)
 	)
 @app.route('/charts')
+@app.route('/charts/')
 def charts():
     Generate()
     return render_template("charts.html",
@@ -217,7 +218,7 @@ def hello(name=None):
 
 if __name__ == '__main__':
     if (os.environ['deployEnv'] == "production"):
-        app.run(host='0.0.0.0', port=os.environ['PORT'])
+        app.run(host='0.0.0.0', port=os.environ['PORT'],debug=True)
     else:
         app.run(host=os.environ['myIP'],debug=True)
         
