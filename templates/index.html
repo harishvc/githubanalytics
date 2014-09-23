@@ -1,4 +1,31 @@
 {% extends "base-home.html" %}
 {% block content %}
-<p><div class="digital">{{total | numformat}}</div> commits in the past 24 hours on <a href="http://github.com">GitHub</a>. Interesting data points using <a href="/charts">d3 charts.</a></p>
+<p><div class="digital">{{totalU}}</div> users, 
+   <div class="digital">{{total | numformat}}</div> commits,
+   <div class="digital">{{totalL}}</div> languages &amp;
+   <div class="digital">{{totalR}}</div> active repositories 
+   in the past 24 hours on <a href="http://github.com">GitHub</a>.
+</p>
+<br/>
+<p>	 
+<a href="/charts">
+<i class="fa fa-bar-chart  fa-2x" style='color: orange;'></i>&nbsp;
+<i class="fa fa-pie-chart  fa-2x" style='color: blue;'></i>&nbsp;
+<i class="fa fa-line-chart  fa-2x" style='color: red;'></i>&nbsp;
+d3 charts.</a>
+</p>
+
+<br/>
+<br/>
+<!--
+	<div id="searchbox">
+ <form action="." method="get">
+	<input type="text" name="q" value={{query | safe}}>
+    <input type="submit" name="action" value="Ask GitHub">
+ </form>
+</div>
+{{ processed_text }}
+<p>Examples: active repositories , active users</p>
+-->
+
 {% endblock %}

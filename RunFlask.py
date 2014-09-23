@@ -2,6 +2,7 @@
 #https://realpython.com/blog/python/primer-on-jinja-templating/
 
 from flask import Flask
+from flask import request
 from flask import render_template
 from datetime import datetime, timedelta
 import json
@@ -30,10 +31,22 @@ LimitActiveRepositories=15
 LimitActiveUsers=5
 ARA =[]
 AR = []
+#Q  = ""
 
 def TotalEntries ():
     return db.count()
 
+def FindDistinct(fieldName):
+    pipeline= [
+           { '$match': {} },    
+           { '$group': { '_id': fieldName}},
+           { '$group': { '_id': 1, 'count': { '$sum': 1 }}}
+           ]
+    mycursor = db.aggregate(pipeline)
+    for row in mycursor["result"]:
+        return numformat(row['count'])
+    
+    
 def FindOneTimeStamp(type):
     pipeline= [
            { '$match': {} }, 
@@ -45,7 +58,7 @@ def FindOneTimeStamp(type):
     for record in mycursor["result"]:
         return (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(record["created_at"]/1000)))
 
-def ActiveLanguages ():
+def ActiveLanguages():
     pipeline= [
            { '$match': {'$and': [{"language":{"$ne":"null"}},{"language":{"$ne":None}}] }},  
            { '$group': {'_id': {'language': '$language'}, 'count': { '$sum' : 1 }}},
@@ -164,6 +177,28 @@ def Generate():
    global AR, ARA 
    AR , ARA = ActiveRepositoriesGroupedByDistinctUsers()[0:2]
 
+def ProcessQuery(query):
+    if (query == ""):
+        return ""
+    else: 
+        app.logger.debug("processing ............ %s" ,  query)
+        #Route 1: Active repositories
+        #Route 2: Active Languages
+        #Route 3: Active Users
+        if (query == "active repositories"):
+            t = FindDistinct ('$url')
+            #app.logger.debug("sending ===> %s", t)
+            return FindDistinct ('$url')
+        elif  (query == "active users"):
+            return FindDistinct ('$actorlogin')
+        elif  (query == "active languages"):   
+            return FindDistinct ('$language') 
+        else:
+            return ("YODA: something!!!")
+        #POC      
+        #return text.upper()
+
+    
 #TODO
 #http://stackoverflow.com/questions/850795/clearing-python-lists    
 #def refresh_data():
@@ -175,21 +210,30 @@ app = Flask(__name__)
 def numformat(value):
     return "{:,}".format(value)
 app.jinja_env.filters['numformat'] = numformat
-   
-@app.route('/')
-@app.route('/index')
+
+#############################   
+#Handle homepage   
+@app.route('/',methods=['GET'])
+@app.route('/index',methods=['GET'])
 def index():
-    Generate()
+    query = ""
+    if request.method == 'GET':
+        if 'q' in request.args:
+            query = request.args['q']
+            app.logger.debug("query from user ===> %s", query)
+    else:
+        query =""
     return render_template("index.html",
-        #title = 'GitHub Analytics',
-        #LCA = ActiveLanguagesBubble(),
-        #CF = CommitFrequency(),
-        #ARA = ARA,
-        #AR = AR,
+        title = 'Ask GitHub',
+        totalU = FindDistinct ('$actorlogin'),
+        totalL = FindDistinct ('$language'),
+        totalR = FindDistinct ('$url'),
         total = TotalEntries(),
-        start = FindOneTimeStamp(1),
-        end = FindOneTimeStamp(-1)
+        query = query,
+        processed_text = ProcessQuery(query)    
 	)
+############################
+#Handle charts    
 @app.route('/charts')
 @app.route('/charts/')
 def charts():
@@ -203,7 +247,9 @@ def charts():
         total = TotalEntries(),
         start = FindOneTimeStamp(1),
         end = FindOneTimeStamp(-1)
-    )    
+    )
+############################
+#Handle errors        
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
