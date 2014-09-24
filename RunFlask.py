@@ -15,7 +15,7 @@ from json import loads
 
 #Configure for production or development based on environment variables
 if (os.environ['deployEnv'] == "production"):
-    MONGO_URL = os.environ['connectURL']
+    MONGO_URL = os.environ['connectURLRead']
     connection = MongoClient(MONGO_URL)
     db = connection.githublive.pushevent
 else: 

@@ -14,6 +14,7 @@ export PORT=5000       #pick a non-standard port
 BUILDPACK_URL="https://github.com/ayyar/heroku-buildpack-python-nodejs"  #Heroku specific for Python & node.js 
 #Production specific environment variables
 connectURL=""          #enter mongo connect URL
+connectURLRead=""      #enter mongo connect URL for readonly account
 database=""            #enter database name
 mycollection=""        #enter collection name
 #Development specific environment variables
