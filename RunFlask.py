@@ -12,6 +12,8 @@ from pymongo import MongoClient
 from jinja2 import Template
 import HTMLParser
 from json import loads
+import bleach
+import random
 
 #Configure for production or development based on environment variables
 if (os.environ['deployEnv'] == "production"):
@@ -31,12 +33,28 @@ LimitActiveRepositories=15
 LimitActiveUsers=5
 ARA =[]
 AR = []
-#Q  = ""
+
+def YodaRandom():
+    foo = ['<i>Always pass on what you have learned.<br/>-Yoda</i>',
+            '<i>May the force be with you.<br/>-Yoda</i>', 
+            '<i>When you look at the dark side, careful you must be. For the dark side looks back.<br/>-Yoda</i>', 
+            '<i>You must unlearn what you have learned.<br/>-Yoda</i>',
+            '<i>Do or do not. There is no try.<br/>-Yoda</i>'
+            ]
+    return(random.choice(foo))
+
+def QueriesRandom():
+   foo =    ["<a href=\'/?q=active+repositories&action=Ask+GitHub\'>active repositories</a>",
+            "<a href=\'/?q=active+users&action=Ask+GitHub\'>active users</a>",
+            "<a href=\'/?q=active+languages&action=Ask+GitHub\'>active languages</a>"
+            ]
+   return(random.choice(foo))
+    
 
 def TotalEntries ():
     return db.count()
 
-def FindDistinct(fieldName):
+def FindDistinct(fieldName,type):
     pipeline= [
            { '$match': {} },    
            { '$group': { '_id': fieldName}},
@@ -44,7 +62,9 @@ def FindDistinct(fieldName):
            ]
     mycursor = db.aggregate(pipeline)
     for row in mycursor["result"]:
-        return numformat(row['count'])
+        tmp = numformat(row['count']) 
+        tmp1 = tmp + " " + type
+        return (tmp1)
     
     
 def FindOneTimeStamp(type):
@@ -186,17 +206,13 @@ def ProcessQuery(query):
         #Route 2: Active Languages
         #Route 3: Active Users
         if (query == "active repositories"):
-            t = FindDistinct ('$url')
-            #app.logger.debug("sending ===> %s", t)
-            return FindDistinct ('$url')
+             return FindDistinct ('$url',"repositories")
         elif  (query == "active users"):
-            return FindDistinct ('$actorlogin')
+            return FindDistinct ('$actorlogin', "users")
         elif  (query == "active languages"):   
-            return FindDistinct ('$language') 
+            return FindDistinct ('$language', "languages") 
         else:
-            return ("YODA: something!!!")
-        #POC      
-        #return text.upper()
+            return(YodaRandom())
 
     
 #TODO
@@ -219,17 +235,20 @@ def index():
     query = ""
     if request.method == 'GET':
         if 'q' in request.args:
-            query = request.args['q']
-            app.logger.debug("query from user ===> %s", query)
+            app.logger.debug("query from user ===> %s", request.args['q'])
+            query = bleach.clean(request.args['q'])
+            app.logger.debug("query from user after bleach ===> %s", query)
+            #app.logger.debug("query from user after json.dump ===> %s",json.dumps(query))
     else:
         query =""
     return render_template("index.html",
         title = 'Ask GitHub',
-        totalU = FindDistinct ('$actorlogin'),
-        totalL = FindDistinct ('$language'),
-        totalR = FindDistinct ('$url'),
+        #totalU = FindDistinct ('$actorlogin', 'users'),
+        #totalL = FindDistinct ('$language', 'languages'),
+        #totalR = FindDistinct ('$url', 'repositories'),
         total = TotalEntries(),
-        query = query,
+        query = [{"text": query}],
+        qr = QueriesRandom(),
         processed_text = ProcessQuery(query)    
 	)
 ############################
