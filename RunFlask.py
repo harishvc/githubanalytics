@@ -256,11 +256,8 @@ def charts():
         LCA = ActiveLanguagesBubble(),
         CF = CommitFrequency(),
         ARA = ARA,
-        AR = AR,
-        #total = TotalEntries(),
-        start = FindOneTimeStamp(1),
-        end = FindOneTimeStamp(-1)
-    )
+        AR = AR
+        )
 ############################
 #Handle errors        
 @app.errorhandler(404)
