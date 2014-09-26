@@ -34,7 +34,7 @@ LimitActiveUsers=5
 ARA =[]
 AR = []
 
-def YodaRandom():
+def RandomYodaQuotes():
     foo = ['<i>Always pass on what you have learned.<br/>-Yoda</i>',
             '<i>May the force be with you.<br/>-Yoda</i>', 
             '<i>When you look at the dark side, careful you must be. For the dark side looks back.<br/>-Yoda</i>', 
@@ -43,16 +43,17 @@ def YodaRandom():
             ]
     return(random.choice(foo))
 
-def QueriesRandom():
+def RandomQuerySuggestions():
    foo =    ["<a href=\'/?q=active+repositories&action=Ask+GitHub\'>active repositories</a>",
             "<a href=\'/?q=active+users&action=Ask+GitHub\'>active users</a>",
+            "<a href=\'/?q=total+commits&action=Ask+GitHub\'>total commits</a>",
             "<a href=\'/?q=active+languages&action=Ask+GitHub\'>active languages</a>"
             ]
    return(random.choice(foo))
     
 
-def TotalEntries ():
-    return db.count()
+def TotalEntries (type):
+    return ("<div class=\"digital\">" + numformat(db.count()) + "</div> " + type)
 
 def FindDistinct(fieldName,type):
     pipeline= [
@@ -62,10 +63,24 @@ def FindDistinct(fieldName,type):
            ]
     mycursor = db.aggregate(pipeline)
     for row in mycursor["result"]:
-        tmp = numformat(row['count']) 
-        tmp1 = tmp + " " + type
-        return (tmp1)
+        return ("<div class=\"digital\">" + numformat(row['count']) + "</div> " + type)
     
+def ProcessQuery(query):
+    if (query == ""):
+        return ""
+    else: 
+        app.logger.debug("processing ............ %s" ,  query)
+        if (query == "active repositories"):
+             return FindDistinct ('$url',"repositories")
+        elif  (query == "active users"):
+            return FindDistinct ('$actorlogin', "users")
+        elif  (query == "active languages"):   
+            return FindDistinct ('$language', "languages") 
+        elif  (query == "total commits"):   
+            return TotalEntries("commits")
+        else:
+            return(RandomYodaQuotes())
+
     
 def FindOneTimeStamp(type):
     pipeline= [
@@ -197,23 +212,6 @@ def Generate():
    global AR, ARA 
    AR , ARA = ActiveRepositoriesGroupedByDistinctUsers()[0:2]
 
-def ProcessQuery(query):
-    if (query == ""):
-        return ""
-    else: 
-        app.logger.debug("processing ............ %s" ,  query)
-        #Route 1: Active repositories
-        #Route 2: Active Languages
-        #Route 3: Active Users
-        if (query == "active repositories"):
-             return FindDistinct ('$url',"repositories")
-        elif  (query == "active users"):
-            return FindDistinct ('$actorlogin', "users")
-        elif  (query == "active languages"):   
-            return FindDistinct ('$language', "languages") 
-        else:
-            return(YodaRandom())
-
     
 #TODO
 #http://stackoverflow.com/questions/850795/clearing-python-lists    
@@ -238,17 +236,13 @@ def index():
             app.logger.debug("query from user ===> %s", request.args['q'])
             query = bleach.clean(request.args['q'])
             app.logger.debug("query from user after bleach ===> %s", query)
-            #app.logger.debug("query from user after json.dump ===> %s",json.dumps(query))
     else:
         query =""
     return render_template("index.html",
         title = 'Ask GitHub',
-        #totalU = FindDistinct ('$actorlogin', 'users'),
-        #totalL = FindDistinct ('$language', 'languages'),
-        #totalR = FindDistinct ('$url', 'repositories'),
-        total = TotalEntries(),
+        #total = TotalEntries(),
         query = [{"text": query}],
-        qr = QueriesRandom(),
+        qr = RandomQuerySuggestions(),
         processed_text = ProcessQuery(query)    
 	)
 ############################
@@ -263,7 +257,7 @@ def charts():
         CF = CommitFrequency(),
         ARA = ARA,
         AR = AR,
-        total = TotalEntries(),
+        #total = TotalEntries(),
         start = FindOneTimeStamp(1),
         end = FindOneTimeStamp(-1)
     )
