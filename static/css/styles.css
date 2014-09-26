@@ -9,6 +9,21 @@
     display: inline;
 } 
 
+#searchbox {
+	height: 20px;
+	font-size: 16px;
+}
+
+#result {
+	font-size: 16px;
+}
+
+
+hr {
+width: 60%;
+align:left
+}
+
 li:not(:last-child) {
     margin-bottom: 5px;
 }
