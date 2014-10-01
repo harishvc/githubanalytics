@@ -65,6 +65,19 @@ def FindDistinct(fieldName,type):
     for row in mycursor["result"]:
         return ("<div class=\"digital\">" + numformat(row['count']) + "</div> " + type)
     
+def ProcessRepositories(repoName):
+    mycursor = RepoQuery(repoName)
+    if (len(mycursor["result"]) == 0):
+        return(RandomYodaQuotes())
+    else:       
+        myreturn =""
+        for record in mycursor["result"]:
+            myreturn = "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>"
+            myreturn += "&nbsp;Language: " + str(record['language']) + "&nbsp;#commits: " + str(record['count'])
+            myreturn += "</br>" + str(record['description'])
+            #app.logger.debug (myreturn)
+        return(myreturn)
+   
 def ProcessQuery(query):
     if (query == ""):
         return ""
@@ -78,6 +91,8 @@ def ProcessQuery(query):
             return FindDistinct ('$language', "languages") 
         elif  (query == "total commits"):   
             return TotalEntries("commits")
+        elif  (query.startswith("repository")):   
+            return ProcessRepositories(query.replace('repository ', ''))
         else:
             return(RandomYodaQuotes())
 
@@ -123,6 +138,14 @@ def ActiveLanguagesBubble ():
     #create custom dictionary
     return ({"name": "something", "children": a1})
 
+def RepoQuery (repoName):
+    pipeline= [
+           { '$match': {"name": repoName}}, 
+           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}, 'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description" } },
+           ]
+    mycursor = db.aggregate(pipeline)
+    return mycursor
 
 def ActiveRepositories ():
     pipeline= [
