@@ -46,3 +46,5 @@ branch "datachallenge" contains the code branch for GitHub <a href="https://gith
 1. Enable cache
 2. Integrate with GitHub API to provide more information about users and repositories
 3. Inegrate with Neo4j to develop recommendations
+
+[![Analytics](https://ga-beacon.appspot.com/UA-55381661-1/githubanalytics/readme)](https://github.com/igrigorik/ga-beacon)
