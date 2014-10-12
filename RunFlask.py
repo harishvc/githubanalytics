@@ -24,6 +24,9 @@ else:
     MONGO_URL = os.environ['connectURLdev']
     connection = MongoClient(MONGO_URL)
     db = connection.githubdev.pushevent
+    #Uncomment to connected dev to production DB
+    #db = connection.githublive.pushevent
+    #MONGO_URL = os.environ['connectURLRead']
     
 
 #Global variables
@@ -74,7 +77,7 @@ def ProcessRepositories(repoName):
         for record in mycursor["result"]:
             myreturn = "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>"
             myreturn += "&nbsp;Language: " + str(record['language']) + "&nbsp;#commits: " + str(record['count'])
-            myreturn += "</br>" + str(record['description'])
+            myreturn += "</br>" + record['description'].encode('utf-8').strip()
             #app.logger.debug (myreturn)
         return(myreturn)
    

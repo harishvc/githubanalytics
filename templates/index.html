@@ -19,7 +19,7 @@ d3 charts.</a> <a href="http://github.com/harishvc/githubanalytics">Interested?<
 <br/>
 <!-- Display Results -->
 {% if query[0]["text"] | length>= 1 %}
-	<div id="result"><p>{{ processed_text |safe }}</p></div>
+	<div id="result"><p>{{ processed_text.decode('utf-8')  |safe }}</p></div>
 {% endif %}
 	<div id="qsuggestion"><p>Similar Queries: {{ qr|safe }}</p></div>  
 {% endblock %}
