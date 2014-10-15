@@ -1,0 +1,14 @@
+[
+ { 
+   "label": "repository odoo", 
+   "value": "repository odoo",
+   "tokens": ["odoo", "python"] 
+ },
+ { 
+   "label": "repository server", 
+   "value": "repository server",
+   "tokens": ["server", "javascript"] 
+ }
+]
+
+
