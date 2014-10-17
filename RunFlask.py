@@ -21,12 +21,13 @@ if (os.environ['deployEnv'] == "production"):
     connection = MongoClient(MONGO_URL)
     db = connection.githublive.pushevent
 else: 
-    MONGO_URL = os.environ['connectURLdev']
-    connection = MongoClient(MONGO_URL)
-    db = connection.githubdev.pushevent
     #Uncomment to connected dev to production DB
-    #db = connection.githublive.pushevent
-    #MONGO_URL = os.environ['connectURLRead']
+    MONGO_URL = os.environ['connectURLRead']
+    #MONGO_URL = os.environ['connectURLdev']
+    connection = MongoClient(MONGO_URL)
+    #Uncomment to connected dev to production DB
+    db = connection.githublive.pushevent
+    #db = connection.githubdev.pushevent
     
 
 #Global variables
@@ -94,7 +95,8 @@ def ProcessQuery(query):
             return FindDistinct ('$language', "languages") 
         elif  (query == "total commits"):   
             return TotalEntries("commits")
-        elif  (query.startswith("repository")):   
+        elif  (query.startswith("repository")):
+               
             return ProcessRepositories(query.replace('repository ', ''))
         else:
             return(RandomYodaQuotes())
