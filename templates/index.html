@@ -1,6 +1,6 @@
 {% extends "base-home.html" %}
 {% block content %}
-<h1><a href="/">Ask GitHub</a></h1>
+<!--<h1><a href="/">Ask GitHub</a></h1> -->
 <div id="welcome">
 <p>Ask questions &amp; get insights on public <a href="http://github.com">GitHub</a> commits in the past 24 hours. 
 <a href="/charts">
@@ -12,8 +12,21 @@ d3 charts.</a> <a href="http://github.com/harishvc/githubanalytics">Interested?<
 </div>
 <div id="searchbox">
  <form action="." method="get">
-	<input type="text" name="q" value="{{ query[0]["text"] }}" 	size="50" maxlength="50" id="searchbox"/>
-    <input type="submit" name="action" value="Ask GitHub"/>
+<!--
+		<input type="text" name="q" value="{{ query[0]["text"] }}" 	size="50" maxlength="50" id="searchbox"/>
+-->
+    
+<div class="example" id="multiple-datasets">
+   <div class="demo">
+   	<input class="typeahead" name="q"  value="{{ query[0]["text"] }}" type="text" placeholder="What are you looking for?">
+<input id="gobutton" type="submit" class="btn" name="action" value="Ask GitHub"/>
+
+   </div>
+
+
+</div>
+
+
  </form>
 </div>
 <br/>
@@ -21,5 +34,11 @@ d3 charts.</a> <a href="http://github.com/harishvc/githubanalytics">Interested?<
 {% if query[0]["text"] | length>= 1 %}
 	<div id="result"><p>{{ processed_text.decode('utf-8')  |safe }}</p></div>
 {% endif %}
+
+<!--
 	<div id="qsuggestion"><p>Similar Queries: {{ qr|safe }}</p></div>  
+-->
+
 {% endblock %}
+
+

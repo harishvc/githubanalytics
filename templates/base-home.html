@@ -3,9 +3,16 @@
  <head>
     {% if title %}<title>{{title}}</title>{% endif %}
     <link rel="stylesheet" type="text/css" href="/static/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/typeahead.css" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- include GA code -->
     {% include 'ga.js' %}
+    <!-- typeahead -->
+	<!-- https://twitter.github.io/typeahead.js/examples/ -->
+	<script src="/static/js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
+    <script type="text/javascript" src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
+	<script type="text/javascript" src="/static/js/typeahead.js"></script>
   </head>
 
   <body>

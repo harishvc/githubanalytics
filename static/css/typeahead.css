@@ -1,7 +1,7 @@
 .typeahead,
 .tt-query,
 .tt-hint {
-  width: 396px;
+  width: 600px;
   height: 30px;
   padding: 8px 12px;
   font-size: 24px;
@@ -32,7 +32,7 @@
 }
 
 .tt-dropdown-menu {
-  width: 422px;
+  width: 600px;
   margin-top: 12px;
   padding: 8px 0;
   background-color: #fff;
