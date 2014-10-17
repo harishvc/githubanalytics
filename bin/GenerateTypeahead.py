@@ -38,23 +38,14 @@ def GActiveRepositories():
     
     
         
-#Configure for production or development based on environment variables
-if (os.environ['deployEnv'] == "production"):
-    MONGO_URL = os.environ['connectURLRead']
-    connection = MongoClient(MONGO_URL)
-    db = connection.githublive.pushevent
-else: 
-    #Uncomment to connected dev to production DB
-    MONGO_URL = os.environ['connectURLRead']
-    #MONGO_URL = os.environ['connectURLdev']
-    connection = MongoClient(MONGO_URL)
-    #Uncomment to connected dev to production DB
-    db = connection.githublive.pushevent
-    #db = connection.githubdev.pushevent
+#Configure DB using environment variables
+MONGO_URL = os.environ['connectURLRead']
+connection = MongoClient(MONGO_URL)
+db = connection.githublive.pushevent
 
-
+#Generate Repositories JSON
 GActiveRepositories() 
 
 
-#FINALLY
+#Close db
 connection.close()
