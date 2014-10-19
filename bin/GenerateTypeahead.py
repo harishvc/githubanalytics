@@ -25,9 +25,9 @@ def GActiveRepositories():
     for record in mycursor["result"]:
         #print record['name'] , record['language'], record['description']
         if (str(record['language']) != 'None'):
-            output.append({"label": "repository " + str(record['name']) , "tokens": [str(record['name']),str(record['language'])]})
+            output.append({"label": "repository " +  str(record['name']),  "url": str(record['url']) , "tokens": [str(record['name']),str(record['language'])]})
         else:
-            output.append({"label": "repository " + str(record['name']) , "tokens": [str(record['name'])]})    
+            output.append({"label": "repository " + str(record['name']), "url": str(record['url']), "tokens": [str(record['name'])]})    
     
     #Convert single quote to double quote
     jsonString = json.dumps(output)
