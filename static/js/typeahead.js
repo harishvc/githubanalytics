@@ -5,10 +5,12 @@ var nbaTeams = new Bloodhound({
 	  datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.tokens.join(' ')); },
 	  queryTokenizer: Bloodhound.tokenizers.whitespace,
 	  limit: 10,
-	  //prefetch: '/static/typeahead/repos.json',  //CONSOLE ERROR - TOO BIG!
-	  remote: '/static/typeahead/repos.json' //WORKS
+	  //TODO
+	  //local: '/static/typeahead/repos.json',  //NOTHING HAPPENS
+	  prefetch: '/static/typeahead/repos.json',  //WORKS WITH CONSOLE ERROR - TOO BIG!
+	   //remote: '/static/typeahead/repos-test.json' //WORKS BUT NOT ACCURATE
 	});
-	 
+
 	var nhlTeams = new Bloodhound({
 	  //datumTokenizer: Bloodhound.tokenizers.obj.whitespace('tokens'),
 	   datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.tokens.join(' ')); },
@@ -16,13 +18,13 @@ var nbaTeams = new Bloodhound({
 	  limit: 10,
 	  prefetch: '/static/typeahead/active.json'
 	});
-	 
+
 	//Clear cache
 	nbaTeams.clearPrefetchCache();
 	nhlTeams.clearPrefetchCache();
 	//Initialize
 	nbaTeams.initialize();
-	nhlTeams.initialize();	
+	nhlTeams.initialize();
 	$('#multiple-datasets .typeahead')
 	.typeahead({
 		highlight: true
@@ -44,7 +46,7 @@ var nbaTeams = new Bloodhound({
 	  }
 	}
 	)
-	
+
 	//TODO: Events for Analytics
 	//http://ericsaupe.com/using-twitter-typeahead-js-custom-event-triggers/
 	//.on('typeahead:opened', onOpened)
@@ -53,12 +55,12 @@ var nbaTeams = new Bloodhound({
 	//function onOpened($e) {
 	  //  console.log('opened');
 	//}
-	 
+
 	//function onAutocompleted($e, datum) {
 	  //  console.log('autocompleted');
 	   // console.log(datum);
 	//}
-	 
+
 	//function onSelected($e, datum) {
 	  //  console.log('selected');
 	   // console.log(datum);
