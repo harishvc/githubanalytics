@@ -45,7 +45,7 @@ def RandomYodaQuotes():
             '<i>You must unlearn what you have learned.<br/>-Yoda</i>',
             '<i>Do or do not. There is no try.<br/>-Yoda</i>'
             ]
-    return(random.choice(foo))
+    return("<p>Sorry! no entries found</p><br/>" + random.choice(foo))
 
 def RandomQuerySuggestions():
    foo =    ["<a href=\'/?q=active+repositories&action=Ask+GitHub\'>active repositories</a>",
