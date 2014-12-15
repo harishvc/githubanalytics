@@ -3,7 +3,6 @@
   "description": "GitHub Analytics",
   "main": "FetchParseGitHubArchive.js",
   "dependencies": {
-    "emitter-component": "~1.1.1",
     "JSONStream": "0.4.4",
     "assert": "~1.1.1",
     "async": "~0.9.0",
@@ -29,7 +28,7 @@
   "author": "Harish Chakravarthy",
   "license": "MIT",
   "engines": {
-    "node": "0.10.2"
+    "node": "0.10.x"
   },
   "bugs": {
     "url": "https://github.com/harishvc/githubanalytics/issues"
