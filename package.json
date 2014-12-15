@@ -28,7 +28,7 @@
   },
   "author": "Harish Chakravarthy",
   "license": "MIT",
-  "engine": {
+  "engines": {
     "node": "0.10.2"
   },
   "bugs": {
