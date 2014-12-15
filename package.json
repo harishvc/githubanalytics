@@ -11,7 +11,7 @@
     "mongodb": "~1.4.9",
     "path": "~0.4.9",
     "request": "~2.11.4",
-    "stream": "~0.0.1",
+    "stream": "0.0.1",
     "timezone": "~0.0.38",
     "underscore": "~1.6.0",
     "util": "~0.10.3",
