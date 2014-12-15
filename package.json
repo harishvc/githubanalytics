@@ -3,7 +3,7 @@
   "description": "GitHub Analytics",
   "main": "FetchParseGitHubArchive.js",
   "dependencies": {
-    "JSONStream": "~0.4.2",
+    "JSONStream": "0.4.4",
     "assert": "~1.1.1",
     "async": "~0.9.0",
     "githubarchive": "~0.0.1",
