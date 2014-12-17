@@ -79,6 +79,7 @@ def ProcessRepositories(repoName):
             myreturn = "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>"
             myreturn += "&nbsp;Language: " + str(record['language']) + "&nbsp;#commits: " + str(record['count'])
             myreturn += "</br>" + record['description'].encode('utf-8').strip()
+            myreturn += "</br><b>Commits from</b>: " +  ','.join(record['actorname'])
             #app.logger.debug (myreturn)
         return(myreturn)
    
@@ -146,8 +147,8 @@ def ActiveLanguagesBubble ():
 def RepoQuery (repoName):
     pipeline= [
            { '$match': {"name": repoName}}, 
-           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}, 'count': { '$sum' : 1 }}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description" } },
+           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}, '_a1': {"$addToSet": "$actorname"} ,'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1"} },
            ]
     mycursor = db.aggregate(pipeline)
     return mycursor
