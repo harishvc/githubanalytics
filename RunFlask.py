@@ -79,7 +79,7 @@ def ProcessRepositories(repoName):
             myreturn = "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>"
             myreturn += "&nbsp;Language: " + str(record['language']) + "&nbsp;#commits: " + str(record['count'])
             myreturn += "</br>" + record['description'].encode('utf-8').strip()
-            myreturn += "</br><b>Commits from</b>: " +  ','.join(record['actorname'])
+            myreturn += "</br><b>Commits from</b>: " +  ', '.join(record['actorname'])
             #app.logger.debug (myreturn)
         return(myreturn)
    
