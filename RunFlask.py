@@ -26,7 +26,7 @@ else:
     #MONGO_URL = os.environ['connectURLdev']
     connection = MongoClient(MONGO_URL)
     #Uncomment to connected dev to production DB
-    db = connection.githublive.pushevent
+    db = connection.githublive.pusheventCapped
     #db = connection.githubdev.pushevent
     
 
