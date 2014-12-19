@@ -21,14 +21,13 @@ if (os.environ['deployEnv'] == "production"):
     connection = MongoClient(MONGO_URL)
     db = connection.githublive.pusheventCapped
 else: 
-    #Uncomment to connected dev to production DB
     MONGO_URL = os.environ['connectURLRead']
-    #MONGO_URL = os.environ['connectURLdev']
     connection = MongoClient(MONGO_URL)
-    #Uncomment to connected dev to production DB
     db = connection.githublive.pusheventCapped
+    #DEV
+    #MONGO_URL = os.environ['connectURLdev']
     #db = connection.githubdev.pushevent
-    
+     
 
 #Global variables
 LimitActiveLanguages=5
