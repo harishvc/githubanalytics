@@ -19,7 +19,7 @@ import random
 if (os.environ['deployEnv'] == "production"):
     MONGO_URL = os.environ['connectURLRead']
     connection = MongoClient(MONGO_URL)
-    db = connection.githublive.pushevent
+    db = connection.githublive.pusheventCapped
 else: 
     #Uncomment to connected dev to production DB
     MONGO_URL = os.environ['connectURLRead']
@@ -97,7 +97,6 @@ def ProcessQuery(query):
         elif  (query == "total commits"):   
             return TotalEntries("commits")
         elif  (query.startswith("repository")):
-               
             return ProcessRepositories(query.replace('repository ', ''))
         else:
             return(RandomYodaQuotes())
