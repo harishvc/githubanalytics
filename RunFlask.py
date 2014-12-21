@@ -86,7 +86,7 @@ def ProcessQuery(query):
     if (query == ""):
         return ""
     else: 
-        app.logger.debug("processing ............ %s" ,  query)
+        app.logger.debug("processing ............ ->%s<-" ,  query)
         if (query == "active repositories"):
              return FindDistinct ('$url',"repositories")
         elif  (query == "active users"):
@@ -260,9 +260,10 @@ def index():
     query = ""
     if request.method == 'GET':
         if 'q' in request.args:
-            app.logger.debug("query from user ===> %s", request.args['q'])
-            query = bleach.clean(request.args['q'])
-            app.logger.debug("query from user after bleach ===> %s", query)
+            app.logger.debug("query from user ===> %s<===", request.args['q'])
+            #Sanitize & Remove trailing space
+            query = bleach.clean(request.args['q']).strip()
+            app.logger.debug("query from user after bleach ===> %s<===", query)
     else:
         query =""
     return render_template("index.html",
