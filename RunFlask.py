@@ -84,7 +84,7 @@ def ProcessRepositories(repoName):
                 #convert milliseconds to seconds
                 #pop first element in the array
                 myreturn += "<li>" + time.strftime("%d %b %Y, %H:%M:%S", time.localtime(record["created_at"].pop(0)/1000.0)) + "</br>" + x.encode('utf-8').strip() + "</li>" 
-            myreturn +="</ul>"    
+            myreturn +="</ul>"
             #app.logger.debug (myreturn)
         return(myreturn)
    
@@ -151,7 +151,7 @@ def ActiveLanguagesBubble ():
 def RepoQuery (repoName):
     pipeline= [
            { '$match': {"name": repoName}}, 
-           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$addToSet": "$comment"},'_a3': {"$addToSet": "$created_at"},'count': { '$sum' : 1 }}},
+           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'count': { '$sum' : 1 }}},
            { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3" } },
            ]
     mycursor = db.aggregate(pipeline)
