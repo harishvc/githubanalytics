@@ -80,11 +80,10 @@ def ProcessRepositories(repoName):
             myreturn += "</br>" + record['description'].encode('utf-8').strip()
             myreturn += "</br><b>Commits from</b>: " +  ', '.join(record['actorname']).encode('utf-8').strip()
             myreturn += "</br><b>Comments</b>:<ul>" 
-            i = 0;
             for x in record["comment"]: 
-                myreturn += "<li>" + x.encode('utf-8').strip() + "</li>"
-                            #+ time.strftime("%d %b %Y, %H:%M:%S", time.gmtime(record["created_at"][i])) 
-                #i = i+1
+                #convert milliseconds to seconds
+                #pop first element in the array
+                myreturn += "<li>" + time.strftime("%d %b %Y, %H:%M:%S", time.localtime(record["created_at"].pop(0)/1000.0)) + "</br>" + x.encode('utf-8').strip() + "</li>" 
             myreturn +="</ul>"    
             #app.logger.debug (myreturn)
         return(myreturn)
