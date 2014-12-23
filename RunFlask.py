@@ -42,7 +42,7 @@ def RandomYodaQuotes():
             '<i>May the force be with you.<br/>-Yoda</i>', 
             '<i>When you look at the dark side, careful you must be. For the dark side looks back.<br/>-Yoda</i>', 
             '<i>You must unlearn what you have learned.<br/>-Yoda</i>',
-            '<i>Do or do not. There is no try.<br/>-Yoda</i>'
+            '<i>Do or do nforot. There is no try.<br/>-Yoda</i>'
             ]
     return("<p>Sorry! no entries found</p><br/>" + random.choice(foo))
 
@@ -79,6 +79,13 @@ def ProcessRepositories(repoName):
             myreturn += "&nbsp;Language: " + str(record['language']) + "&nbsp;#commits: " + str(record['count'])
             myreturn += "</br>" + record['description'].encode('utf-8').strip()
             myreturn += "</br><b>Commits from</b>: " +  ', '.join(record['actorname']).encode('utf-8').strip()
+            myreturn += "</br><b>Comments</b>:<ul>" 
+            i = 0;
+            for x in record["comment"]: 
+                myreturn += "<li>" + x.encode('utf-8').strip() + "</li>"
+                            #+ time.strftime("%d %b %Y, %H:%M:%S", time.gmtime(record["created_at"][i])) 
+                #i = i+1
+            myreturn +="</ul>"    
             #app.logger.debug (myreturn)
         return(myreturn)
    
@@ -145,8 +152,8 @@ def ActiveLanguagesBubble ():
 def RepoQuery (repoName):
     pipeline= [
            { '$match': {"name": repoName}}, 
-           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}, '_a1': {"$addToSet": "$actorname"} ,'count': { '$sum' : 1 }}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1"} },
+           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$addToSet": "$comment"},'_a3': {"$addToSet": "$created_at"},'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3" } },
            ]
     mycursor = db.aggregate(pipeline)
     return mycursor
