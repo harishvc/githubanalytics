@@ -83,7 +83,6 @@ def ProcessRepositories(repoName):
             for x in record["comment"]: 
                 #convert milliseconds to seconds
                 #pop first element in the array
-                #myreturn += "<li>" + time.strftime("%d %b %Y, %H:%M:%S", time.localtime(record["created_at"].pop(0)/1000.0)) + "</br>" + x.encode('utf-8').strip() + "</li>" 
                 sha = record['sha'].pop(-1).encode('utf-8').strip()
                 myreturn += "<li>" + time.strftime("%d %b %Y, %H:%M:%S", time.localtime(record["created_at"].pop(0)/1000.0)) \
                             +  "&nbsp;&nbsp; last commit " + "<a href=" + str(record['url']) + "/commit/" + sha + ">" + sha[0:10] + "</a>"\
