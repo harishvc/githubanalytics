@@ -83,7 +83,11 @@ def ProcessRepositories(repoName):
             for x in record["comment"]: 
                 #convert milliseconds to seconds
                 #pop first element in the array
-                myreturn += "<li>" + time.strftime("%d %b %Y, %H:%M:%S", time.localtime(record["created_at"].pop(0)/1000.0)) + "</br>" + x.encode('utf-8').strip() + "</li>" 
+                #myreturn += "<li>" + time.strftime("%d %b %Y, %H:%M:%S", time.localtime(record["created_at"].pop(0)/1000.0)) + "</br>" + x.encode('utf-8').strip() + "</li>" 
+                sha = record['sha'].pop(-1).encode('utf-8').strip()
+                myreturn += "<li>" + time.strftime("%d %b %Y, %H:%M:%S", time.localtime(record["created_at"].pop(0)/1000.0)) \
+                            +  "&nbsp;&nbsp; last commit " + "<a href=" + str(record['url']) + "/commit/" + sha + ">" + sha[0:10] + "</a>"\
+                            + "</br>" + x.encode('utf-8').strip() + "</li>" 
             myreturn +="</ul>"
             #app.logger.debug (myreturn)
         return(myreturn)
@@ -151,8 +155,8 @@ def ActiveLanguagesBubble ():
 def RepoQuery (repoName):
     pipeline= [
            { '$match': {"name": repoName}}, 
-           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'count': { '$sum' : 1 }}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3" } },
+           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'_a4': {"$addToSet": "$sha"},'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3", 'sha': "$_a4" } },
            ]
     mycursor = db.aggregate(pipeline)
     return mycursor
