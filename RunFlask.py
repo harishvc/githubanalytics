@@ -42,7 +42,7 @@ def RandomYodaQuotes():
             '<i>May the force be with you.<br/>-Yoda</i>', 
             '<i>When you look at the dark side, careful you must be. For the dark side looks back.<br/>-Yoda</i>', 
             '<i>You must unlearn what you have learned.<br/>-Yoda</i>',
-            '<i>Do or do nforot. There is no try.<br/>-Yoda</i>'
+            '<i>Do or do not. There is no try.<br/>-Yoda</i>'
             ]
     return("<p>Sorry! no entries found</p><br/>" + random.choice(foo))
 
@@ -89,6 +89,7 @@ def ProcessRepositories(repoName):
                             + "</br>" + x.encode('utf-8').strip() + "</li>" 
             myreturn +="</ul>"
             #app.logger.debug (myreturn)
+            
         return(myreturn)
    
 def ProcessQuery(query):
@@ -273,6 +274,11 @@ def index():
             #Sanitize & Remove trailing space
             query = bleach.clean(request.args['q']).strip()
             app.logger.debug("query from user after bleach ===> %s<===", query)
+            #Start: Uncomment to trigger slow response time
+            #app.logger.debug ("sleeping .....")
+            #time.sleep(15)
+            #app.logger.debug ("awake .....")
+            #End: Uncomment to trigger slow response time
     else:
         query =""
     return render_template("index.html",
