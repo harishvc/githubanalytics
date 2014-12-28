@@ -1,0 +1,20 @@
+ul.tag_list { list-style: none; margin-bottom: 20px; padding: 0; }
+ul.tag_list li { display: inline; }
+ul.tag_list li:after { content: ","; }
+ul.tag_list li:last-child:after { content: ""; }
+
+.mytags {
+    list-style: none;
+    padding: 0;
+    text-align: justify; 
+    font-size: 20px;
+  }
+
+.mytags li {
+    display: inline-block;
+    margin: 0 25px 25px 0; 
+  }
+
+#progress { 
+  display: none;
+ }
