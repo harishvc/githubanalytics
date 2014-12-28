@@ -9,23 +9,21 @@
     <!-- include GA code -->
     {% include 'ga.js' %}
     <!-- typeahead -->
-	<!-- https://twitter.github.io/typeahead.js/examples/ -->
-	<script src="/static/js/jquery-2.0.3.min.js"></script>
-	<script type="text/javascript" src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
+    <!-- https://twitter.github.io/typeahead.js/examples/ -->
+    <script src="/static/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
     <script type="text/javascript" src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
     <script type="text/javascript" src="/static/js/typeahead.js"></script>
-     <script>
+    <script>
             $(document).ready(function() {
                 $('#askgithub').submit(function() {
                     $('#result').empty();  
                     $('#progress').show();
                 });
             });
-      </script>
+     </script>
   </head>
-
   <body>
   	    {% block content %}{% endblock %}
-
   </body>
 </html>
