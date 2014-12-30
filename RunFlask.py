@@ -14,6 +14,7 @@ import HTMLParser
 from json import loads
 import bleach
 import random
+import RandomQuotes
 
 #Configure for production or development based on environment variables
 if (os.environ['deployEnv'] == "production"):
@@ -37,7 +38,7 @@ LimitActiveUsers=5
 ARA =[]
 AR = []
 
-def RandomYodaQuotes():
+def RandomYodaQuotes1234567():
     foo = ['<i>Always pass on what you have learned.<br/>-Yoda</i>',
             '<i>May the force be with you.<br/>-Yoda</i>', 
             '<i>When you look at the dark side, careful you must be. For the dark side looks back.<br/>-Yoda</i>', 
@@ -71,7 +72,7 @@ def FindDistinct(fieldName,type):
 def ProcessRepositories(repoName):
     mycursor = RepoQuery(repoName)
     if (len(mycursor["result"]) == 0):
-        return(RandomYodaQuotes())
+        return(RandomQuotes.RandomYodaQuotes())
     else:       
         myreturn =""
         for record in mycursor["result"]:
@@ -108,7 +109,7 @@ def ProcessQuery(query):
         elif  (query.startswith("repository")):
             return ProcessRepositories(query.replace('repository ', ''))
         else:
-            return(RandomYodaQuotes())
+            return(RandomQuotes.RandomYodaQuotes())
 
     
 def FindOneTimeStamp(type):
