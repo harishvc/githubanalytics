@@ -29,13 +29,13 @@ d3 charts.</a> <a href="http://github.com/harishvc/githubanalytics">Interested?<
 <div id="progress"><br/><br/>Please wait as your request is processed ... <img src="/static/pics/loading.gif"/></div>
 {% if query[0]["text"] | length>= 1 %}
 	<div id="result">
-           <p>{{ processed_text.decode('utf-8')  |safe }}</p>
+           <p>{{ processed_text.decode('utf-8')  | safe }}</p>
         </div>
 {% endif %}
 
-<!--
-	<div id="qsuggestion"><p>Similar Queries: {{ qr|safe }}</p></div>  
--->
+
+	<div id="qsuggestion"><p>{{ qr.decode('utf-8') | safe }}</p></div>  
+
 
 {% endblock %}
 
