@@ -17,6 +17,7 @@ import random
 
 #Local modules
 import RandomQuotes
+import Suggestions
 
 #Configure for production or development based on environment variables
 if (os.environ['deployEnv'] == "production"):
@@ -39,16 +40,10 @@ LimitActiveRepositories=15
 LimitActiveUsers=5
 ARA =[]
 AR = []
+ShowSuggestion=False
+NORESULT="You've got me stumped!"
 
 
-def RandomQuerySuggestions():
-   foo =    ["<a href=\'/?q=active+repositories&action=Ask+GitHub\'>active repositories</a>",
-            "<a href=\'/?q=active+users&action=Ask+GitHub\'>active users</a>",
-            "<a href=\'/?q=total+commits&action=Ask+GitHub\'>total commits</a>",
-            "<a href=\'/?q=active+languages&action=Ask+GitHub\'>active languages</a>"
-            ]
-   return(random.choice(foo))
-    
 
 def TotalEntries (type):
     return ("<div class=\"digital\">" + numformat(db.count()) + "</div> " + type)
@@ -64,9 +59,12 @@ def FindDistinct(fieldName,type):
         return ("<div class=\"digital\">" + numformat(row['count']) + "</div> " + type)
     
 def ProcessRepositories(repoName):
+    global ShowSuggestion
     mycursor = RepoQuery(repoName)
     if (len(mycursor["result"]) == 0):
-        return(RandomQuotes.RandomYodaQuotes())
+        #No response + Show suggestion
+        ShowSuggestion = True
+        return (NORESULT)
     else:       
         myreturn =""
         for record in mycursor["result"]:
@@ -88,6 +86,8 @@ def ProcessRepositories(repoName):
         return(myreturn)
    
 def ProcessQuery(query):
+    global ShowSuggestion
+    ShowSuggestion = False
     if (query == ""):
         return ""
     else: 
@@ -103,8 +103,9 @@ def ProcessQuery(query):
         elif  (query.startswith("repository")):
             return ProcessRepositories(query.replace('repository ', ''))
         else:
-            return(RandomQuotes.RandomYodaQuotes())
-
+            #No response + Show suggestion
+            ShowSuggestion = True
+            return (NORESULT) 
     
 def FindOneTimeStamp(type):
     pipeline= [
@@ -278,10 +279,9 @@ def index():
         query =""
     return render_template("index.html",
         title = 'Ask GitHub',
-        #total = TotalEntries(),
-        query = [{"text": query}],
-        qr = RandomQuerySuggestions(),
-        processed_text = ProcessQuery(query)    
+        query = [{"text": query}],     
+        processed_text = ProcessQuery(query),
+        qr = Suggestions.RandomQuerySuggestions() if (query == "" or bool(ShowSuggestion)) else ""    
 	)
 ############################
 #Handle charts    
