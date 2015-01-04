@@ -16,11 +16,16 @@
 
 #result {
 	font-size: 16px;
-	padding-top: 10px;
+	padding-top: 5px;
 }
 
 #qsuggestion {
 	padding-top: 5px;
+}
+
+#relatedlinks {
+	padding-top: 35px;
+	padding-bottom: 15px;
 }
 
 input#gobutton{
@@ -40,7 +45,7 @@ box-shadow: 0 0 4px rgba(0,0,0, .75);
 /*style the text*/
 color:#f3f3f3;
 font-size:1.1em;
-padding-left: 10px;
+/* padding-left: 10px; */
 }
 /***NOW STYLE THE BUTTON'S HOVER AND FOCUS STATES***/
 input#gobutton:hover, input#gobutton:focus{
@@ -51,18 +56,23 @@ background-color :#207ce5; /*make the background a little darker*/
 box-shadow: 0 0 1px rgba(0,0,0, .75);
 }
 
-
 hr {
-width: 60%;
-align:left
+    display: block;
+    color: #000;
+    background-color: #000;
+    height: 5px;
+    max-width: 750px;
+    margin: 0px;
 }
 
 li:not(:last-child) {
     margin-bottom: 5px;
 }
+
 text {
   font: 12px sans-serif;
 }
+
 body {
         font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
         font-size: 14px;
@@ -105,3 +115,4 @@ body {
     font-size: 16px;
     line-height: 20px;
 }
+

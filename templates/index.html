@@ -1,15 +1,9 @@
 {% extends "base-home.html" %}
-<h1>ASK GITHUB</h1>
 {% block content %}
 <div class="span12">
 <div id="welcome">
-<p>Ask questions &amp; get insights on public <a href="http://github.com">GitHub</a> commits in the past 24 hours. 
-<a href="/charts">
-<i class="fa fa-bar-chart  fa-1x" style='color: orange;'></i>&nbsp;
-<i class="fa fa-pie-chart  fa-1x" style='color: blue;'></i>&nbsp;
-<i class="fa fa-line-chart  fa-1x" style='color: red;'></i>&nbsp;
-d3 charts.</a> <a href="http://github.com/harishvc/githubanalytics">Interested?</a>
-</p>
+<h1>Ask GitHub</h1>
+<p>Ask questions &amp; get insights on public <a href="http://github.com">GitHub</a> commits in the past 24 hours.</p>
 </div>
 
 
@@ -17,15 +11,19 @@ d3 charts.</a> <a href="http://github.com/harishvc/githubanalytics">Interested?<
  <form action="." method="get" id="askgithub">
   <div class="example" id="multiple-datasets">
    <div class="demo">
-   	<input class="typeahead" name="q"  value="{{ query[0]["text"] }}" type="text" placeholder="What are you looking for?">
-        <input id="gobutton" type="submit" class="btn" name="action" value="Ask GitHub"/>
+   	<input class="typeahead" name="q"  value="{{ query[0]["text"] }}" type="text" placeholder="What are you looking for?"/>
+        <input id="gobutton" type="submit" class="btn" name="action" value="Search"/>
    </div>
   </div>
  </form>
 </div>
+<div id="relatedlinks">
+<i class="fa fa-pie-chart fa-1x" style='color: blue;'></i>&nbsp;<a href="/charts">Charts</a>&nbsp;&nbsp;&nbsp;
+<i class="fa fa-github-alt fa-1x"></i>&nbsp;<a href="http://github.com/harishvc/githubanalytics">Let's collaborate!</a>
+</div>
+<hr/>
 
 <!-- Display Results -->
-<br/>
 <div id="progress"><br/><br/>Please wait as your request is processed ... <img src="/static/pics/loading.gif"/></div>
 {% if query[0]["text"] | length>= 1 %}
 	<div id="result">
@@ -34,7 +32,7 @@ d3 charts.</a> <a href="http://github.com/harishvc/githubanalytics">Interested?<
 {% endif %}
 
 
-	<div id="qsuggestion"><p>{{ qr.decode('utf-8') | safe }}</p></div>  
+<div id="qsuggestion"><p>{{ qr.decode('utf-8') | safe }}</p></div>  
 
 
 {% endblock %}
