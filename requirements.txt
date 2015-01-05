@@ -12,3 +12,4 @@ python-dateutil==2.2
 requests==2.2.1
 zope.interface==4.0.5
 bleach==1.4
+py2neo==2.0.2
