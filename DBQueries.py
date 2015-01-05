@@ -5,9 +5,11 @@ from pymongo import MongoClient
 import os.path, time
 from flask import Flask
 
+
 #Local modules
 import RandomQuotes
 import Suggestions
+import Neo4jQueries
 
 app = Flask(__name__)
 
@@ -54,10 +56,13 @@ def ProcessRepositories(repoName):
         return ("EMPTY")
     else:       
         myreturn =""
+        #Add recommendation using neo4j
+        similarRepos = Neo4jQueries.FindSimilarRepositories(repoName)
         for record in mycursor["result"]:
             myreturn = "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>"
             myreturn += "&nbsp;Language: " + str(record['language']) + "&nbsp;#commits: " + str(record['count'])
             myreturn += "</br>" + record['description'].encode('utf-8').strip()
+            myreturn += similarRepos
             myreturn += "</br><b>Commits from</b>: " +  ', '.join(record['actorname']).encode('utf-8').strip()
             myreturn += "</br><b>Comments</b>:<ul>" 
             for x in record["comment"]: 
@@ -70,6 +75,9 @@ def ProcessRepositories(repoName):
             myreturn +="</ul>"
             #app.logger.debug (myreturn)
             
+        #Add recommendation using neo4j
+        #myreturn += Neo4jQueries.FindSimilarRepositories(repoName)
+                    
         return(myreturn)
    
 def ProcessQuery(query):
