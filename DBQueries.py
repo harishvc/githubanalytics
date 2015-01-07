@@ -4,7 +4,7 @@
 from pymongo import MongoClient
 import os.path, time
 from flask import Flask
-
+import re
 
 #Local modules
 import RandomQuotes
@@ -98,7 +98,8 @@ def ProcessQuery(query):
         elif  (query.startswith("repository")):
             return ProcessRepositories(query.replace('repository ', ''))
         else:
-            return ("EMPTY") 
+            #return ("EMPTY")
+            return Search(query) 
     
 def FindOneTimeStamp(type):
     pipeline= [
@@ -141,9 +142,9 @@ def ActiveLanguagesBubble ():
     #create custom dictionary
     return ({"name": "something", "children": a1})
 
-def RepoQuery (repoName):
+def RepoQuery (repoURL):
     pipeline= [
-           { '$match': {"name": repoName}}, 
+           { '$match': {"url": repoURL}}, 
            { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'_a4': {"$addToSet": "$sha"},'count': { '$sum' : 1 }}},
            { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3", 'sha': "$_a4" } },
            ]
@@ -230,6 +231,34 @@ def CommitFrequency ():
     output.append({"commits": ">20", "count": range6,"count2": numformat(range6)})
     return output
 
+#Search in fields name, language & description
+def Search(query):
+    path1 = "<a href=\"/?q=repository "
+    path2 = "&amp;action=Search\">"
+    path3 = "</a>"
+    output = ""
+    regx1 = re.compile(query, re.IGNORECASE)
+    regx2 = re.compile("bbbbb", re.IGNORECASE)
+    regx3 = re.compile("aaaaa", re.IGNORECASE)
+    pipeline = [
+           { '$match': {'$or' : [{'name':regx1},{'description':regx2},{ 'language': regx3 }] }},
+           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description"}},
+           { '$sort' : { 'name': 1 }},
+           { '$limit': 10}
+           ]
+    mycursor = db.aggregate(pipeline)
+    for row in mycursor["result"]:
+        tmp1 = ""
+        if(row['language']): tmp1 = "&nbsp;&nbsp;Language: " + row['language'].encode('utf-8').strip()
+        tmp2 = ""
+        if(row['description']): tmp2 = "<br/>" + row['description'].encode('utf-8').strip()
+        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + row['name'].encode('utf-8').strip() + path3 + tmp1 + tmp2 + "</li>"
+    if (len(output) > 0 ): 
+        return ("<ul>" + output + "</ul>")
+    else:
+        return ("EMPTY")  #0 rows return
+        
 
 def CloseDB():
     connection.close()
