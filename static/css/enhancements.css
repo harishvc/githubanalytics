@@ -18,3 +18,27 @@ ul.tag_list li:last-child:after { content: ""; }
 #progress { 
   display: none;
  }
+
+.typeahead,
+.tt-query,
+.tt-hint {
+  width: 600px;
+  height: 30px;
+  padding: 8px 12px;
+  font-size: 24px;
+  line-height: 30px;
+  border: 2px solid #ccc;
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  outline: none;
+}
+
+.typeahead {
+  background-color: #fff;
+}
+
+.typeahead:focus {
+  border: 2px solid #0097cf;
+}
+
