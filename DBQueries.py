@@ -10,6 +10,7 @@ import re
 import RandomQuotes
 import Suggestions
 import Neo4jQueries
+import MyMoment
 
 app = Flask(__name__)
 
@@ -69,9 +70,8 @@ def ProcessRepositories(repoName):
                 #convert milliseconds to seconds
                 #pop first element in the array
                 sha = record['sha'].pop(-1).encode('utf-8').strip()
-                myreturn += "<li>" + time.strftime("%d %b %Y, %H:%M:%S", time.localtime(record["created_at"].pop(0)/1000.0)) \
-                            +  "&nbsp;&nbsp; last commit " + "<a href=" + str(record['url']) + "/commit/" + sha + ">" + sha[0:10] + "</a>"\
-                            + "</br>" + x.encode('utf-8').strip() + "</li>" 
+                myreturn += "<li>" +  "<a href=" + str(record['url']) + "/commit/" + sha + ">" + MyMoment.HTM(record["created_at"].pop(0)/1000) + "</a>" \
+                            + "&nbsp;&nbsp;" + x.encode('utf-8').strip() + "</li>" 
             myreturn +="</ul>"
             #app.logger.debug (myreturn)
             
