@@ -11,6 +11,9 @@ def FindSimilarRepositories(Inputrepo):
 	graph = Graph(os.environ['neoURL'])
 	output = []
 	outputString =""
+	path1 = "<a href=\"/?q=repository "
+	path2 = "&amp;action=Search\">"
+	path3 = "</a>"
 	query1= """MATCH (me)-[r1:IS_LANGUAGE|IS_OWNER|IN_ORGANIZATION|IS_ACTOR]->(stuff)<-[r2:IS_LANGUAGE|IS_OWNER|IN_ORGANIZATION|IS_ACTOR]-(repo) """
 	query2="WHERE me.url = " + "\"" + Inputrepo + "\"" 
 	query3=""" AND type (r1) = type (r2)
@@ -23,7 +26,7 @@ def FindSimilarRepositories(Inputrepo):
 	for entries in result: 
         	#print entries.reponame, entries.url, entries.count
         	#output.append("<a href=" + entries.url.encode('utf-8').strip() + ">" + entries.reponame.encode('utf-8').strip() +"</a> (" + str(entries.count) + ")")
-        	output.append("<a href=" + entries.url.encode('utf-8').strip() + ">" + entries.reponame.encode('utf-8').strip() +"</a>")                        
+        	output.append(path1 + entries.url.encode('utf-8').strip() + path2 + entries.reponame.encode('utf-8').strip() + path3)                        
 
 
     #Empty array?
