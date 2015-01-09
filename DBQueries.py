@@ -237,11 +237,9 @@ def Search(query):
     path2 = "&amp;action=Search\">"
     path3 = "</a>"
     output = ""
-    regx1 = re.compile(query, re.IGNORECASE)
-    regx2 = re.compile("bbbbb", re.IGNORECASE)
-    regx3 = re.compile("aaaaa", re.IGNORECASE)
+    qregx = re.compile(query, re.IGNORECASE)
     pipeline = [
-           { '$match': {'$or' : [{'name':regx1},{'description':regx2},{ 'language': regx3 }] }},
+           { '$match': {'$or' : [{'name':qregx},{'description':qregx},{ 'language': qregx }] }},
            { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}}},
            { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description"}},
            { '$sort' : { 'name': 1 }},
