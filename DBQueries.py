@@ -251,8 +251,11 @@ def Search(query):
         if(row['language']): tmp1 = "&nbsp;&nbsp;Language: " + row['language'].encode('utf-8').strip()
         tmp2 = ""
         if(row['description']): tmp2 = "<br/>" + row['description'].encode('utf-8').strip()
-        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + row['name'].encode('utf-8').strip() + path3 + tmp1 + tmp2 + "</li>"
+        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + row['name'].encode('utf-8').strip() + path3 + tmp1 + tmp2 
+        output += Neo4jQueries.FindSimilarRepositories(row['url'])
+        output += "</li>"
     if (len(output) > 0 ): 
+        #TODO: Highlight query in selection
         return ("<ul>" + output + "</ul>")
     else:
         return ("EMPTY")  #0 rows return
