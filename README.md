@@ -9,8 +9,8 @@ Developed using Python &amp; Node.js using NoSQL databases [MongoDB](http://www.
 * Application is developed in Python using Flask framework
 * Interested? Visit [Ask GitHub](http://aksgithub.com)
 
-### Usage
-1. Set environment variables
+### Deployment Steps
+Step1: Set environment variables
 ````
 deployEnv=""           #production or development
 PORT=5000              #non-standard port
@@ -33,20 +33,20 @@ myIP=""                #development server IP address
 neoURL=""              #neo4j connection string
 ```` 
 
-2. Get GitHub Archive public activity for the past hour
+Step 2: Get GitHub Archive public activity for the past hour
 ````
 $> node FetchParseGitHubArchive.js //Add this script to Heroku scheduler 
 ```` 
 
-3. Start Flask
+Step 3: Start Flask
 ````
 $> python RunFlash.py
 # Procfile used for Heroku deployment
 ````
 
-4. Visit localhost:5000 
+Step 4: Visit localhost:5000 
 
-5. Integration with Neo4j (optional)
+Step 5: Integration with Neo4j (optional)
 ````
 $>cd bin                               #bin folder inside repository
 $>python GenerateCypher.py             #build nodes and relations
