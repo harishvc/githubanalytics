@@ -3,9 +3,10 @@ GitHub Analytics
 
 Analyze GitHub public timeline to provide valuable insights.
 
-Developed using Python &amp; Node.js using NoSQL databases [MongoDB](http://www.mongodb.org/) &amp; [Neo4j](http://neo4j.com/). Hosted on [Heroku](https://www.heroku.com/) and powered by [Compose](https://www.compose.io/)
-* Fetch and parse public GitHub activity from [GitHub Archive](https://www.githubarchive.org/). Using Node.js event type ```PushEvent``` are parsed and stored in MongoDB 
-* Nodes and relations are build using Cypher query language and inserted into Neo4j for insights and recommendations 
+Developed using Python &amp; Node.js using NoSQL databases [MongoDB](http://www.mongodb.org/) &amp; [Neo4j](http://neo4j.com/). Hosted on [Heroku](https://www.heroku.com/) 
+and powered by [Compose](https://www.compose.io/).
+* Fetch and parse public GitHub activity from [GitHub Archive](https://www.githubarchive.org/). Event type ```PushEvent``` are parsed using Node.js and inserted into MongoDB 
+* Nodes and relations are built using Cypher query language and inserted into Neo4j for insights and recommendations 
 * Application is developed in Python using Flask framework
 * Interested? Visit [Ask GitHub](http://aksgithub.com)
 
