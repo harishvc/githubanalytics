@@ -1,0 +1,26 @@
+//Delete all relations
+MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r;
+//
+//Create nodes
+CREATE (r1:Repository {id:"buaayz/SAD", name:"SAD",url:"https://github.com/buaayz/SAD"}); 
+CREATE (r2:Repository {id:"smcdonough/dev1", name: "dev1",url:"https://github.com/smcdonough/dev1"}); 
+CREATE (r3:Repository {id:"openfoodfoundation/openfoodnetwork", name: "openfoodnetwork",url:"https://github.com/openfoodfoundation/openfoodnetwork"}); 
+CREATE (l1:Language {id:"css", name: "css"}); 
+CREATE (l2:Language {id: "swift", name: "swift"}); 
+CREATE (p1:People {id: "marcysutton", name:"Marcy Sutton",login:"marcysutton"}); 
+CREATE (p2:People {id:"timeflask", name:"timeflask",login:"timeflask"}); 
+CREATE (o1:Organization {id:"angular", name: "angular"});
+//
+//Create relations
+MATCH (a:Repository {id:"buaayz/SAD"}) MATCH (b:Organization {id: 'angular'})                       CREATE (a)-[:IN_ORGANIZATION]->(b);
+MATCH (a:Repository {id:'buaayz/SAD'}) MATCH (b:People {id:'marcysutton' })                         CREATE (a)-[:IS_ACTOR]->(b);
+MATCH (a:Repository {id:'buaayz/SAD'}) MATCH (b:Language {id:'css' })                               CREATE (a)-[:IS_LANGUAGE]->(b);
+//
+MATCH (a:Repository {id:'smcdonough/dev1'}) MATCH (b:People {id:'marcysutton' })                  CREATE (a)-[:IS_OWNER]->(b);
+MATCH (a:Repository {id:'smcdonough/dev1'}) MATCH (b:People {id:'marcysutton' })                  CREATE (a)-[:IS_ACTOR]->(b);
+MATCH (a:Repository {id:'smcdonough/dev1'}) MATCH (b:Language {id:'css' })                              CREATE (a)-[:IS_LANGUAGE]->(b);
+//
+MATCH (a:Repository {id:'openfoodfoundation/openfoodnetwork'}) MATCH (b:Organization {id:'angular' })   CREATE (a)-[:IN_ORGANIZATION]->(b);
+MATCH (a:Repository {id:'openfoodfoundation/openfoodnetwork'}) MATCH (b:People {id:'timeflask' })       CREATE (a)-[:IS_ACTOR]->(b);
+MATCH (a:Repository {id:'openfoodfoundation/openfoodnetwork'}) MATCH (b:Language {id:'swift' })         CREATE (a)-[:IS_LANGUAGE]->(b);
+
