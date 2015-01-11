@@ -1,7 +1,7 @@
 GitHub Analytics
 ===============
 
-Analyze GitHub public timeline to provide valuable insights.
+Analyze GitHub public timeline to provide insights.
 
 Developed using Python &amp; Node.js using NoSQL databases [MongoDB](http://www.mongodb.org/) &amp; [Neo4j](http://neo4j.com/). Hosted on [Heroku](https://www.heroku.com/) 
 and powered by [Compose](https://www.compose.io/).
