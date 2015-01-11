@@ -3,43 +3,47 @@ GitHub Analytics
 
 Analyze GitHub public timeline to provide valuable insights.
 
-Developed using Python &amp; Node.js using NoSQL databases MongoDB &amp; Neo4j. Hosted on [Heroku](https://www.heroku.com/) and powered by [Compose](https://www.compose.io/)
-* Node.js script fetch and parse public GitHub activity. Event type ```PushEvent``` are parsed from [GitHub Archive](https://www.githubarchive.org/) and stored in MongoDB 
-* Nodes and relations are built in Cypher and inserted into Neo4j for insights and recommendations 
-* Application is developed in Python using the Flask framework
-* Interested? Visit [AskGitHub](http://aksgithub.com)
+Developed using Python &amp; Node.js using NoSQL databases [MongoDB](http://www.mongodb.org/) &amp; [Neo4j](http://neo4j.com/). Hosted on [Heroku](https://www.heroku.com/) and powered by [Compose](https://www.compose.io/)
+* Fetch and parse public GitHub activity from [GitHub Archive](https://www.githubarchive.org/). Using Node.js event type ```PushEvent``` are parsed and stored in MongoDB 
+* Nodes and relations are build using Cypher query language and inserted into Neo4j for insights and recommendations 
+* Application is developed in Python using Flask framework
+* Interested? Visit [Ask GitHub](http://aksgithub.com)
 
 ### Usage
 1. Set environment variables
 ````
-export deployEnv=""    #enter production or development
-export PORT=5000       #pick a non-standard port
-BUILDPACK_URL="https://github.com/ayyar/heroku-buildpack-python-nodejs"  #Heroku specific for Python & node.js 
+deployEnv=""           #production or development
+PORT=5000              #non-standard port
+#Heroku specific for Python & node.js
+BUILDPACK_URL="https://github.com/ayyar/heroku-buildpack-python-nodejs"   
 
 #Production specific environment variables
-connectURL=""          #enter mongo connect URL
-connectURLRead=""      #enter mongo connect URL for readonly account
-database=""            #enter database name
-mycollection=""        #enter collection name
+connectURL=""          #mongo connect URL
+connectURLRead=""      #mongo connect URL for readonly account
+database=""            #database name
+mycollection=""        #collection name
 
 #Development specific environment variables
-connectURLdev=""       #enter mongo connect URL
-databasedev=""         #enter database name
-mycollectiondev=""     #enter collection name
-myIP=""                #enter development server IP address
+connectURLdev=""       #mongo connect URL
+databasedev=""         #database name
+mycollectiondev=""     #collection name
+myIP=""                #development server IP address
 
 #Neo4j specific environment variable
-neoURL=""              #enter neo4j connection string
+neoURL=""              #neo4j connection string
 ```` 
+
 2. Get GitHub Archive public activity for the past hour
 ````
 $> node FetchParseGitHubArchive.js //Add this script to Heroku scheduler 
 ```` 
+
 3. Start Flask
 ````
 $> python RunFlash.py
 # Procfile used for Heroku deployment
 ````
+
 4. Visit localhost:5000 
 
 5. Integration with Neo4j (optional)
@@ -53,7 +57,7 @@ $>python MongoInsert.py                #insert recommendations inside mongo
 ````
 
 ### Hosted on [Heroku](https://www.heroku.com/) and powered by [Compose](https://www.compose.io/)
-Interested? Visit [AskGitHub](http://aksgithub.com)
+Interested? Visit [Ask GitHub](http://aksgithub.com)
 
 ### GitHub Data Challenge
 branch "datachallenge" contains the code branch for GitHub <a href="https://github.com/blog/1864-third-annual-github-data-challenge">third annual data challenge</a>
