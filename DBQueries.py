@@ -9,7 +9,7 @@ import re
 #Local modules
 import RandomQuotes
 import Suggestions
-import Neo4jQueries
+#import Neo4jQueries
 import MyMoment
 
 app = Flask(__name__)
@@ -58,7 +58,8 @@ def ProcessRepositories(repoName):
     else:       
         myreturn =""
         #Add recommendation using neo4j
-        similarRepos = Neo4jQueries.FindSimilarRepositories(repoName)
+        #similarRepos = Neo4jQueries.FindSimilarRepositories(repoName)
+        similarRepos = FindSimilarRepositories(repoName)
         for record in mycursor["result"]:
             myreturn = "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>"
             myreturn += "&nbsp;Language: " + str(record['language']) + "&nbsp;#commits: " + str(record['count'])
@@ -151,6 +152,25 @@ def RepoQuery (repoURL):
     mycursor = db.aggregate(pipeline)
     return mycursor
 
+#Get similar repositories
+def FindSimilarRepositories(repoURL):
+    output = ""
+    pipeline= [
+           { '$match': {"url": repoURL, "type" : "similarrepositories"}}, 
+           { '$group': {'_id': {'similar': '$similar'}}},
+           { '$project': { '_id': 0, 'similar': '$_id.similar'}},
+           ]
+    mycursor = db.aggregate(pipeline)
+    for record in mycursor["result"]:
+        output = str(record['similar'])
+        
+    if len(output) !=0 :
+        return ("<br/><b>Similar Repositories</b>: " + output)
+    else:
+        return output
+
+    
+    
 def ActiveRepositories ():
     pipeline= [
            { '$match': {}}, 
@@ -252,7 +272,8 @@ def Search(query):
         tmp2 = ""
         if(row['description']): tmp2 = "<br/>" + row['description'].encode('utf-8').strip()
         output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + row['name'].encode('utf-8').strip() + path3 + tmp1 + tmp2 
-        output += Neo4jQueries.FindSimilarRepositories(row['url'])
+        #output += Neo4jQueries.FindSimilarRepositories(row['url'])
+        output += FindSimilarRepositories(row['url'])
         output += "</li>"
     if (len(output) > 0 ): 
         #TODO: Highlight query in selection
