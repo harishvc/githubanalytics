@@ -275,8 +275,8 @@ def Search(query):
     qregx = re.compile(query, re.IGNORECASE)
     pipeline = [
            { '$match': {'$or' : [{'name':qregx},{'description':qregx},{ 'language': qregx }] , 'sha': { '$exists': True } }},
-           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description"}},
+           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': "$organization"}}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description",'organization': "$_id.organization"}},
            { '$sort' : { 'name': 1 }},
            { '$limit': 10}
            ]
@@ -285,8 +285,10 @@ def Search(query):
         tmp1 = ""
         if(row['language']): tmp1 = "&nbsp;&nbsp;Language: " + row['language'].encode('utf-8').strip()
         tmp2 = ""
-        if(row['description']): tmp2 = "<br/>" + row['description'].encode('utf-8').strip()
-        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + row['name'].encode('utf-8').strip() + path3 + tmp1 + tmp2 
+        if(row['organization']): tmp2 = "&nbsp;&nbsp;Organization: " + str(row['organization'])
+        tmp3 = ""
+        if('description' in row): tmp3 = "<br/>" + row['description'].encode('utf-8').strip()
+        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + row['name'].encode('utf-8').strip() + path3 + tmp1 + tmp2 + tmp3 
         #output += Neo4jQueries.FindSimilarRepositories(row['url'])
         output += FindSimilarRepositories(row['url'])
         output += "</li>"
