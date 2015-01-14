@@ -19,6 +19,10 @@ ul.tag_list li:last-child:after { content: ""; }
   display: none;
  }
 
+.highlight {
+ background-color:yellow
+}
+
 .typeahead,
 .tt-query,
 .tt-hint {
