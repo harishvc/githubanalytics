@@ -214,7 +214,12 @@ def ProcessRepositories(repoName):
         similarRepos = FindSimilarRepositories(repoName)
         for record in mycursor["result"]:
             myreturn = "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>"
-            myreturn += "&nbsp;Language: " + str(record['language']) + "&nbsp;#commits: " + str(record['count'])
+            myreturn += "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-code fa-1x\"></i>&nbsp;"+ str(record['language'])
+            if (record['count'] > 1): 
+                myreturn += "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-clock-o fa-1x\"></i>&nbsp;" + str(record['count']) + " commit"
+            else:
+                myreturn += "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-clock-o fa-1x\"></i>&nbsp;" + str(record['count']) + " commits"
+            if(record['organization'] != 'Unspecified'):  myreturn += "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-home fa-1x\"></i>&nbsp;" + str(record['organization']) 
             #Handle None & empty description
             if ('description' in record):
                 if ( (record['description'] != None) and (len(record['description'])) > 0):
@@ -238,8 +243,8 @@ def ProcessRepositories(repoName):
 def RepoQuery (repoURL):
     pipeline= [
            { '$match' : { 'url' : repoURL , 'sha': { '$exists': True }}  },
-           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description"}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'_a4': {"$addToSet": "$sha"},'count': { '$sum' : 1 }}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3", 'sha': "$_a4" } },
+           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'_a4': {"$addToSet": "$sha"},'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3", 'sha': "$_a4" , 'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
            ]
     mycursor = db.aggregate(pipeline)
     #Debug
@@ -265,6 +270,19 @@ def FindSimilarRepositories(repoURL):
     else:
         return output
 
+#Modified from http://www.saltycrane.com/blog/2007/10/using-pythons-finditer-to-highlight/
+#Highlight Search Results
+def HSR(regex,text):
+    COLOR = ['yellow']
+    #regex = re.compile(query, re.IGNORECASE)
+    i = 0; output = ""
+    for m in regex.finditer(text):
+        #output += "".join([text[i:m.start()],"<strong><span style='background-color:yellow'>", text[m.start():m.end()], "</span></strong>"])
+        output += "".join([text[i:m.start()],"<span class='highlight'>", text[m.start():m.end()],"</span>"])
+        i = m.end()
+    return ("".join([output, text[i:]])) 
+    
+       
     
 #Global search in property fields name, language & description
 def Search(query):
@@ -274,7 +292,7 @@ def Search(query):
     output = ""
     qregx = re.compile(query, re.IGNORECASE)
     pipeline = [
-           { '$match': {'$or' : [{'name':qregx},{'description':qregx},{ 'language': qregx }] , 'sha': { '$exists': True } }},
+           { '$match': {'$or' : [{'name':qregx},{'description':qregx},{ 'language': qregx },{ 'organization': qregx }] , 'sha': { '$exists': True } }},
            { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}}},
            { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
            { '$sort' : { 'name': 1 }},
@@ -283,12 +301,12 @@ def Search(query):
     mycursor = db.aggregate(pipeline)
     for row in mycursor["result"]:
         tmp1 = ""
-        if(row['language']): tmp1 = "&nbsp;&nbsp;Language: " + row['language'].encode('utf-8').strip()
+        if(row['language']): tmp1 = "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-code fa-1x\"></i>&nbsp;" + HSR(qregx,row['language'].encode('utf-8').strip())
         tmp2 = ""
-        if(row['organization'] != 'Unspecified'): tmp2 = "&nbsp;&nbsp;Organization: " + str(row['organization'])
+        if(row['organization'] != 'Unspecified'): tmp2 = "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-home fa-1x\"></i>&nbsp;" + HSR(qregx,str(row['organization']))
         tmp3 = ""
-        if(row['description']): tmp3 = "<br/>" + row['description'].encode('utf-8').strip()
-        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + row['name'].encode('utf-8').strip() + path3 + tmp1 + tmp2 + tmp3 
+        if(row['description']): tmp3 = "<br/>" + HSR(qregx,row['description'].encode('utf-8').strip())
+        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + HSR(qregx, row['name'].encode('utf-8').strip()) + path3 + tmp1 + tmp2 + tmp3 
         #output += Neo4jQueries.FindSimilarRepositories(row['url'])
         output += FindSimilarRepositories(row['url'])
         output += "</li>"
