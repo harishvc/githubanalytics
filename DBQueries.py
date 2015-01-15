@@ -33,6 +33,7 @@ LimitActiveLanguages=5
 LimitActiveLanguagesBubble=10
 LimitActiveRepositories=15
 LimitActiveUsers=5
+SearchLimit=10
 
 def numformat(value):
     return "{:,}".format(value)
@@ -274,10 +275,8 @@ def FindSimilarRepositories(repoURL):
 #Highlight Search Results
 def HSR(regex,text):
     COLOR = ['yellow']
-    #regex = re.compile(query, re.IGNORECASE)
     i = 0; output = ""
     for m in regex.finditer(text):
-        #output += "".join([text[i:m.start()],"<strong><span style='background-color:yellow'>", text[m.start():m.end()], "</span></strong>"])
         output += "".join([text[i:m.start()],"<span class='highlight'>", text[m.start():m.end()],"</span>"])
         i = m.end()
     return ("".join([output, text[i:]])) 
@@ -290,14 +289,29 @@ def Search(query):
     path2 = "&amp;action=Search\">"
     path3 = "</a>"
     output = ""
-    qregx = re.compile(query, re.IGNORECASE)
-    pipeline = [
+    qregx =""
+    #Handle query with more than one word and spaces between words
+    words = query.split()
+    #for word in words:   
+    qregx = re.compile('|'.join(words), re.IGNORECASE)
+    #Aggregation based on regular expression
+    pipelineOLD = [
            { '$match': {'$or' : [{'name':qregx},{'description':qregx},{ 'language': qregx },{ 'organization': qregx }] , 'sha': { '$exists': True } }},
            { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}}},
            { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
            { '$sort' : { 'name': 1 }},
-           { '$limit': 10}
+           { '$limit': SearchLimit}
            ]
+    #Aggregation based on index score
+    pipeline = [
+           { '$match': { '$text': { '$search': query } }},
+           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }}}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
+           #{ '$match': { 'score': { '$gt': 1.0 }}},
+           { '$sort':  { 'score': -1}},
+           { '$limit': SearchLimit}
+           ]
+
     mycursor = db.aggregate(pipeline)
     for row in mycursor["result"]:
         tmp1 = ""
