@@ -290,10 +290,13 @@ def Search(query):
     path3 = "</a>"
     output = ""
     qregx =""
+    nwords = []
     #Handle query with more than one word and spaces between words
     words = query.split()
-    #for word in words:   
-    qregx = re.compile('|'.join(words), re.IGNORECASE)
+    for word in words:
+        #Handle special characters in query
+        nwords.append(re.escape(word))
+    qregx = re.compile('|'.join(nwords), re.IGNORECASE)
     #Aggregation based on regular expression
     pipelineOLD = [
            { '$match': {'$or' : [{'name':qregx},{'description':qregx},{ 'language': qregx },{ 'organization': qregx }] , 'sha': { '$exists': True } }},
