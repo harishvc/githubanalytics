@@ -1,40 +1,41 @@
 from pymongo import MongoClient
-import os.path, time
+import os.path, time, sys
 from py2neo import Graph
 import os.path
 
-CYPERFILE="testing123.txt"
+#Local Module
+sys.path.append('../')
+import MyMoment
+
 #References
 #http://jexp.de/blog/2014/06/load-csv-into-neo4j-quickly-and-successfully/
 #http://neo4j.com/docs/stable/cypherdoc-create-nodes-and-relationships.html
+
+
+#Create file name based on timestamp
+CYPHERFILE="cypher-" + MyMoment.FT() + ".txt"
 
 #Handle encoding
 def HE(s):
 	return s.encode('utf-8').strip()
 
-
-def CreateCypher():	
-	#Configure for production or development based on environment variables
-	if (os.environ['deployEnv'] == "production"):
-		MONGO_URL = os.environ['connectURLRead']
-		connection = MongoClient(MONGO_URL)
-		db = connection.githublive.pusheventCapped
-	else: 
-		MONGO_URL = os.environ['connectURLRead']
-		connection = MongoClient(MONGO_URL)
-		db = connection.githublive.pusheventCapped
-
-    #Delete old cypher queries
-	if os.path.exists(CYPERFILE):
-		os.remove(CYPERFILE)
+def CreateCypher():
+	
+	print MyMoment.MT(), "start: generating new nodes and building new relations ..." , CYPHERFILE
+	
+	#MongoDB connections
+	MONGO_URL = os.environ['connectURLRead']
+	connection = MongoClient(MONGO_URL)
+	db = connection.githublive.pusheventCapped
+	
     #Create new file to holde cypher queries
-	f = open(CYPERFILE,"w")
+	f = open(CYPHERFILE,"w")
 	#Delete old entries inside Neo4j
 	f.write("MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r;\n")
      
 	#Generate unique repositories
 	pipeline= [
-           { '$match': {} },    
+           { '$match': {'sha': { '$exists': True }}},    
            { '$group': { '_id': {'url': '$url',  'name': '$name', 'full_name': '$full_name'}}},
            { '$project': { '_id': 0, 'url': '$_id.url', 'name': '$_id.name' ,'full_name': '$_id.full_name'} },
            ]
@@ -47,7 +48,7 @@ def CreateCypher():
 
 	#Generate unique languages
 	pipeline= [
-           { '$match': {} },    
+           { '$match': {'sha': { '$exists': True }}},    
            { '$group': { '_id': {'language': '$language'}}},
            { '$project': { '_id': 0, 'language': '$_id.language'}},
            ]
@@ -61,7 +62,7 @@ def CreateCypher():
  
 	#Generate unique people
 	pipeline= [
-           { '$match': {} },    
+           { '$match': {'sha': { '$exists': True }}},    
            { '$group': { '_id': {'actorlogin': '$actorlogin',  'actorname': '$actorname'}}},
            { '$project': { '_id': 0, 'actorlogin': '$_id.actorlogin', 'actorname': '$_id.actorname'}},
            ]
@@ -73,7 +74,7 @@ def CreateCypher():
 
 	#Generate unique organizations
 	pipeline= [
-           { '$match': {} },    
+           { '$match': {'sha': { '$exists': True }}},    
            { '$group': { '_id': {'organization': '$organization'}}},
            { '$project': { '_id': 0, 'organization': '$_id.organization'}},
            ]
@@ -85,7 +86,7 @@ def CreateCypher():
 
     #Find relations for each repository
 	pipeline= [
-		   { '$match': {}}, 
+		   { '$match': {'sha': { '$exists': True }}}, 
 		   { '$group': {'_id': {'url': '$url',  'full_name': '$full_name','owner': '$owner','organization': '$organization' }, '_a1': {"$addToSet": "$actorlogin"},'_a2': {"$addToSet": "$language"}}},
 		   { '$project': { '_id': 0, 'full_name': "$_id.full_name", 'language': "$_id.language",'owner': "$_id.owner", 'organization': "$_id.organization",'actorlogin': "$_a1",'language': "$_a2" }},
 		   ]
@@ -110,23 +111,26 @@ def CreateCypher():
 			
  	#close file handle
  	f.close()
-
-    print "generated ..... " , CYPERFILE
+	print MyMoment.MT(), "end: generating new nodes and building new relations ..." , CYPHERFILE
+    
     
 def InsertCypher():
-	graph = Graph(os.environ['neoURL'])
-	query1 = "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r"
-	print "Deleting old nodes ....."
-	graph.cypher.execute(query1)
-    
-    #Read nodes file and process
-	f = open(CYPERFILE).read()
-	print "processing new nodes and building new relations ..."
-	graph.cypher.execute(f)
-   
-   
+	if (os.path.exists(CYPHERFILE)):
+		graph = Graph(os.environ['neoURL'])
+		#Read Cypher and process line by line
+		print MyMoment.MT(), "start: inserting new nodes and building new relations ..."
+		with open(CYPHERFILE) as f:
+			for line in f.readlines():
+				graph.cypher.execute(line)
+		print MyMoment.MT(), "end: inserting new nodes and building new relations ..."
+		#Archive Cypher
+		destination = "./ARCHIVE/" + CYPHERFILE
+		os.rename(CYPHERFILE, destination)
+	else:
+		print MyMoment.MT(), "error:", CYPHERFILE, " does not exist"
+
+      
+#Generate Cypher queries from Mongodb      
 CreateCypher()
-#Note: Insert cypher queries using neo-shell
-#$> ./neo4j-shell -file /path-to-cypher
-#InsertCypher()
-   
+#Insert Cypher queries inside neo4j
+InsertCypher()
