@@ -1,7 +1,13 @@
 import datetime
+from time import gmtime, strftime
+import pytz
 
 #Humanize time in milliseconds
 #Reference: http://stackoverflow.com/questions/26276906/python-convert-seconds-from-epoch-time-into-human-readable-time
+#http://www.epochconverter.com/
+#1/6/2015, 8:19:34 AM PST  -> 23 hours ago
+#print HTM(1420561174000/1000)
+
 def HTM(aa):
     a = int(aa)
     b = int(datetime.datetime.now().strftime("%s"))
@@ -18,6 +24,12 @@ def HTM(aa):
     else: return (a)  #Error
 
 
-#http://www.epochconverter.com/
-#1/6/2015, 8:19:34 AM PST  -> 23 hours ago
-#print HTM(1420561174000/1000)
+#My Timestamp used in logfile 
+def MT():
+    fmt = '%Y-%m-%d %H:%M:%S'
+    return (datetime.datetime.now(pytz.timezone("America/Los_Angeles")).strftime(fmt))
+
+#My Timestamp for filename
+def FT():
+    fmt = '%d%b%Y-%H%M%S'
+    return ( datetime.datetime.now(pytz.timezone("America/Los_Angeles")).strftime(fmt) )
