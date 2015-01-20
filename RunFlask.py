@@ -76,17 +76,18 @@ def index():
 	)
 ############################
 #Handle charts    
-@app.route('/charts')
-@app.route('/charts/')
-def charts():
-    Generate()
-    return render_template("charts.html",
-        title = 'Ask GitHub',
-        LCA = DBQueries.ActiveLanguagesBubble(),
-        CF = DBQueries.CommitFrequency(),
-        ARA = ARA,
-        AR = AR
-        )
+#@app.route('/charts')
+#@app.route('/charts/')
+#def charts():
+#    Generate()
+#    return render_template("charts.html",
+#        title = 'Ask GitHub',
+#        LCA = DBQueries.ActiveLanguagesBubble(),
+#        CF = DBQueries.CommitFrequency(),
+#        ARA = ARA,
+#        AR = AR
+#        )
+
 ############################
 #Handle errors        
 @app.errorhandler(404)
@@ -106,5 +107,3 @@ if __name__ == '__main__':
         app.run(host='0.0.0.0', port=os.environ['PORT'])
     else:
         app.run(host=os.environ['myIP'],debug=True)
-        
-    
