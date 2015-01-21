@@ -14,3 +14,4 @@ zope.interface==4.0.5
 bleach==1.4
 py2neo==2.0.2
 regex==2014.12.24
+pytz==2014.4
