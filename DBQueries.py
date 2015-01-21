@@ -9,7 +9,7 @@ import re
 #Local modules
 import RandomQuotes
 import Suggestions
-#import Neo4jQueries
+import Neo4jQueries
 import MyMoment
 
 app = Flask(__name__)
@@ -18,7 +18,8 @@ app = Flask(__name__)
 if (os.environ['deployEnv'] == "production"):
     MONGO_URL = os.environ['connectURLRead']
     connection = MongoClient(MONGO_URL)
-    db = connection.githublive.pusheventCapped
+    #db = connection.githublive.pusheventCapped
+    db = connection.githublive.pushevent
 else: 
     MONGO_URL = os.environ['connectURLRead']
     connection = MongoClient(MONGO_URL)
@@ -212,7 +213,9 @@ def ProcessRepositories(repoName):
         myreturn =""
         #Add recommendation using neo4j
         #similarRepos = Neo4jQueries.FindSimilarRepositories(repoName)
-        similarRepos = FindSimilarRepositories(repoName)
+        #similarRepos = FindSimilarRepositories(repoName)
+        
+        
         for record in mycursor["result"]:
             myreturn = "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>"
             myreturn += "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-code fa-1x\"></i>&nbsp;"+ str(record['language'])
@@ -300,7 +303,7 @@ def Search(query):
     #Aggregation based on regular expression
     pipelineOLD = [
            { '$match': {'$or' : [{'name':qregx},{'description':qregx},{ 'language': qregx },{ 'organization': qregx }] , 'sha': { '$exists': True } }},
-           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}}},
+           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}, '_a1': {"$addToSet": "$actorname"}}},
            { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
            { '$sort' : { 'name': 1 }},
            { '$limit': SearchLimit}
@@ -308,14 +311,16 @@ def Search(query):
     #Aggregation based on index score
     pipeline = [
            { '$match': { '$text': { '$search': query } }},
-           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }}}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
+           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }},'_a1': {"$addToSet": "$actorname"}}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]},'actorname': "$_a1"}},
            #{ '$match': { 'score': { '$gt': 1.0 }}},
            { '$sort':  { 'score': -1}},
            { '$limit': SearchLimit}
            ]
-
+    
     mycursor = db.aggregate(pipeline)
+    #print mycursor
+
     for row in mycursor["result"]:
         tmp1 = ""
         if(row['language']): tmp1 = "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-code fa-1x\"></i>&nbsp;" + HSR(qregx,row['language'].encode('utf-8').strip())
@@ -324,8 +329,10 @@ def Search(query):
         tmp3 = ""
         if(row['description']): tmp3 = "<br/>" + HSR(qregx,row['description'].encode('utf-8').strip())
         output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + HSR(qregx, row['name'].encode('utf-8').strip()) + path3 + tmp1 + tmp2 + tmp3 
+        
+    
         #output += Neo4jQueries.FindSimilarRepositories(row['url'])
-        output += FindSimilarRepositories(row['url'])
+        #output += FindSimilarRepositories(row['url'])
         output += "</li>"
     if (len(output) > 0 ): 
         #TODO: Highlight query in selection
