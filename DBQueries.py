@@ -229,7 +229,9 @@ def ProcessRepositories(repoName):
                 if ( (record['description'] != None) and (len(record['description'])) > 0):
                     myreturn += "</br>" + record['description'].encode('utf-8').strip()
                     #print "Description is not empty -->" , record['description']
-            myreturn += similarRepos
+            
+            #myreturn += similarRepos
+            
             myreturn += "</br><b>Commits from</b>: " +  ', '.join(record['actorname']).encode('utf-8').strip()
             myreturn += "</br><b>Comments</b>:<ul>" 
             for x in record["comment"]: 
