@@ -218,11 +218,11 @@ def ProcessRepositories(repoName):
         
         for record in mycursor["result"]:
             myreturn = "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>"
-            myreturn += "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-code fa-1x\"></i>&nbsp;"+ str(record['language'])
+            #myreturn += "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-code fa-1x\"></i>&nbsp;"+ str(record['language'])
             if (record['count'] > 1): 
-                myreturn += "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-clock-o fa-1x\"></i>&nbsp;" + str(record['count']) + " commit"
-            else:
                 myreturn += "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-clock-o fa-1x\"></i>&nbsp;" + str(record['count']) + " commits"
+            else:
+                myreturn += "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-clock-o fa-1x\"></i>&nbsp;" + str(record['count']) + " commit"
             if(record['organization'] != 'Unspecified'):  myreturn += "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-home fa-1x\"></i>&nbsp;" + str(record['organization']) 
             #Handle None & empty description
             if ('description' in record):
@@ -305,16 +305,16 @@ def Search(query):
     #Aggregation based on regular expression
     pipelineOLD = [
            { '$match': {'$or' : [{'name':qregx},{'description':qregx},{ 'language': qregx },{ 'organization': qregx }] , 'sha': { '$exists': True } }},
-           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}, '_a1': {"$addToSet": "$actorname"}}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
+           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}, '_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description", 'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
            { '$sort' : { 'name': 1 }},
            { '$limit': SearchLimit}
            ]
     #Aggregation based on index score
     pipeline = [
            { '$match': { '$text': { '$search': query } }},
-           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }},'_a1': {"$addToSet": "$actorname"}}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]},'actorname': "$_a1"}},
+           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]},'actorname': "$_a1"}},
            #{ '$match': { 'score': { '$gt': 1.0 }}},
            { '$sort':  { 'score': -1}},
            { '$limit': SearchLimit}
@@ -324,15 +324,19 @@ def Search(query):
     #print mycursor
 
     for row in mycursor["result"]:
+        tmp0=""
+        if (row['count'] > 1): 
+                tmp0 = "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-clock-o fa-1x\"></i>&nbsp;" + str(row['count']) + " commits"
+        else:
+                tmp0= "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-clock-o fa-1x\"></i>&nbsp;" + str(row['count']) + " commit"
         tmp1 = ""
         if(row['language']): tmp1 = "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-code fa-1x\"></i>&nbsp;" + HSR(qregx,row['language'].encode('utf-8').strip())
         tmp2 = ""
         if(row['organization'] != 'Unspecified'): tmp2 = "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-home fa-1x\"></i>&nbsp;" + HSR(qregx,str(row['organization']))
         tmp3 = ""
         if(row['description']): tmp3 = "<br/>" + HSR(qregx,row['description'].encode('utf-8').strip())
-        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + HSR(qregx, row['name'].encode('utf-8').strip()) + path3 + tmp1 + tmp2 + tmp3 
+        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + HSR(qregx, row['name'].encode('utf-8').strip()) + path3 + tmp0 + tmp1 + tmp2 + tmp3 
         
-    
         #output += Neo4jQueries.FindSimilarRepositories(row['url'])
         #output += FindSimilarRepositories(row['url'])
         output += "</li>"
