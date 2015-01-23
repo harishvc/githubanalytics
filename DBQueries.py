@@ -220,10 +220,10 @@ def ProcessRepositories(repoName):
             myreturn = "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>"
             #myreturn += "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-code fa-1x\"></i>&nbsp;"+ str(record['language'])
             if (record['count'] > 1): 
-                myreturn += "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-clock-o fa-1x\"></i>&nbsp;" + str(record['count']) + " commits"
+                myreturn += "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(record['count']) + " commits"
             else:
-                myreturn += "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-clock-o fa-1x\"></i>&nbsp;" + str(record['count']) + " commit"
-            if(record['organization'] != 'Unspecified'):  myreturn += "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-home fa-1x\"></i>&nbsp;" + str(record['organization']) 
+                myreturn += "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(record['count']) + " commit"
+            if(record['organization'] != 'Unspecified'):  myreturn += "<i class=\"lrpadding fa fa-home fa-1x\"></i>&nbsp;" + str(record['organization']) 
             #Handle None & empty description
             if ('description' in record):
                 if ( (record['description'] != None) and (len(record['description'])) > 0):
@@ -326,13 +326,13 @@ def Search(query):
     for row in mycursor["result"]:
         tmp0=""
         if (row['count'] > 1): 
-                tmp0 = "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-clock-o fa-1x\"></i>&nbsp;" + str(row['count']) + " commits"
+                tmp0 = "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(row['count']) + " commits"
         else:
-                tmp0= "&nbsp;&nbsp;&nbsp;" + "<i class=\"fa fa-clock-o fa-1x\"></i>&nbsp;" + str(row['count']) + " commit"
+                tmp0= "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(row['count']) + " commit"
         tmp1 = ""
-        if(row['language']): tmp1 = "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-code fa-1x\"></i>&nbsp;" + HSR(qregx,row['language'].encode('utf-8').strip())
+        if(row['language']): tmp1 = "<i class=\"lrpadding fa fa-code fa-1x\"></i>" + HSR(qregx,row['language'].encode('utf-8').strip())
         tmp2 = ""
-        if(row['organization'] != 'Unspecified'): tmp2 = "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-home fa-1x\"></i>&nbsp;" + HSR(qregx,str(row['organization']))
+        if(row['organization'] != 'Unspecified'): tmp2 = "<i class=\"lrpadding fa fa-home fa-1x\"></i>" + HSR(qregx,str(row['organization']))
         tmp3 = ""
         if(row['description']): tmp3 = "<br/>" + HSR(qregx,row['description'].encode('utf-8').strip())
         output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + HSR(qregx, row['name'].encode('utf-8').strip()) + path3 + tmp0 + tmp1 + tmp2 + tmp3 
