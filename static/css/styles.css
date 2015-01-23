@@ -28,6 +28,12 @@
 	padding-bottom: 15px;
 }
 
+.lrpadding {
+    padding-left: 15px;
+    padding-right: 2px;
+}
+
+
 input#gobutton{
 vertical-align: top;
 cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
