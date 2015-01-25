@@ -223,7 +223,12 @@ def ProcessRepositories(repoName):
                 myreturn += "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(record['count']) + " commits"
             else:
                 myreturn += "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(record['count']) + " commit"
+                
             if(record['organization'] != 'Unspecified'):  myreturn += "<i class=\"lrpadding fa fa-home fa-1x\"></i>&nbsp;" + str(record['organization']) 
+            if (len(record['actorname']) > 1):
+                myreturn += "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(record['actorname'])) + " contributers"
+            else:
+                myreturn += "<i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(record['actorname'])) + " contributer"   
             #Handle None & empty description
             if ('description' in record):
                 if ( (record['description'] != None) and (len(record['description'])) > 0):
@@ -249,6 +254,7 @@ def ProcessRepositories(repoName):
 def RepoQuery (repoURL):
     pipeline= [
            { '$match' : { 'url' : repoURL , 'sha': { '$exists': True }}  },
+           #{ '$sort': {'created_at': -1}},
            { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'_a4': {"$addToSet": "$sha"},'count': { '$sum' : 1 }}},
            { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3", 'sha': "$_a4" , 'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
            ]
@@ -335,7 +341,12 @@ def Search(query):
         if(row['organization'] != 'Unspecified'): tmp2 = "<i class=\"lrpadding fa fa-home fa-1x\"></i>" + HSR(qregx,str(row['organization']))
         tmp3 = ""
         if(row['description']): tmp3 = "<br/>" + HSR(qregx,row['description'].encode('utf-8').strip())
-        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + HSR(qregx, row['name'].encode('utf-8').strip()) + path3 + tmp0 + tmp1 + tmp2 + tmp3 
+        tmp4 = ""
+        if (len(row['actorname']) > 1):
+            tmp4 = "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(row['actorname'])) + " contributers"
+        else:
+            tmp4 = "<i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(row['actorname'])) + " contributer"
+        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + HSR(qregx, row['name'].encode('utf-8').strip()) + path3 + tmp0 + tmp4 + tmp1 + tmp2 + tmp3 
         
         #output += Neo4jQueries.FindSimilarRepositories(row['url'])
         #output += FindSimilarRepositories(row['url'])
