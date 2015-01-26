@@ -21,7 +21,8 @@ def HTM(a, context):
     if (days > 0): return ( str(days) + " days " + context)
     elif (hours > 0): return (str(hours) + " hours " + context)
     elif (minutes > 0): return ( str(minutes) + " minutes " + context)
-    elif (seconds > 0): return (str(seconds) + " seconds " + context)
+    elif (seconds > 1): return (str(seconds) + " seconds " + context)
+    elif (seconds == 1): return (str(seconds) + " second " + context)
     elif (seconds == 0): return ("< 1 second")
     else: return (a)  #Error
 
