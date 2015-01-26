@@ -8,10 +8,8 @@ import pytz
 #1/6/2015, 8:19:34 AM PST  -> 23 hours ago
 #print HTM(1420561174000/1000)
 
-def HTM(aa, context):
-    #print "Processing ....", aa
-    a = int(aa)
-    #a = aa
+def HTM(a, context):
+    #print "Processing ....", a
     b = int(datetime.datetime.now().strftime("%s"))
     #print "Time NOW ...", b
     c = b - a

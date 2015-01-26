@@ -5,6 +5,7 @@ from pymongo import MongoClient
 import os.path, time
 from flask import Flask
 import re
+import datetime
 
 #Local modules
 import RandomQuotes
@@ -34,7 +35,7 @@ LimitActiveLanguages=5
 LimitActiveLanguagesBubble=10
 LimitActiveRepositories=15
 LimitActiveUsers=5
-SearchLimit=10
+SearchLimit=20
 
 def numformat(value):
     return "{:,}".format(value)
@@ -243,7 +244,7 @@ def ProcessRepositories(repoName):
                 #convert milliseconds to seconds
                 #pop first element in the array
                 sha = record['sha'].pop(-1).encode('utf-8').strip()
-                myreturn += "<li>" +  "<a href=" + str(record['url']) + "/commit/" + sha + ">" + MyMoment.HTM(record["created_at"].pop(0)/1000) + "</a>" \
+                myreturn += "<li>" +  "<a href=" + str(record['url']) + "/commit/" + sha + ">" + MyMoment.HTM(int(record["created_at"].pop(-1)/1000),"ago") + "</a>" \
                             + "&nbsp;&nbsp;" + x.encode('utf-8').strip() + "</li>" 
             myreturn +="</ul>"
             #app.logger.debug (myreturn)
@@ -302,6 +303,8 @@ def Search(query):
     output = ""
     qregx =""
     nwords = []
+    #Query Start Time in milliseconds
+    QST = int(datetime.datetime.now().strftime("%s"))
     #Handle query with more than one word and spaces between words
     words = query.split()
     for word in words:
@@ -322,15 +325,17 @@ def Search(query):
            { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'count': { '$sum' : 1 }}},
            { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]},'actorname': "$_a1"}},
            #{ '$match': { 'score': { '$gt': 1.0 }}},
-           { '$sort':  { 'score': -1}},
-           { '$limit': SearchLimit}
+           { '$sort':  { 'score': -1, 'count': -1}}
+           #{ '$limit': SearchLimit}
            ]
     
     mycursor = db.aggregate(pipeline)
     #print mycursor
-
+    
+    totalSearchResults = 0
     for row in mycursor["result"]:
         tmp0=""
+        totalSearchResults = totalSearchResults + 1 
         if (row['count'] > 1): 
                 tmp0 = "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(row['count']) + " commits"
         else:
@@ -353,7 +358,7 @@ def Search(query):
         output += "</li>"
     if (len(output) > 0 ): 
         #TODO: Highlight query in selection
-        return ("<ul>" + output + "</ul>")
+        return ("<p>About <span class='digital'>" + str(totalSearchResults)  +  "</span> matches (" + str(MyMoment.HTM(QST,"")).strip() +")</p>" + "<ul>" + output + "</ul>")
     else:
         return ("EMPTY")  #0 rows return
         
