@@ -358,7 +358,7 @@ def Search(query):
         output += "</li>"
     if (len(output) > 0 ): 
         #TODO: Highlight query in selection
-        return ("<p>About <span class='digital'>" + str(totalSearchResults)  +  "</span> matches (" + str(MyMoment.HTM(QST,"")).strip() +")</p>" + "<ul>" + output + "</ul>")
+        return ("<p>About <span class='digital'>" + numformat(totalSearchResults)  +  "</span> matches (" + str(MyMoment.HTM(QST,"")).strip() +")</p>" + "<ul>" + output + "</ul>")
     else:
         return ("EMPTY")  #0 rows return
         
