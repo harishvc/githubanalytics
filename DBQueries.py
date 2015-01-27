@@ -243,8 +243,8 @@ def ProcessRepositories(repoName):
             for x in record["comment"]: 
                 #convert milliseconds to seconds
                 #pop first element in the array
-                sha = record['sha'].pop(-1).encode('utf-8').strip()
-                myreturn += "<li>" +  "<a href=" + str(record['url']) + "/commit/" + sha + ">" + MyMoment.HTM(int(record["created_at"].pop(-1)/1000),"ago") + "</a>" \
+                sha = record['sha'].pop(0).encode('utf-8').strip()
+                myreturn += "<li>" +  "<a href=" + str(record['url']) + "/commit/" + sha + ">" + MyMoment.HTM(int(record["created_at"].pop(0)/1000),"ago") + "</a>" \
                             + "&nbsp;&nbsp;" + x.encode('utf-8').strip() + "</li>" 
             myreturn +="</ul>"
             #app.logger.debug (myreturn)
@@ -255,14 +255,15 @@ def ProcessRepositories(repoName):
 def RepoQuery (repoURL):
     pipeline= [
            { '$match' : { 'url' : repoURL , 'sha': { '$exists': True }}  },
-           #{ '$sort': {'created_at': -1}},
-           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'_a4': {"$addToSet": "$sha"},'count': { '$sum' : 1 }}},
+           { '$sort': {'created_at': -1}},
+           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'_a4': {"$push": "$sha"},'count': { '$sum' : 1 }}},
            { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3", 'sha': "$_a4" , 'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
            ]
     mycursor = db.aggregate(pipeline)
+    
     #Debug
     #for row in mycursor["result"]:
-    #    print row
+        #print row
         
     return mycursor
 
