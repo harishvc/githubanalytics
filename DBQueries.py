@@ -19,15 +19,11 @@ app = Flask(__name__)
 if (os.environ['deployEnv'] == "production"):
     MONGO_URL = os.environ['connectURLRead']
     connection = MongoClient(MONGO_URL)
-    #db = connection.githublive.pusheventCapped
     db = connection.githublive.pushevent
 else: 
-    MONGO_URL = os.environ['connectURLRead']
+    MONGO_URL = os.environ['connectURLReaddev']
     connection = MongoClient(MONGO_URL)
-    db = connection.githublive.pusheventCapped
-    #DEV
-    #MONGO_URL = os.environ['connectURLdev']
-    #db = connection.githubdev.pushevent
+    db = connection.githubdev.pushevent
      
 
 #Global variables
