@@ -8,7 +8,7 @@ app = Flask(__name__)
 #TODO: Generate reply
 
 def FindSimilarRepositories(Inputrepo):
-	graph = Graph(os.environ['neoURL'])
+	graph = Graph(os.environ['neoURLProduction'])
 	output = []
 	outputString =""
 	path1 = "<a href=\"/?q=repository "
@@ -18,7 +18,7 @@ def FindSimilarRepositories(Inputrepo):
 	query2="WHERE me.url = " + "\"" + Inputrepo + "\"" 
 	query3=""" AND type (r1) = type (r2)
         	   RETURN repo.name as reponame, repo.url as url, count(stuff) as count                
-           	   ORDER BY count(stuff) DESC LIMIT 5"""               
+           	   ORDER BY count(stuff) DESC LIMIT 3"""               
 
 	#print ("Checking for ... ", Inputrepo)
 	query = query1 + query2 + query3  
