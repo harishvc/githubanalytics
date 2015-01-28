@@ -62,49 +62,58 @@ module.exports.users = function (cb) {
 }
 
 module.exports.MyParser = function (cb) {
+  //console.log("1111111111111111");
   var commits = {};
   var s = new CallbackStream(function () {
     cb(null, commits)
   })
   s.commits = {}
   var actorname="";
+  var organization="";
   s.on("data", function (d) {
-    if (d.type === "PushEvent" && (d.repository)) {
-    	d.payload.shas.forEach(function (sha) {
+	  //console.log("Found ......",d.type,d.repo.name);
+    if (d.type === "PushEvent" && (d.repo)) {
+     	//console.log ("processing commit");
+    	d.payload.commits.forEach(function (sha) {
+    		//console.log("#############" , sha);
             var info = {};
-            //Handle empty name attribute
-            if (d.actor_attributes.name != null && d.actor_attributes.name != 'undefined' ){
-            	actorname = d.actor_attributes.name;
-            }
-            else {
-            	actorname =  d.actor_attributes.login;
-            }
             info = { 
-    				sha: sha[0],
-    				//created_at: d.created_at,
+            		type: "PushEvent",
+    				sha: sha['sha'],
                     created_at:mytime.tE(d.created_at),
-    				full_name: d.repository.full_name,
-    				name: d.repository.name,
-    				url: d.repository.url,
-    				language: d.repository.language,
-    				description: d.repository.description,
-                    watchers: d.repository.watchers_count,
-                    stargazers: d.repository.stargazers_count,
-                    forks: d.repository.forks_count,
-                    issues: d.repository.open_issues_count,
-                    owner: d.repository.owner,
-                    organization: d.repository.organization,
-                    //actor: sha[3],
-                    actorlogin: d.actor_attributes.login,
-                    actorname:  actorname,
+    				full_name: d.repo.name,
+    				url: "http://github.com/" + d.repo.name,
+    				owner: d.actor.login,
+    				actorname:  sha['author']['name'],
+                    actoremail: sha['author']['email'],
+                    comment: sha['message'],
                     ref: d.payload.ref,
-                    master_branch: d.repository.master_branch,
-                    comment: sha[2] 
-    				};
-    		//Check formatted JSON
+    				//PATCH
+    				name: d.repo.name,
+    				language: "",
+    				description: "",	
+    				actorlogin: sha['author']['email']
+    					
+    				//MISSING - IMPORTANT
+    				//language: d.repository.language,
+    				//description: d.repository.description,
+    				//actorlogin: sha['author']['email'],
+                    /////////////////
+    				//MISSING - IMPORTANT 2
+                    //watchers: d.repository.watchers_count,
+                    //stargazers: d.repository.stargazers_count,
+                    //forks: d.repository.forks_count,
+                    //issues: d.repository.open_issues_count,
+                    //ref: d.payload.ref,
+                    //master_branch: d.repository.master_branch,           
+    				//actor: sha[3],
+             };
+           	if (typeof d.org !== 'undefined' && d.org.login !== 'null') 
+       				{ info['organization'] = d.org.login;}
+           	//Check formatted JSON
     		//http://jsonformatter.curiousconcept.com
     		//http://codebeautify.org/view/jsonviewer
-    		s.commits[sha[0]] = info;
+    		s.commits[sha['sha']] = info;
     	}) //end foreach sha
     }  //end 'PushEvent'
   }) //end s.on('data')
@@ -138,12 +147,14 @@ module.exports.readFile = function (path, options) {
     , z = new zlib.createGunzip() 
     , j = jsonstream.parse()
   
-  if (options.gzip !== false) {
-    f.pipe(z)
-    z.pipe(j)
-  } else {
-    f.pipe(j)
-  }
+  //if (options.gzip !== false) {
+    //f.pipe(z)
+    //z.pipe(j)
+  //} else {
+    //f.pipe(j)
+  //}
+  
+  f.pipe(j)
   
   return wrap(j)
 }

@@ -12,6 +12,7 @@ var assert = require('assert');
 var underscore = require('underscore');
 var moment = require('moment');
 var path = require("path");
+var numeral = require('numeral');
 
 GetParse();
 
@@ -22,34 +23,54 @@ GetParse();
 function GetParse() {
 	var count = 0; //number of entries
 	var rows = [];
-	var TimeNow = moment().format();
-	var TimeAgo = moment().subtract(2, 'hours').format("YYYY-MM-DD-H");
+	//var TimeNow = moment.utc().format();
+	//console.log (TimeNow + " processing " + URL);
+	//Time an hour ago in UTC
+	var TimeAgo = moment.utc().subtract(1, 'hours').format("YYYY-MM-DD-H");
 	var URL = "http://data.githubarchive.org/" + TimeAgo + ".json.gz";
-	console.log (TimeNow + " processing " + URL);
+	//TEST
+	//var URL = "http://23.239.20.13/github-events/github-events-2015Jan19-sample1.json.gz";
+	//var URL = "http://data.githubarchive.org/2015-01-28-0.json.gz";
+	console.log("###############################################");
+	console.log (moment().format("YYYY-MM-DD HH:mm:ss") + " start processing ... " + URL);
 	var a = archive(URL, {gzip:true});
-        var com = a.MyParser(function (err, commits) {
+	var com = a.MyParser(function (err, commits) {
       	 if (err) return console.log(err);
-    	  //console.log(JSON.stringify(com.commits));
+    	  //console.log(JSON.stringify(com.commits)); //print {}
     	  var tmp = JSON.stringify(com.commits);
     	  var result = JSON.parse(tmp);
     	  //create array
     	  for(var k in result) {
-    	    //console.log (k);          //print keys
+    	    //console.log (k);          //print key
     	    count ++;
     	    rows.push(result[k]);       //create array
-            //console.log (result[k]);  //print values
+            //console.log (result[k]);  //print value
     	  }
-    	console.log ("## entries: " + count);
+    	console.log ("## entries generated fron githubarchive.org: " + numeral(count).format('0,0') );
+    	console.log (moment().format("YYYY-MM-DD HH:mm:ss") + " end processing");
     	//Insert into MongoDB
-    	console.log("## start insert: "+ moment().format());
+    	//console.log("## start insert: "+ moment().format());
+    	console.log (moment().format("YYYY-MM-DD HH:mm:ss") + " start inserting to mongodb ");
     	MongoInsert(rows,count);
-        }); //end MyParser
+    	}
+    ); //end MyParser
 } //end GetParse()
 
 function MongoInsert(rows,count)
 {
-	var connectURL  = process.env.connectURL;
-	var mycollection= process.env.mycollection;
+    var connectURL, mycollection;
+    if (process.env.deployEnv == "production") {
+    	connectURL  = process.env.connectURL;
+    	mycollection= process.env.mycollection;
+    }
+    else
+    	{
+    	connectURL   = process.env.connectURLdev;
+    	mycollection = process.env.mycollectiondev;
+    	console.log ("### DEVELOPMENT ###")
+    	console.log (connectURL);
+    	console.log (mycollection);
+    }
 	var db;
 	var col;
 
@@ -93,16 +114,32 @@ function MongoInsert(rows,count)
 	  function (callback) {
 		  //Delete entries older than 24 hours
 		  var TimePeriod = moment().subtract(24, 'hours').valueOf();
-		  console.log ("Deleting entries older than " + moment(TimePeriod).format());
-		  col.remove({created_at: {$lt: TimePeriod}},function(error,numberRemoved){
-			  console.log("## deleted: " + numberRemoved);
+		  //console.log ("Deleting entries older than " + moment(TimePeriod).format());
+		  console.log ("Deleting entries older than " + TimePeriod);
+		  col.remove({created_at: {'$lt': TimePeriod}},function(error,numberRemoved){
+			  console.log("## deleted: " + numeral(numberRemoved).format('0,0')   );
 			  callback(null,"delete sucess");
-    	});
+    	  });
+	  },
+	  function (callback) {
+		  //Re-index
+		  console.log ("start re-index");
+		  col.reIndex({},function(error){
+			  callback(null,"re-index sucess");
+    	  });
+      },
+      function (callback) {
+    	  //# documents
+    	  col.count(function(err, count) {
+            console.log("### documents:",numeral(count).format('0,0'));
+            callback(null,"count");
+          });
       },
 	  function (callback){
 		  //console.log ("close db");
 		  db.close();
-		  console.log("## end insert: "+ moment().format());
+		  //console.log("## end insert: "+ moment().format());
+		  console.log (moment().format("YYYY-MM-DD HH:mm:ss") + " end inserting to mongodb ");
 		  callback(null,"connection closed");
 	  }
 	 ], function(error, results) {
