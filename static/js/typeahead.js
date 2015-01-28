@@ -7,7 +7,7 @@ var nbaTeams = new Bloodhound({
 	  limit: 10,
 	  //TODO
 	  //local: '/static/typeahead/repos.json',  //NOTHING HAPPENS
-	  prefetch: '/static/typeahead/repos.json',  //WORKS WITH CONSOLE ERROR - TOO BIG!
+	  prefetch: '/static/typeahead/repos-test.json',  //WORKS WITH CONSOLE ERROR - TOO BIG!
 	   //remote: '/static/typeahead/repos-test.json' //WORKS BUT NOT ACCURATE
 	});
 
