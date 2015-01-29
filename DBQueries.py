@@ -220,7 +220,10 @@ def ProcessRepositories(repoName):
                 myreturn += "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(record['count']) + " commits"
             else:
                 myreturn += "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(record['count']) + " commit"
-                
+            if (len(record['refc']) > 1):
+                myreturn += "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(record['refc'])) + " branches"
+            else:
+                myreturn += "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(record['refc'])) + " branch"    
             if(record['organization'] != 'Unspecified'):  myreturn += "<i class=\"lrpadding fa fa-home fa-1x\"></i>&nbsp;" + str(record['organization']) 
             if (len(record['actorname']) > 1):
                 myreturn += "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(record['actorname'])) + " contributers"
@@ -253,8 +256,8 @@ def RepoQuery (repoURL):
     pipeline= [
            { '$match' : { 'url' : repoURL , 'sha': { '$exists': True }}  },
            { '$sort': {'created_at': -1}},
-           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'_a4': {"$push": "$sha"},'_a5': {"$push": "$ref"},'count': { '$sum' : 1 }}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3", 'sha': "$_a4" ,'ref': "$_a5" ,'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
+           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'_a4': {"$push": "$sha"},'_a5': {"$push": "$ref"},'_a6': {"$addToSet": "$ref"},'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3", 'sha': "$_a4" ,'ref': "$_a5" ,'refc': "$_a6",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
            ]
     mycursor = db.aggregate(pipeline)
     
@@ -319,10 +322,10 @@ def Search(query):
            ]
     #Aggregation based on index score
     pipeline = [
-           { '$match': { '$text': { '$search': query } }},
-           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'count': { '$sum' : 1 }}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]},'actorname': "$_a1"}},
-           #{ '$match': { 'score': { '$gt': 1.0 }}},
+           { '$match': { '$text': { '$search': query }, 'type':'PushEvent' }},
+           { '$group':  {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'name': "$_id.name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]},'actorname': "$_a1",'ref': '$_a3'}},
+            #{ '$match': { 'score': { '$gt': 1.0 }}},
            { '$sort':  { 'score': -1, 'count': -1}}
            #{ '$limit': SearchLimit}
            ]
@@ -349,7 +352,12 @@ def Search(query):
             tmp4 = "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(row['actorname'])) + " contributers"
         else:
             tmp4 = "<i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(row['actorname'])) + " contributer"
-        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + HSR(qregx, row['name'].encode('utf-8').strip()) + path3 + tmp0 + tmp4 + tmp1 + tmp2 + tmp3 
+        tmp5 = ""
+        if (len(row['ref']) > 1):
+            tmp5 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branches"
+        else:
+            tmp5 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branch"
+        output += "<li>" + path1 + row['url'].encode('utf-8').strip() + path2 + HSR(qregx, row['name'].encode('utf-8').strip()) + path3 + tmp0 + tmp5 + tmp4 + tmp1 + tmp2 + tmp3 
         
         #output += Neo4jQueries.FindSimilarRepositories(row['url'])
         #output += FindSimilarRepositories(row['url'])
