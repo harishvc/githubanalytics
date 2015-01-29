@@ -241,6 +241,7 @@ def ProcessRepositories(repoName):
                 #pop first element in the array
                 sha = record['sha'].pop(0).encode('utf-8').strip()
                 myreturn += "<li>" +  "<a href=" + str(record['url']) + "/commit/" + sha + ">" + MyMoment.HTM(int(record["created_at"].pop(0)/1000),"ago") + "</a>" \
+                            + "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i> branch:" + str(record['ref'].pop(0).replace('refs/heads/','')) \
                             + "&nbsp;&nbsp;" + x.encode('utf-8').strip() + "</li>" 
             myreturn +="</ul>"
             #app.logger.debug (myreturn)
@@ -252,8 +253,8 @@ def RepoQuery (repoURL):
     pipeline= [
            { '$match' : { 'url' : repoURL , 'sha': { '$exists': True }}  },
            { '$sort': {'created_at': -1}},
-           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'_a4': {"$push": "$sha"},'count': { '$sum' : 1 }}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3", 'sha': "$_a4" , 'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
+           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'_a4': {"$push": "$sha"},'_a5': {"$push": "$ref"},'count': { '$sum' : 1 }}},
+           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3", 'sha': "$_a4" ,'ref': "$_a5" ,'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
            ]
     mycursor = db.aggregate(pipeline)
     
