@@ -237,7 +237,7 @@ def ReportRepositoriesBy(type,sortBy):
                     { '$match': {'type':'PushEvent'}},
                     { "$group": {"_id": {"full_name": "$full_name", "organization": "$organization"},"authoremails":{"$addToSet":"$actoremail"},"ref":{"$addToSet":"$ref"}, "total": { "$sum": 1 }}},
                     { "$project": {"_id":0,"full_name":"$_id.full_name","organization":"$_id.organization","total": "$total","branches":{"$size":"$ref"},"authors":{"$size":"$authoremails"}}},
-                    { "$sort" : {sortBy:-1}},
+                    { "$sort" : { sortBy: -1}},
                     { "$limit": DefaultLimit} 
                     ]
     mycursor = db.aggregate(pipeline)
