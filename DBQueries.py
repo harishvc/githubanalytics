@@ -32,6 +32,7 @@ LimitActiveLanguagesBubble=10
 LimitActiveRepositories=15
 LimitActiveUsers=5
 SearchLimit=20
+DefaultLimit=10
 
 def numformat(value):
     return "{:,}".format(value)
@@ -195,6 +196,8 @@ def ProcessQuery(query):
             return TotalEntries("commits")
         elif  (query.startswith("repository")):
             return ProcessRepositories(query.replace('repository ', ''))
+        elif  (query == "trending now"):
+            return SearchRepositoriesBy("WatchEvent","stars")
         else:
             #return ("EMPTY")
             #Global Search
@@ -367,7 +370,44 @@ def Search(query):
         return ("<p><span class='digital'>" + numformat(totalSearchResults)  +  "</span> matches (" + str(MyMoment.HTM(QST,"")).strip() +")</p>" + "<ul>" + output + "</ul>")
     else:
         return ("EMPTY")  #0 rows return
+
+
+def SearchRepositoriesBy(type,sortBy):
+    path1 = "<a href=\"/?q=repository "
+    path2 = "&amp;action=Search\">"
+    path3 = "</a>"
+    output =""
+    pipeline =[]
+    if type in ('WatchEvent' or 'PushEvent'):
+        pipeline = [
+                   { '$match': {'type':type}}, 
+                   { '$group': {'_id': {'full_name': '$full_name'}, 'stars': { '$sum' : 1 }}},
+                   { '$project': { '_id': 0, 'full_name': '$_id.full_name', 'stars': '$stars' } },
+                   { '$sort' : { sortBy: -1 }},
+                   { '$limit': DefaultLimit}
+                   ]
+    elif (type == 'Active'):
+        pipeline= [
+                    { '$match': {'type':'PushEvent'}},
+                    { "$group": {"_id": {"full_name": "$full_name"},"authoremails":{"$addToSet":"$actoremail"},"ref":{"$addToSet":"$ref"}, "total": { "$sum": 1 }}},
+                    { "$project": {"_id":0,"full_name":"$_id.full_name","total": "$total","branches":{"$size":"$ref"},"authors":{"$size":"$authoremails"}}},
+                    { "$sort" : {"authors":-1}},
+                    { "$limit": DefaultLimit} 
+                    ]
+    mycursor = db.aggregate(pipeline)
+    totalSearchResults = 0
+    for row in mycursor["result"]:
+        totalSearchResults = totalSearchResults + 1 
+        tmp0=""
+        #totalSearchResults = totalSearchResults + 1 
+        if (row['stars'] > 1): 
+                tmp0 = "<i class=\"lrpadding fa fa-star fa-1x\"></i>" + numformat(row['stars']) + " stars"
+        else:
+                tmp0= "<i class=\"lrpadding fa fa-star fa-1x\"></i>" + str(row['stars']) + " star"
+        output += "<li><a href=\"http://www.github.com/" +  row['full_name'].encode('utf-8').strip() + "\">" + row['full_name'].encode('utf-8').strip() + "</a>" + tmp0 + "</li>" 
         
+    return ("<p>Trending repositories in the past 24 hours</p><ul>" + output + "</ul>")
+
 
 def CloseDB():
     connection.close()
