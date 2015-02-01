@@ -65,6 +65,15 @@ def numformat(value):
 def TotalEntries (type):
     return ("<div class=\"digital\">" + numformat(db.count()) + "</div> " + type)
 
+def FindDistinct(fieldName,type):
+    pipeline= [
+           { '$match': {} },    
+           { '$group': { '_id': fieldName}},
+           { '$group': { '_id': 1, 'count': { '$sum': 1 }}}
+           ]
+    mycursor = db.aggregate(pipeline)
+    for row in mycursor["result"]:
+        return ("<div class=\"digital\">" + numformat(row['count']) + "</div> " + type)
         
 def ProcessRepositories(repoName):
     global ShowSuggestion
@@ -237,7 +246,7 @@ def ReportRepositoriesBy(type,sortBy):
             tmp0 = "<i class=\"lrpadding fa fa-star fa-1x\"></i>" + numformat(row['stars']) + " stars"
             output += "<li><a href=\"http://www.github.com/" +  row['full_name'].encode('utf-8').strip() + "\">" + row['full_name'].encode('utf-8').strip() + "</a>" + tmp0 + "</li>" 
         else:
-            tmp0 = "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(row['total']) + " commits"
+            tmp0 = "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['total']) + " commits"
             tmp1 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches"    
             tmp2 = "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors"
             tmp4 = ""
