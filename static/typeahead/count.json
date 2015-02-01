@@ -1,10 +1,5 @@
 [
 { 
-  "label": "active languages",
-  "value": "active languages",
-  "tokens": ["active", "languages"]
-},
-{ 
   "label": "active users",
   "value": "active users",
   "tokens": ["active","users"]
