@@ -1,0 +1,23 @@
+[
+{ 
+  "label": "trending now",
+  "value": "trending now",
+  "tokens": ["active", "trending", "repo", "trend"]
+},
+{ 
+  "label": "top active repositories by contributors",
+  "value": "top active repositories by contributors",
+  "tokens": ["active","repo", "top", "contributor"]
+},
+{ 
+  "label": "top active repositories by branches",
+  "value": "top active repositories by branches",
+  "tokens": ["active","repo", "top", "branch"]
+},
+{ 
+  "label": "top active repositories by commits",
+  "value": "top active repositories by commits",
+  "tokens": ["active","repo", "top", "commit"]
+}
+]
+

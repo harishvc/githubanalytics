@@ -5,18 +5,15 @@ var nbaTeams = new Bloodhound({
 	  datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.tokens.join(' ')); },
 	  queryTokenizer: Bloodhound.tokenizers.whitespace,
 	  limit: 10,
-	  //TODO
-	  //local: '/static/typeahead/repos.json',  //NOTHING HAPPENS
-	  prefetch: '/static/typeahead/repos-test.json',  //WORKS WITH CONSOLE ERROR - TOO BIG!
-	   //remote: '/static/typeahead/repos-test.json' //WORKS BUT NOT ACCURATE
+	  prefetch: '/static/typeahead/count.json'
 	});
 
 	var nhlTeams = new Bloodhound({
 	  //datumTokenizer: Bloodhound.tokenizers.obj.whitespace('tokens'),
-	   datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.tokens.join(' ')); },
+	  datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.tokens.join(' ')); },
 	  queryTokenizer: Bloodhound.tokenizers.whitespace,
 	  limit: 10,
-	  prefetch: '/static/typeahead/active.json'
+	  prefetch: '/static/typeahead/reports.json'
 	});
 
 	//Clear cache
@@ -34,7 +31,7 @@ var nbaTeams = new Bloodhound({
 	  displayKey: 'label',
 	  source: nbaTeams.ttAdapter(),
 	  templates: {
-	    header: '<h3 class="league-name">Respositories</h3>'
+	    header: '<h3 class="league-name">Questions?</h3>'
 	  }
 	},
 	{
@@ -42,29 +39,12 @@ var nbaTeams = new Bloodhound({
 	  displayKey: 'label',
 	  source: nhlTeams.ttAdapter(),
 	  templates: {
-	    header: '<h3 class="league-name">Active Listings</h3>'
+	    header: '<h3 class="league-name">What&#39s Happening now?</h3>'
 	  }
 	}
 	)
 
 	//TODO: Events for Analytics
 	//http://ericsaupe.com/using-twitter-typeahead-js-custom-event-triggers/
-	//.on('typeahead:opened', onOpened)
-    //.on('typeahead:selected', onAutocompleted)
-    //.on('typeahead:autocompleted', onSelected);
-	//function onOpened($e) {
-	  //  console.log('opened');
-	//}
-
-	//function onAutocompleted($e, datum) {
-	  //  console.log('autocompleted');
-	   // console.log(datum);
-	//}
-
-	//function onSelected($e, datum) {
-	  //  console.log('selected');
-	   // console.log(datum);
-	//}
-
-
+	
 });
