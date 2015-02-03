@@ -75,6 +75,9 @@ def FindDistinct(fieldName,type):
     for row in mycursor["result"]:
         return ("<div class=\"digital\">" + numformat(row['count']) + "</div> " + type)
         
+def CheckNewRepo(r):
+    return (db.find_one({"type":"CreateEvent","full_name":r}))
+
 def ProcessRepositories(repoName):
     global ShowSuggestion
     mycursor = RepoQuery(repoName)
@@ -91,7 +94,7 @@ def ProcessRepositories(repoName):
             myreturn = "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>"
             #myreturn += "&nbsp;&nbsp;&nbsp;"+ "<i class=\"fa fa-code fa-1x\"></i>&nbsp;"+ str(record['language'])
             if (record['count'] > 1): 
-                myreturn += "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(record['count']) + " commits"
+                myreturn += "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + numformat(record['count']) + " commits"
             else:
                 myreturn += "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(record['count']) + " commit"
             if (len(record['refc']) > 1):
@@ -187,7 +190,7 @@ def Search(query):
         tmp0=""
         totalSearchResults = totalSearchResults + 1 
         if (row['count'] > 1): 
-                tmp0 = "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(row['count']) + " commits"
+                tmp0 = "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['count']) + " commits"
         else:
                 tmp0= "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + str(row['count']) + " commit"
         tmp1 = ""
