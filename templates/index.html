@@ -27,8 +27,8 @@
 <hr/>
 
 <!-- Display Results -->
-<div id="progress"><br/><br/>Please wait as your request is processed ... <img src="/static/pics/loading.gif"/></div>
-{% if query[0]["text"] | length>= 1 %}
+<div id="progress"><br/><br/>Please wait as your request is processed ... <i class="fa fa-spinner fa-spin fa-1x"></i></div>
+{% if query[0]["text"] | length>= 1 %}                                    
 	<div id="result">
            <p>{{ processed_text.decode('utf-8')  | safe }}</p>
         </div>
