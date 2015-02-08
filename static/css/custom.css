@@ -1,0 +1,84 @@
+@font-face {
+        font-family: 'digi';
+        src: url('/static/css/digi.ttf');
+}
+
+.digital {
+    font-family: 'digi';
+    font-size: 350%;
+    display: inline;
+} 
+
+#searchstatus {
+	padding-top: 20px;
+}
+
+#qsuggestion {
+	padding-top: 15px;
+}
+
+.rpadding {
+	padding-left: 1px;
+    padding-right: 2px;
+}
+
+.lrpadding {
+    padding-left: 10px;
+    padding-right: 2px;
+}
+
+
+hr {
+	margin-top: 25px;
+	margin-bottom: 15px;
+	border: 5px;
+	border-top: 5px solid #eee;
+	width: 50%;
+	margin-left: 0;  //left align
+}
+
+
+.list-group-item {
+	padding: 5px 5px;
+	padding-bottom: 20px; //Handle large font size
+}
+
+.list-group-DELETE {
+	border-radius: 0;
+	border-left: none;
+	border-right: none;
+}
+
+.jumbotron {
+	background-color: #fff;
+	margin-bottom: 0px;
+	text-align: left;
+    padding: 0.5em 0.6em;
+    p {
+        font-size: 1.5em;
+    }
+}
+
+text {
+  font: 12px sans-serif;
+}
+
+body {
+   padding-left: 50px;
+   padding-top: 75px; 
+}
+
+#progress { 
+  display: none;
+ }
+
+
+#navhome {
+    pointer-events : none;
+}
+
+//Contributors using list group badge
+.cstyle {
+	padding-left: 15px;
+    background-color: #fff;	
+}

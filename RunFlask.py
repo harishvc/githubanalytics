@@ -22,7 +22,7 @@ import DBQueries
 ARA =[]
 AR = []
 ShowSuggestion=False                 #Show Suggestion
-NORESULT="You've got me stumped!"    #No result
+NORESULT="<div class=\"col-sm-12\"><p id=\"searchstatus\">You've got me stumped!</p></div>"    #No result
 
 
 def Generate():
@@ -49,6 +49,8 @@ def index():
     processed_text1  = ""
     global ShowSuggestion
     ShowSuggestion = False
+    #Debug
+    #time.sleep(5)
     if request.method == 'GET':
         if 'q' in request.args:
             app.logger.debug("query from user ===> %s<===", request.args['q'])
@@ -68,12 +70,13 @@ def index():
         query =""
         processed_text1 =""
             
-    return render_template("index.html",
+    return render_template("index-bootstrap.html",
         title = 'Ask GitHub',
+        appenv = os.environ['deployEnv'],
         query = [{"text": query}],     
         processed_text = processed_text1,
-        qr = Suggestions.RandomQuerySuggestions() if (query == "" or bool(ShowSuggestion)) else ""    
-	)
+        qr = Suggestions.RandomQuerySuggestions() if (query == "" or bool(ShowSuggestion)) else "")
+    
 ############################
 #Handle charts    
 #@app.route('/charts')
@@ -101,9 +104,8 @@ def error(e):
 def hello(name=None):
      return render_template('hello.html', name=name)
 
-
 if __name__ == '__main__':
     if (os.environ['deployEnv'] == "production"):
-        app.run(host='0.0.0.0', port=os.environ['PORT'])
+        app.run(host='0.0.0.0', port=os.environ['PORT']) 
     else:
         app.run(host=os.environ['myIP'],debug=True)
