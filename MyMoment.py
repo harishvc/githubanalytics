@@ -4,9 +4,6 @@ import pytz
 
 #Humanize time in milliseconds
 #Reference: http://stackoverflow.com/questions/26276906/python-convert-seconds-from-epoch-time-into-human-readable-time
-#http://www.epochconverter.com/
-#1/6/2015, 8:19:34 AM PST  -> 23 hours ago
-#print HTM(1420561174000/1000)
 def HTM(a, context):
     #print "Processing ....", a
     b = int(datetime.datetime.now().strftime("%s"))
@@ -23,19 +20,15 @@ def HTM(a, context):
     elif (seconds > 1): return (str(seconds) + " seconds " + context)
     elif (seconds == 1): return (str(seconds) + " second " + context)
     elif (seconds == 0): return ("< 1 second")
-    else: return (a)  #Error
+    else: return ("Now ")  #Error
 
 #Humanize time in hours
 def HTH(a):
-    #print "Processing ....", a
     b = int(datetime.datetime.now().strftime("%s"))
-    #print "Time NOW ...", b
     c = b - a
-    #print "Time elapsed ...", c
     days = c // 86400
     hours = c // 3600 % 24
     return hours
-
 
 #My Timestamp used in logfile 
 def MT():

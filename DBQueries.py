@@ -148,8 +148,8 @@ def ProcessRepositories(repoName):
             
             myreturn += "<li class=\"list-group-item\">" + SB12 + "Comments" + "<div class=\"panel-group\" id=\"accordion\">"
             for k, v in CD.items():
-               h = " hour"
-               if (int(k) > 1): h = " hours"
+               #h = " hour"
+               h = " hours" if (int(k) > 1) else " hour"
                myreturn += "<div class=\"panel panel-default\"><div class=\"panel-heading\">"
                myreturn +=  "<p class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#" + str(k) + "\">"+ str(k) + h + " ago</a></p></div>"
                myreturn +=  "<div id=\"" + str(k) + "\" class=\"panel-collapse collapse\"><div class=\"panel-body\">" + v + "</div></div></div>" 
@@ -297,7 +297,7 @@ def ReportTopRepositoriesBy(heading,sortBy):
         tmp1 = "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['total']) + " commits"
         tmp2 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches"    
         tmp3 = "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors"
-        if('organization' in row): tmp4 = "<i class=\"lrpadding fa fa-home fa-1x\"></i>" + str(row['organization']) ; tmp4 =""
+        tmp4 = "<i class=\"lrpadding fa fa-home fa-1x\"></i>" + str(row['organization']) if ('organization' in row.keys()) else "" 
         output += LIS + SB5 + path1 + row['full_name'].encode('utf-8').strip() + path2 + row['full_name'].encode('utf-8').strip() + path3 + DE + SB7 + tmp1 + tmp2 + tmp3  + tmp4 + DE + LIE
             
     return ( sh + ULS + output  + ULE)
