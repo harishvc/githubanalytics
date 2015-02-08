@@ -21,7 +21,7 @@ import DBQueries
 #Global variables
 ARA =[]
 AR = []
-ShowSuggestion=False                 #Show Suggestion
+ShowSuggestion=False #Show Suggestion
 NORESULT="<div class=\"col-sm-12\"><p id=\"searchstatus\">You've got me stumped!</p></div>"    #No result
 
 
