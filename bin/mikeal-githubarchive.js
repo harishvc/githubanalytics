@@ -62,7 +62,6 @@ module.exports.users = function (cb) {
 }
 
 module.exports.MyParser = function (cb) {
-  //console.log("1111111111111111");
   var commits = {};
   var s = new CallbackStream(function () {
     cb(null, commits)
@@ -88,19 +87,16 @@ module.exports.MyParser = function (cb) {
                     actoremail: sha['author']['email'],
                     comment: sha['message'],
                     ref: d.payload.ref,
-    				//PATCH
+    				//PATCH  (GitHub v2 API Changes)
     				name: d.repo.name,
     				language: "",
     				description: "",	
     				actorlogin: sha['author']['email']
-    					
-    				//MISSING - IMPORTANT
-    				//language: d.repository.language,
+    				//MISSING (GitHub v2 API Changes)
+            		//actorlogin: sha['author']['email'],
+            		//language: d.repository.language,
     				//description: d.repository.description,
-    				//actorlogin: sha['author']['email'],
-                    /////////////////
-    				//MISSING - IMPORTANT 2
-                    //watchers: d.repository.watchers_count,
+    				//watchers: d.repository.watchers_count,
                     //stargazers: d.repository.stargazers_count,
                     //forks: d.repository.forks_count,
                     //issues: d.repository.open_issues_count,
@@ -116,6 +112,27 @@ module.exports.MyParser = function (cb) {
     		s.commits[sha['sha']] = info;
     	}) //end foreach sha
     }  //end 'PushEvent'
+    else if (d.type === "CreateEvent" && (d.payload.ref_type === 'repository')) {
+    	//console.log(d.repo.name , "\t\t", d.payload.description);
+    	var info = {};
+    	info = {
+                type: 'CreateEvent',
+                created_at:mytime.tE(d.created_at),
+    			full_name: d.repo.name,
+    			description: d.payload.description
+    	};
+    	s.commits[d.id]=info;
+    }
+    else if (d.type === "WatchEvent") {
+    	//console.log("adding ...." + d.repo.name);
+    	var info = {};
+    	info = {
+                type: 'WatchEvent',
+                created_at:mytime.tE(d.created_at),
+    			full_name: d.repo.name	
+    	};
+    	s.commits[d.id]=info;
+    }
   }) //end s.on('data')
   s.on('error', cb)
   return wrap(s)

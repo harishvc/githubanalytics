@@ -16,20 +16,17 @@ var numeral = require('numeral');
 
 GetParse();
 
-//Fetch GitHub Archives, parse  'PushEvent' event notifications and insert into MongoDB
-//Sample JSON generated
-//{"078d40cc5":{"created_at":"2014-08-23T15:05:37-07:00","full_name":"ssss"},
-// "0b0084e21":{"created_at":"2014-08-23T15:05:37-07:00","full_name":yyyyy"}}
+//Fetch GitHub Archives, parse events and insert into MongoDB
+//Usage: crontab or command line
 function GetParse() {
 	var count = 0; //number of entries
 	var rows = [];
 	//var TimeNow = moment.utc().format();
 	//console.log (TimeNow + " processing " + URL);
 	//Time an hour ago in UTC
-	var TimeAgo = moment.utc().subtract(1, 'hours').format("YYYY-MM-DD-H");
+	var TimeAgo = moment.utc().subtract(2, 'hours').format("YYYY-MM-DD-H");
 	var URL = "http://data.githubarchive.org/" + TimeAgo + ".json.gz";
 	//TEST
-	//var URL = "http://23.239.20.13/github-events/github-events-2015Jan19-sample1.json.gz";
 	//var URL = "http://data.githubarchive.org/2015-01-28-0.json.gz";
 	console.log("###############################################");
 	console.log (moment().format("YYYY-MM-DD HH:mm:ss") + " start processing ... " + URL);
@@ -46,7 +43,7 @@ function GetParse() {
     	    rows.push(result[k]);       //create array
             //console.log (result[k]);  //print value
     	  }
-    	console.log ("## entries generated fron githubarchive.org: " + numeral(count).format('0,0') );
+    	console.log ("## entries generated from githubarchive.org: " + numeral(count).format('0,0') );
     	console.log (moment().format("YYYY-MM-DD HH:mm:ss") + " end processing");
     	//Insert into MongoDB
     	//console.log("## start insert: "+ moment().format());
@@ -68,8 +65,6 @@ function MongoInsert(rows,count)
     	connectURL   = process.env.connectURLdev;
     	mycollection = process.env.mycollectiondev;
     	console.log ("### DEVELOPMENT ###")
-    	console.log (connectURL);
-    	console.log (mycollection);
     }
 	var db;
 	var col;
@@ -88,26 +83,26 @@ function MongoInsert(rows,count)
 	      callback(null,"collection success");
 	  },
 	  function(callback) {
-		  //console.log ("insert begin ...");		          
 		  var i = 1;
 		  async.whilst(
 		    function() { return i <= count },
 		    function(callback) {
 		    	var mydocument = rows.shift();
-                        //TODO: Check for unique SHA before insert
-		        col.insert(mydocument,function(error,result) {
-		            if (error) {
-		                console.log("insert error:" + error);
-		                callback(error);
-		                return;
-		            }
-		            //console.log ("inserted ...");
-		            i++;
-		            callback(error);
-		        }); //end insert
+		    	//Inserting events
+		    	if (mydocument['type'] === 'CreateEvent' || mydocument['type'] === 'PushEvent' || mydocument['type'] === 'WatchEvent') {
+		    		col.insert(mydocument,function(error,result) {
+		        		if (error) {
+		        			console.log("insert error:" + error);
+		        			callback(error);
+		        			return;
+		        		}
+		        		i++;
+		        		callback(null,"insert success");
+		        	}); //end insert
+		        } //end if
 		    },
 		    function(error) {
-		      callback(error,"insert sucess")
+		      callback(error,"insert error")
 		    }
 		  );
 	  },
