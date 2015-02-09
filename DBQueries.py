@@ -160,7 +160,8 @@ def ProcessRepositories(repoName):
 #Find information about a repository   
 def RepoQuery (repoURL):
     pipeline= [
-           { '$match' : { 'url' : repoURL , 'sha': { '$exists': True }}  },
+           #{ '$match' : { 'url' : repoURL , 'sha': { '$exists': True }}  },
+           { '$match' : { 'full_name' : repoURL , 'sha': { '$exists': True }}  },
            { '$sort': {'created_at': -1}},
            { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language",'description': "$description",'organization': '$organization'}, '_a1': {"$addToSet": "$actorname"} ,'_a2': {"$push": "$comment"},'_a3': {"$push": "$created_at"},'_a4': {"$push": "$sha"},'_a5': {"$push": "$ref"},'_a6': {"$addToSet": "$ref"},'count': { '$sum' : 1 }}},
            { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language",'description': "$_id.description", 'actorname': "$_a1",'comment': "$_a2",'created_at': "$_a3", 'sha': "$_a4" ,'ref': "$_a5" ,'refc': "$_a6",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]}}},
@@ -242,10 +243,8 @@ def Search(query):
             tmp5 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branches"
         else:
             tmp5 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branch"
-        
-        #output += "<li class=\"list-group-item\">" + d1 + path1 + row['url'].encode('utf-8').strip() + path2 + HSR(qregx, row['full_name'].encode('utf-8').strip()) + path3 + d3 + d2 + tmp0 + tmp5 + tmp4 + tmp1 + tmp2 + tmp3+ d3 
-       
-        output += "<li class=\"list-group-item\">" + SB5 + path1 + row['url'].encode('utf-8').strip() + path2 + HSR(qregx, row['full_name'].encode('utf-8').strip()) + path3 + DE + SB7 + tmp0 + tmp5 + tmp4 + tmp1 + tmp2 + tmp3+ DE 
+               
+        output += "<li class=\"list-group-item\">" + SB5 + path1 + row['full_name'].encode('utf-8').strip() + path2 + HSR(qregx, row['full_name'].encode('utf-8').strip()) + path3 + DE + SB7 + tmp0 + tmp5 + tmp4 + tmp1 + tmp2 + tmp3+ DE 
        
        
         #TODO
@@ -272,14 +271,14 @@ def TrendingNow():
     mycursor = db.aggregate(pipeline)
     for row in mycursor["result"]:
         tmp0 = "<i class=\"lrpadding fa fa-star fa-1x\"></i>" + numformat(row['stars']) + " stars"
-        output +=  LIS + SB12 + "<a href=\"http://www.github.com/" +  row['full_name'].encode('utf-8').strip() + "\">" + row['full_name'].encode('utf-8').strip() + "</a>" + tmp0 + DE + LIE
+        output +=  LIS + SB12 + "<a href=\"https://www.github.com/" +  row['full_name'].encode('utf-8').strip() + "\">" + row['full_name'].encode('utf-8').strip() + "</a>" + tmp0 + DE + LIE
             
     return ( sh + ULS + output  + ULE)
 
 
 def ReportTopRepositoriesBy(heading,sortBy):
     sh = "<h2 class=\"text-success\">" + heading + "</h2>"
-    path1 = "<a href=\"/?q=repository http://github.com/"
+    path1 = "<a href=\"/?q=repository "
     path2 = "&amp;action=Search\">"
     path3 = "</a>"
     output =""
