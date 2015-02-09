@@ -21,40 +21,33 @@
    </div>
  </nav>
 
-<!-- Tag line -->
-<div class="col-sm-12">
-        <div class="container">
-        	<div class="row">
-               <div class="jumbotron">
-                  <p><i>Ask questions &amp; get insights from public GitHub timeline in the past 24 hours</i></p>
-               </div>
-   			</div>
-		</div>
-</div>       
-
+      
 <!-- The search box -->
-<div class="col-sm-12">
         <div class="container">
-		    <div class="row">
+
+		    <!-- <div class="row lalign"> -->
+		    	<div class="row">
+				<div class="col-sm-12">
+
 				 <div id="searchbox">
           			<form action="." method="get" id="askgithub">
-           <div class="input-group" id="multiple-datasets">
-          	   <input type="text" class="typeahead" placeholder="ask github" name="q" type="text" value="{{ query[0]["text"] }}">
-				      <div class="input-group-btn">
+                      <div class="input-group" id="multiple-datasets">
+          	             <input type="text" class="typeahead" placeholder="latest GitHub timeline" name="q" type="text" value="{{ query[0]["text"] }}">
+				         <div class="input-group-btn">
 						   <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-					  </div>
-          </div>
-        </form>
-      </div>
-     </div>
-   </div>
+					    </div>
+                     </div>
+                   </form>
+                </div>
+              </div>
+       </div>
 </div>
 
 <!-- Display status -->
 <div class="col-sm-12">
   <div class="container">
     <div class="row">
-               <div id="progress"><br/><br/>Please wait as your request is processed ... <i class="fa fa-spinner fa-pulse fa-1x"></i></div>
+               <div id="progress" class="progressalign">hang tight, crunching latest data ... <i class="fa fa-spinner fa-pulse fa-1x"></i></div>
         </div>
     </div>
 </div>       
@@ -72,7 +65,7 @@
 <div class="col-sm-12">
   <div class="container">
        <div class="row">
-                <div id="qsuggestion"><p>{{ qr.decode('utf-8') | safe }}</p></div>  
+                <div class="qsuggestion"><p>{{ qr.decode('utf-8') | safe }}</p></div>  
         </div> 
     </div> 
 </div>

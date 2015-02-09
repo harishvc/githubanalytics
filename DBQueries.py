@@ -58,11 +58,11 @@ def ProcessQuery(query):
         elif  (query == "trending now"):
             return (TrendingNow())
         elif  (query == "top active repositories by contributors"):
-            return (ReportTopRepositoriesBy("Top active repositories sorted by #contributors","authors"))
+            return (ReportTopRepositoriesBy("Top active repositories by contributors","authors"))
         elif  (query == "top active repositories by commits"):
-            return (ReportTopRepositoriesBy("Top active repositories sorted by #commits","total"))
+            return (ReportTopRepositoriesBy("Top active repositories by commits","total"))
         elif  (query == "top active repositories by branches"):
-            return (ReportTopRepositoriesBy("Top active repositories sorted by #branches","branches"))
+            return (ReportTopRepositoriesBy("Top active repositories by branches","branches"))
         else:
             #return ("EMPTY")
             #Global Search
@@ -148,7 +148,6 @@ def ProcessRepositories(repoName):
             
             myreturn += "<li class=\"list-group-item\">" + SB12 + "Comments" + "<div class=\"panel-group\" id=\"accordion\">"
             for k, v in CD.items():
-               #h = " hour"
                h = " hours" if (int(k) > 1) else " hour"
                myreturn += "<div class=\"panel panel-default\"><div class=\"panel-heading\">"
                myreturn +=  "<p class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#" + str(k) + "\">"+ str(k) + h + " ago</a></p></div>"
@@ -255,13 +254,13 @@ def Search(query):
         output += "</li>"
     if (len(output) > 0 ): 
         #TODO: Highlight query in selection
-        return ("<p><span class='digital'>" + numformat(totalSearchResults)  +  "</span> matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>" + "<ul class=\"list-group\">" + output + "</ul>")
+        return ("<p class=\"tpadding text-success\">" + numformat(totalSearchResults)  +  " matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>" + "<ul class=\"list-group\">" + output + "</ul>")
     else:
         return ("EMPTY")  #0 rows return
 
 
 def TrendingNow():    
-    sh = "<h2>Trending repositories</h2>"
+    sh = "<h2 class=\"text-success\">Trending repositories</h2>"
     output =""
     pipeline = [
                 { '$match': {'type':'WatchEvent'}}, 
@@ -279,7 +278,7 @@ def TrendingNow():
 
 
 def ReportTopRepositoriesBy(heading,sortBy):
-    sh = "<h2>" + heading + "</h2>"
+    sh = "<h2 class=\"text-success\">" + heading + "</h2>"
     path1 = "<a href=\"/?q=repository http://github.com/"
     path2 = "&amp;action=Search\">"
     path3 = "</a>"
@@ -295,8 +294,10 @@ def ReportTopRepositoriesBy(heading,sortBy):
     mycursor = db.aggregate(pipeline)
     for row in mycursor["result"]:
         tmp1 = "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['total']) + " commits"
-        tmp2 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches"    
-        tmp3 = "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors"
+        tmp2 =  "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches" if ( int(row['branches']) > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + "1 branch"
+        #tmp2 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches"    
+        tmp3 =  "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors" if ( int(row['authors']) > 1) else "<i class=\"lrpadding fa fa-user fa-1x\"></i>" + "1 contributor"
+        #tmp3 = "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors"
         tmp4 = "<i class=\"lrpadding fa fa-home fa-1x\"></i>" + str(row['organization']) if ('organization' in row.keys()) else "" 
         output += LIS + SB5 + path1 + row['full_name'].encode('utf-8').strip() + path2 + row['full_name'].encode('utf-8').strip() + path3 + DE + SB7 + tmp1 + tmp2 + tmp3  + tmp4 + DE + LIE
             
