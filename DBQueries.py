@@ -29,6 +29,7 @@ else:
 
 #Global variables
 DefaultLimit=10
+SearchLimit = 10
 ULS = "<ul class=\"list-group\">"
 ULE = "</ul>"
 LIS = "<li class=\"list-group-item\">"
@@ -219,41 +220,33 @@ def Search(query):
     mycursor = db.aggregate(pipeline)
     #print mycursor
     
+    #Search results header 
+    #print "Found .....", len(mycursor['result']) , " search matches ...."
+    if (len(mycursor['result']) > SearchLimit):
+        sh = "<p class=\"tpadding text-success\">Top " + str(SearchLimit) + " matches (found " + str(numformat(len(mycursor['result'])))  +  " matches in " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+    else:
+        sh = "<p class=\"tpadding text-success\">" + str(len(mycursor['result']))  + " matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+    
+    
     totalSearchResults = 0
     for row in mycursor["result"]:
         tmp0=""
-        totalSearchResults = totalSearchResults + 1 
-        if (row['count'] > 1): 
-                tmp0 = "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['count']) + " commits"
+        totalSearchResults += 1
+        if (totalSearchResults > SearchLimit):
+            break
         else:
-                tmp0= "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + str(row['count']) + " commit"
-        tmp1 = ""
-        if(row['language']): tmp1 = "<i class=\"lrpadding fa fa-code fa-1x\"></i>" + HSR(qregx,row['language'].encode('utf-8').strip())
-        tmp2 = ""
-        if(row['organization'] != 'Unspecified'): tmp2 = "<i class=\"lrpadding fa fa-home fa-1x\"></i>" + HSR(qregx,str(row['organization']))
-        tmp3 = ""
-        if(row['description']): tmp3 = "<br/>" + HSR(qregx,row['description'].encode('utf-8').strip())
-        tmp4 = ""
-        if (len(row['actorname']) > 1):
-            tmp4 = "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(row['actorname'])) + " contributors"
-        else:
-            tmp4 = "<i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(row['actorname'])) + " contributor"
-        tmp5 = ""
-        if (len(row['ref']) > 1):
-            tmp5 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branches"
-        else:
-            tmp5 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branch"
-               
-        output += "<li class=\"list-group-item\">" + SB5 + path1 + row['full_name'].encode('utf-8').strip() + path2 + HSR(qregx, row['full_name'].encode('utf-8').strip()) + path3 + DE + SB7 + tmp0 + tmp5 + tmp4 + tmp1 + tmp2 + tmp3+ DE 
-       
-       
-        #TODO
-        #output += Neo4jQueries.FindSimilarRepositories(row['url'])
-        #output += FindSimilarRepositories(row['url'])
-        output += "</li>"
+            tmp0 = "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['count']) + " commits" if (row['count'] > 1) else "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + str(row['count']) + " commit"
+            tmp1 = "<i class=\"lrpadding fa fa-code fa-1x\"></i >" + HSR(qregx,row['language'].encode('utf-8').strip()) if (row['language']) else ""
+            tmp2 = "<i class=\"lrpadding fa fa-home fa-1x\"></i>" + HSR(qregx,str(row['organization'])) if (row['organization'] != 'Unspecified') else ""
+            tmp3 = "<br/>" + HSR(qregx,row['description'].encode('utf-8').strip()) if(row['description']) else ""
+            tmp4 = "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(row['actorname'])) + " contributors" if (len(row['actorname']) > 1) else "<i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(row['actorname'])) + " contributor"
+            tmp5 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branches" if (len(row['ref']) > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branch"
+            output += "<li class=\"list-group-item\">" + SB5 + path1 + row['full_name'].encode('utf-8').strip() + path2 + HSR(qregx, row['full_name'].encode('utf-8').strip()) + path3 + DE + SB7 + tmp0 + tmp5 + tmp4 + tmp1 + tmp2 + tmp3+ DE + "</li>"
+            #TODO
+            #output += Neo4jQueries.FindSimilarRepositories(row['url'])
+            #output += FindSimilarRepositories(row['url'])
     if (len(output) > 0 ): 
-        #TODO: Highlight query in selection
-        return ("<p class=\"tpadding text-success\">" + numformat(totalSearchResults)  +  " matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>" + "<ul class=\"list-group\">" + output + "</ul>")
+        return ( sh + "<ul class=\"list-group\">" + output + "</ul>")
     else:
         return ("EMPTY")  #0 rows return
 
@@ -301,6 +294,27 @@ def ReportTopRepositoriesBy(heading,sortBy):
         output += LIS + SB5 + path1 + row['full_name'].encode('utf-8').strip() + path2 + row['full_name'].encode('utf-8').strip() + path3 + DE + SB7 + tmp1 + tmp2 + tmp3  + tmp4 + DE + LIE
             
     return ( sh + ULS + output  + ULE)
+
+
+def ActiveRepositoriesGroupedByDistinctUsers ():
+    users =[]
+    commits =[]
+    mycursor = []
+    pipeline= [
+           { "$group": {  "_id": {"repo": "$url", "actorlogin": "$actorlogin" ,'name': "$name", 'language': "$language" }, "commits": { "$sum": 1 }}},
+           { "$group": {  "_id": {"repo": "$_id.repo", "name": "$_id.name", "language": "$_id.language"},"distinct_users": { "$sum": 1 },"total_commits": { "$sum": "$commits" }}},
+           { "$project": { "_id": 0, "repo_url": "$_id.repo", "repo_name": "$_id.name", "language": "$_id.language", "distinct_users": "$distinct_users","total_commits": "$total_commits"}},
+           { "$sort" : { "distinct_users": -1}},
+           { "$limit": LimitActiveRepositories} 
+           ]
+    mycursor = db.aggregate(pipeline)
+    
+    for record in mycursor["result"]:
+        users.append({"month": str(record["repo_url"]),"reponame": str(record["repo_name"]) ,"count": str(record["distinct_users"])})
+        commits.append({"month": str(record["repo_url"]), "reponame": str(record["repo_name"]),"count": str(record["total_commits"])})                    
+    
+    t2 = [{"data":users,"name": "# Unique users"},{"data":commits,"name": "# Commits"} ]
+    return mycursor, t2 
 
 
 def CloseDB():
