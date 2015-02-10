@@ -149,9 +149,9 @@ def ProcessRepositories(repoName):
             
             myreturn += "<li class=\"list-group-item\">" + SB12 + "Comments" + "<div class=\"panel-group\" id=\"accordion\">"
             for k, v in CD.items():
-               h = " hours" if (int(k) > 1) else " hour"
+               h = str(k) + " hours" if (int(k) > 1) else  str(k) + " hour" if (int(k) == 1) else "<1 hour"
                myreturn += "<div class=\"panel panel-default\"><div class=\"panel-heading\">"
-               myreturn +=  "<p class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#" + str(k) + "\">"+ str(k) + h + " ago</a></p></div>"
+               myreturn +=  "<p class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#" + str(k) + "\">"+  h + " ago</a></p></div>"
                myreturn +=  "<div id=\"" + str(k) + "\" class=\"panel-collapse collapse\"><div class=\"panel-body\">" + v + "</div></div></div>" 
             myreturn +=  "</div></li>" + ULE
 
