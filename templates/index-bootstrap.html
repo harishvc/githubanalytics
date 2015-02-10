@@ -44,7 +44,7 @@
 <div class="col-sm-12">
   <div class="container">
     <div class="row">
-               <div id="progress" class="progressalign">hang tight, crunching latest data ... <i class="fa fa-spinner fa-pulse fa-1x"></i></div>
+               <div id="progress" class="progressalign">crunching the latest data just for you <i class="fa fa-spinner fa-pulse fa-1x"></i></div>
         </div>
     </div>
 </div>       
@@ -52,9 +52,11 @@
 <!-- Display Results -->
 <div class="container">
     <div class="row">
+    	     <div id="result">
                 {% if query[0]["text"] | length>= 1 %}                                    
 	              {{ processed_text.decode('utf-8')  | safe }}
                 {% endif %}
+              </div>
     </div>
 </div>
 
