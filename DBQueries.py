@@ -277,45 +277,26 @@ def ReportTopRepositoriesBy(heading,sortBy):
     output =""
     t2 = "class=\"list-group-item\""
     pipeline= [
-               { '$match': {'type':'PushEvent'}},
-               { "$group": {"_id": {"full_name": "$full_name", "organization": "$organization"},"authoremails":{"$addToSet":"$actoremail"},"ref":{"$addToSet":"$ref"}, "total": { "$sum": 1 }}},
-               { "$project": {"_id":0,"full_name":"$_id.full_name","organization":"$_id.organization","total": "$total","branches":{"$size":"$ref"},"authors":{"$size":"$authoremails"}}},
+               { '$match': {"$or" : [ {"type": {"$in": ["PushEvent"]}}, {"type": {"$in": ["CreateEvent"]}}, {"type": {"$in": ["WatchEvent"]}} ]}},
+               { "$group": {"_id": {"full_name": "$full_name", "organization": "$organization"},"authoremails":{"$addToSet":"$actoremail"}, \
+                            "ref":{"$addToSet":"$ref"}, "type":{"$addToSet":"$type"}, \
+                            "total": { "$sum": {"$cond": [ {"$eq": ['$type', 'PushEvent']}, 1, "null" ]}}, \
+                            "stars": { "$sum": {"$cond": [ {"$eq": ['$type', 'WatchEvent']}, 1, "null" ]}} }}, \
+               { "$project": {"_id":0,"full_name":"$_id.full_name","organization":"$_id.organization","stars":"$stars", "type":"$type","total": "$total","branches":{"$size":"$ref"},"authors":{"$size":"$authoremails"}}},
                { "$sort" : { sortBy: -1}},
                { "$limit": DefaultLimit} 
                ]
     mycursor = db.aggregate(pipeline)
     for row in mycursor["result"]:
-        tmp1 = "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['total']) + " commits"
-        tmp2 =  "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches" if ( int(row['branches']) > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + "1 branch"
-        #tmp2 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches"    
+        tmp0 = "<i class=\"lrpadding fa fa-star fa-1x\"></i>" + numformat(row['stars']) + " stars" if (int(row['stars']) > 1) else "<i class=\"lrpadding fa fa-star fa-1x\"></i>1 star" if (int(row['stars']) == 1)  else ""
+        tmp1 = "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['total']) + " commits"
+        tmp2 =  "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches" if ( int(row['branches']) > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + "1 branch"        #tmp2 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches"    
         tmp3 =  "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors" if ( int(row['authors']) > 1) else "<i class=\"lrpadding fa fa-user fa-1x\"></i>" + "1 contributor"
-        #tmp3 = "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors"
         tmp4 = "<i class=\"lrpadding fa fa-home fa-1x\"></i>" + str(row['organization']) if ('organization' in row.keys()) else "" 
-        output += LIS + SB5 + path1 + row['full_name'].encode('utf-8').strip() + path2 + row['full_name'].encode('utf-8').strip() + path3 + DE + SB7 + tmp1 + tmp2 + tmp3  + tmp4 + DE + LIE
+        tmp5 = "<sup><i class=\"rpadding fa fa-bullhorn fa-1x\">New</i></sup>" if ('CreateEvent' in row['type']) else "" 
+        output += LIS + SB5 + path1 + row['full_name'].encode('utf-8').strip() + path2 + row['full_name'].encode('utf-8').strip() + path3 + tmp5 + DE + SB7 + tmp0 + tmp1 + tmp2 + tmp3  + tmp4 + DE + LIE
             
     return ( sh + ULS + output  + ULE)
-
-
-def ActiveRepositoriesGroupedByDistinctUsers ():
-    users =[]
-    commits =[]
-    mycursor = []
-    pipeline= [
-           { "$group": {  "_id": {"repo": "$url", "actorlogin": "$actorlogin" ,'name': "$name", 'language': "$language" }, "commits": { "$sum": 1 }}},
-           { "$group": {  "_id": {"repo": "$_id.repo", "name": "$_id.name", "language": "$_id.language"},"distinct_users": { "$sum": 1 },"total_commits": { "$sum": "$commits" }}},
-           { "$project": { "_id": 0, "repo_url": "$_id.repo", "repo_name": "$_id.name", "language": "$_id.language", "distinct_users": "$distinct_users","total_commits": "$total_commits"}},
-           { "$sort" : { "distinct_users": -1}},
-           { "$limit": LimitActiveRepositories} 
-           ]
-    mycursor = db.aggregate(pipeline)
-    
-    for record in mycursor["result"]:
-        users.append({"month": str(record["repo_url"]),"reponame": str(record["repo_name"]) ,"count": str(record["distinct_users"])})
-        commits.append({"month": str(record["repo_url"]), "reponame": str(record["repo_name"]),"count": str(record["total_commits"])})                    
-    
-    t2 = [{"data":users,"name": "# Unique users"},{"data":commits,"name": "# Commits"} ]
-    return mycursor, t2 
-
 
 def CloseDB():
     connection.close()

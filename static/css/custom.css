@@ -3,7 +3,7 @@
         src: url('/static/css/digi.ttf');
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
  .row {
   margin-left: -50px;
   //margin-right: 0px;	
@@ -69,7 +69,7 @@
 
 .list-group-item {
 	padding: 5px 5px;	
-	padding-bottom: 20px; //Handle large font size
+	padding-bottom: 35px;  //Handle large font size
 }
 
 .jumbotron {
