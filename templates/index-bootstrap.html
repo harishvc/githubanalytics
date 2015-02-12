@@ -21,7 +21,7 @@
    </div>
  </nav>
 
-      
+     
 <!-- The search box -->
  <div class="container">
 	     <div class="row">
@@ -29,7 +29,7 @@
                        <div id="searchbox">
           			       <form action="." method="get" id="askgithub">
                                  <div class="input-group" id="multiple-datasets">
-          	                          <input type="text" class="typeahead" placeholder="latest GitHub timeline" name="q" type="text" value="{{ query[0]["text"] }}">
+          	                          <input type="text" class="typeahead" placeholder="search latest GitHub timeline" name="q" type="text" value="{{ query[0]["text"] }}">
 				                      <div class="input-group-btn">
 						                   <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
 					                  </div>
@@ -60,14 +60,6 @@
     </div>
 </div>
 
-<!-- Suggestion -->
-<div class="col-sm-12">
-  <div class="container">
-       <div class="row">
-                <div class="qsuggestion"><p>{{ qr.decode('utf-8') | safe }}</p></div>  
-        </div> 
-    </div> 
-</div>
 
 {% endblock %}
 
