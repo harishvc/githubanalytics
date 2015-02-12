@@ -1,8 +1,9 @@
 #References
 #https://realpython.com/blog/python/primer-on-jinja-templating/
 
-from flask import Flask
+from flask import Flask, make_response
 from flask import request
+from flask import jsonify
 from flask import render_template
 from datetime import datetime, timedelta
 import json
@@ -11,27 +12,16 @@ from jinja2 import Template
 import HTMLParser
 from json import loads
 import bleach
-
+from json import dumps
 
 #Local modules
 import RandomQuotes
-import Suggestions
 import DBQueries     
 
 #Global variables
-ARA =[]
-AR = []
-ShowSuggestion=False #Show Suggestion
 NORESULT="<div class=\"col-sm-12\"><p class=\"searchstatus text-danger\">You've got me stumped!</p></div>"    #No result
 
 
-def Generate():
-   global AR, ARA 
-   AR , ARA = DBQueries.ActiveRepositoriesGroupedByDistinctUsers()[0:2]
-
-#TODO
-#http://stackoverflow.com/questions/850795/clearing-python-lists    
-#def refresh_data():
 
 app = Flask(__name__)
 
@@ -65,7 +55,6 @@ def index():
             processed_text1 = DBQueries.ProcessQuery(query)
             if (processed_text1 == "EMPTY") :
                 processed_text1 = NORESULT
-                ShowSuggestion = True
     else:
         query =""
         processed_text1 =""
@@ -74,8 +63,7 @@ def index():
         title = 'Ask GitHub',
         appenv = os.environ['deployEnv'],
         query = [{"text": query}],     
-        processed_text = processed_text1,
-        qr = Suggestions.RandomQuerySuggestions() if (query == "" or bool(ShowSuggestion)) else "")
+        processed_text = processed_text1)
     
 ############################
 #Handle charts    
@@ -103,6 +91,16 @@ def error(e):
 @app.route('/hello')
 def hello(name=None):
      return render_template('hello.html', name=name)
+@app.route('/tsearch')
+def tsearch(name=None):
+    query = bleach.clean(request.args['q']).strip()
+    print query
+    if (len(query) == 0 ): 
+        t = [{}] #return nothing!
+    else:
+        t = DBQueries.Typeahead(query) 
+       
+    return make_response(dumps(t))
 
 if __name__ == '__main__':
     if (os.environ['deployEnv'] == "production"):

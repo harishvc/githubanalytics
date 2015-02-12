@@ -1,50 +1,22 @@
 $(document).ready(function() {
 
-var nbaTeams = new Bloodhound({
-	  //datumTokenizer: Bloodhound.tokenizers.obj.whitespace('tokens'),
-	  datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.tokens.join(' ')); },
-	  queryTokenizer: Bloodhound.tokenizers.whitespace,
-	  limit: 10,
-	  prefetch: '/static/typeahead/count.json'
-	});
-
-	var nhlTeams = new Bloodhound({
-	  //datumTokenizer: Bloodhound.tokenizers.obj.whitespace('tokens'),
-	  datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.tokens.join(' ')); },
-	  queryTokenizer: Bloodhound.tokenizers.whitespace,
-	  limit: 10,
-	  prefetch: '/static/typeahead/reports.json'
-	});
-
-	//Clear cache
-	nbaTeams.clearPrefetchCache();
-	nhlTeams.clearPrefetchCache();
-	//Initialize
-	nbaTeams.initialize();
-	nhlTeams.initialize();
-	$('#multiple-datasets .typeahead')
-	.typeahead({
-		highlight: true
-		},
-		{
-	  name: 'nba-teams',
-	  displayKey: 'label',
-	  source: nbaTeams.ttAdapter(),
-	  templates: {
-	    header: '<h3 class="league-name">Questions?</h3>'
-	  }
-	},
-	{
-	  name: 'nhl-teams',
-	  displayKey: 'label',
-	  source: nhlTeams.ttAdapter(),
-	  templates: {
-	    header: '<h3 class="league-name">What&#39s Happening now?</h3>'
-	  }
-	}
-	)
-
-	//TODO: Events for Analytics
-	//http://ericsaupe.com/using-twitter-typeahead-js-custom-event-triggers/
-	
+	var bestPictures = new Bloodhound({
+		  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+		  queryTokenizer: Bloodhound.tokenizers.whitespace,
+		  prefetch: '/static/typeahead/queries.json',
+		  remote: '/tsearch?q=%QUERY',
+		  limit: 10 // limit to show only 10 results
+		});
+		 
+		bestPictures.initialize();
+		 
+		$('#multiple-datasets .typeahead').typeahead({
+			hint: true,
+			highlight: true,
+			minLength: 1 // send AJAX request only after user type in at least 1 characters
+		}, {
+			name: 'best-pictures',
+			displayKey: 'value',
+			source: bestPictures.ttAdapter()
+		});
 });

@@ -298,5 +298,24 @@ def ReportTopRepositoriesBy(heading,sortBy):
             
     return ( sh + ULS + output  + ULE)
 
+
+
+def Typeahead(q):
+    regx1 = re.compile(q, re.IGNORECASE)
+    pipeline= [
+               {'$match': {'$and': [ {'type': {'$in': ["PushEvent"]}},{'full_name':regx1}] }}, 
+               { "$group": {"_id": {"full_name": "$full_name"}, 'count': { '$sum' : 1 }}}, 
+               { "$project": {"_id":0,"value": { "$concat": ["repository ","$_id.full_name"]},"count": "$count"}},
+               { "$sort" : {"count": -1}},
+               { "$limit": 20} 
+               ]
+    mycursor = db.aggregate(pipeline)
+    #print mycursor
+    return (mycursor['result'])
+  
+    
+    
+    
+    
 def CloseDB():
     connection.close()
