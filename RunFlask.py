@@ -94,9 +94,10 @@ def hello(name=None):
 @app.route('/tsearch')
 def tsearch(name=None):
     query = bleach.clean(request.args['q']).strip()
-    print query
-    if (len(query) == 0 ): 
-        t = [{}] #return nothing!
+    #print query
+    #Minimum 5 characters for query 
+    if (len(query) <= 4 ): 
+        t = [] #return nothing!
     else:
         t = DBQueries.Typeahead(query) 
        

@@ -19,7 +19,7 @@ app = Flask(__name__)
 #Configure for production or development based on environment variables
 if (os.environ['deployEnv'] == "production"):
     MONGO_URL = os.environ['connectURLRead']
-    connection = MongoClient(MONGO_URL)
+    connection = MongoClient(MONGO_URL,auto_start_request=False)
     db = connection.githublive.pushevent
 else: 
     MONGO_URL = os.environ['connectURLReaddev']
@@ -301,21 +301,19 @@ def ReportTopRepositoriesBy(heading,sortBy):
 
 
 def Typeahead(q):
+    #Query Start Time in milliseconds
+    #QST = int(datetime.datetime.now().strftime("%s"))
     regx1 = re.compile(q, re.IGNORECASE)
     pipeline= [
                {'$match': {'$and': [ {'type': {'$in': ["PushEvent"]}},{'full_name':regx1}] }}, 
-               { "$group": {"_id": {"full_name": "$full_name"}, 'count': { '$sum' : 1 }}}, 
-               { "$project": {"_id":0,"value": { "$concat": ["repository ","$_id.full_name"]},"count": "$count"}},
-               { "$sort" : {"count": -1}},
-               { "$limit": 20} 
+               { "$limit": SearchLimit}, 
+               { "$group": {"_id": {"full_name": "$full_name"}}}, 
+               { "$project": {"_id":0,"value": { "$concat": ["repository ","$_id.full_name"]}}}
                ]
-    mycursor = db.aggregate(pipeline)
-    #print mycursor
+    mycursor = db.aggregate(pipeline)    
+    #print "processing time ...." + str(MyMoment.HTM(QST,"")).strip() 
     return (mycursor['result'])
   
-    
-    
-    
     
 def CloseDB():
     connection.close()

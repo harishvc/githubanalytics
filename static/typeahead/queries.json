@@ -2,37 +2,37 @@
 { 
   "label": "active users",
   "value": "active users",
-  "tokens": ["active","users"]
+  "tokens": ["active","users","ask","question"]
 },
 { 
   "label": "active repositories",
   "value": "active repositories",
-  "tokens": ["active","repo"]
+  "tokens": ["active","repo","ask","question"]
 },
 { 
   "label": "total commits",
   "value": "total commits",
-  "tokens": ["total", "commits"]
+  "tokens": ["total", "commits","ask","question"]
 },
 { 
   "label": "trending now",
   "value": "trending now",
-  "tokens": ["active", "trending", "repo", "trend"]
+  "tokens": ["active","what","hot","new","trending", "repo", "trend","ask","question"]
 },
 { 
   "label": "top active repositories by contributors",
   "value": "top active repositories by contributors",
-  "tokens": ["active","repo", "top", "contributor"]
+  "tokens": ["active","repo", "top", "contributor","ask","question"]
 },
 { 
   "label": "top active repositories by branches",
   "value": "top active repositories by branches",
-  "tokens": ["active","repo", "top", "branch"]
+  "tokens": ["active","repo", "top", "branch","ask","question"]
 },
 { 
   "label": "top active repositories by commits",
   "value": "top active repositories by commits",
-  "tokens": ["active","repo", "top", "commit"]
+  "tokens": ["active","repo", "top", "commit","ask","question"]
 }
 ]
 
