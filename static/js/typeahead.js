@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	var TQuestions = new Bloodhound({
+		var TQuestions = new Bloodhound({
 		  datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.tokens.join(' ')); },
 		  queryTokenizer: Bloodhound.tokenizers.whitespace,
 		  limit: 10,
