@@ -8,18 +8,14 @@
   margin-left: -50px;
   //margin-right: 0px;	
  }
- .searchstatus {
-	padding-top: 5px;
-	margin-left: -15px;
- }
- .qsuggestion {
-	padding-top: 5px;
-	margin-left: -15px;
- }
- .progressalign{
- 	padding-top: 20px;
- 	margin-left: -15px;
- }
+ //.searchstatus {
+	//padding-top: 5px;
+	//margin-left: -15px;
+// }
+// .progressalign{
+ //	padding-top: 30px;
+ //	margin-left: -15px;
+// }
 }
 
  .row {
@@ -40,6 +36,8 @@
 
 #progress { 
   display: none;
+  padding-top: 30px;
+
  }
 
 #navhome {
