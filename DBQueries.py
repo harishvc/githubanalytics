@@ -55,6 +55,8 @@ def ProcessQuery(query):
             return ProcessRepositories(query.replace('repository ', ''))
         elif  (query == "trending now"):
             return (TrendingNow())
+        elif  (query == "user commit frequency"):
+            return (CommitFrequency("User commit frequency"))
         elif  (query == "top repositories sorted by contributors"):
             return (ReportTopRepositoriesBy("Top repositories sorted by contributors","authors","all"))
         elif  (query == "top repositories sorted by commits"):
@@ -86,7 +88,7 @@ def FindDistinct(match,field,fieldName,type):
            ]
     mycursor = db.aggregate(pipeline)
     for row in mycursor["result"]:
-        return ("<div class=\"digital\">" + numformat(row['count']) + "</div> " + type)
+        return ("<div class=\"digital\">" + numformat(row['count']+1) + "</div> " + type)
         
 def CheckNewRepo(r):
     return (db.find_one({"type":"CreateEvent","full_name":r}))
@@ -330,7 +332,46 @@ def Typeahead(q):
     mycursor = db.aggregate(pipeline)    
     #print "processing time ...." + str(MyMoment.HTM(QST,"")).strip() 
     return (mycursor['result'])
+
   
+def CommitFrequency (heading):
+    sh = "<h2 class=\"text-success\">" + heading + "</h2>"
+    range0 = range1 = range2 = range3 = range4 = range5 = range6 = 0
+    pipeline= [
+           { '$group': {'_id': '$actorlogin', 'commits': { '$sum' : 1 }}},
+           { '$group': {'_id': '$commits', 'frequency': { '$sum' : 1 }}},
+           { '$sort' : { '_id': -1 }}
+           ]
+    mycursor = db.aggregate(pipeline)
+    #Group in multiples of 5
+    for record in mycursor["result"]:
+        if (record['_id']  == 1):
+            range0 += record['frequency']
+        elif (record['_id'] > 1 and (record['_id'] <= 3)):
+            range1 += record['frequency']    
+        elif (record['_id'] > 3 and (record['_id'] <= 5)):
+            range2 += record['frequency']
+        elif (record['_id'] > 5) and (record['_id'] <= 10):
+            range3 += record['frequency']
+        elif(record['_id'] > 10 and record['_id'] <= 15):
+            range4 += record['frequency']
+        elif(record['_id'] > 15 and record['_id'] <= 20):
+            range5 += record['frequency']
+        else:
+            range6 += record['frequency'] 
+     
+    output = sh + "<p>" +  FindDistinct ('PushEvent','actors','$actorlogin', "users") + "</p>"
+    output += "<ul><li>1 commit: " + numformat(range0) + " users</li>"
+    output += "<li>2-3 commits: "      + numformat(range1) + " users</li>"
+    output += "<li>4-3 commits: "      + numformat(range2) + " users</li>"
+    output += "<li>6-10 commits: "     + numformat(range3) + " users</li>"
+    output += "<li>11-15 commits: "    + numformat(range4) + " users</li>"
+    output += "<li>16-20 commits: "    + numformat(range5) + " users</li>" 
+    output += "<li>>20 commits: "      + numformat(range6) + " users</li></ul>" 
+    return output
+
+
+
     
 def CloseDB():
     connection.close()

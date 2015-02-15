@@ -25,6 +25,11 @@
   "tokens": ["active","what","hot","new","trending", "repo", "trend","ask","question"]
 },
 { 
+	  "label": "user commit frequency",
+	  "value": "user commit frequency",
+	  "tokens": ["commit","user","frequency","ask","question"]
+},
+{ 
   "label": "top repositories sorted by contributors",
   "value": "top repositories sorted by contributors",
   "tokens": ["active","repo", "top", "contributor","ask","question"]
