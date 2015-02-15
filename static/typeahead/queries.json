@@ -1,13 +1,18 @@
 [
 { 
-  "label": "active users",
-  "value": "active users",
-  "tokens": ["active","users","ask","question"]
+  "label": "total users",
+  "value": "total users",
+  "tokens": ["total","users","ask","question"]
 },
 { 
-  "label": "active repositories",
-  "value": "active repositories",
-  "tokens": ["active","repo","ask","question"]
+  "label": "total repositories",
+  "value": "total repositories",
+  "tokens": ["total","repo","ask","question"]
+},
+{ 
+   "label": "total new repositories",
+	"value": "total new repositories",
+	"tokens": ["total","new","repo","ask","question"]
 },
 { 
   "label": "total commits",

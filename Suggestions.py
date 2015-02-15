@@ -4,8 +4,9 @@
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
-choices = ["active users",
-           "active repositories",
+choices = ["total users",
+           "total repositories",
+           "total new repositories",
            "total commits",
            "trending now",
            "top repositories sorted by contributors",

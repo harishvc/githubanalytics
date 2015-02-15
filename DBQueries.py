@@ -43,12 +43,12 @@ def ProcessQuery(query):
         return "EMPTY"
     else: 
         app.logger.debug("processing ............ ->%s<-" ,  query)
-        if (query == "active repositories"):
-             return FindDistinct ('$url',"repositories")
-        elif  (query == "active users"):
-            return FindDistinct ('$actorlogin', "users")
-        elif  (query == "active languages"):   
-            return FindDistinct ('$language', "languages") 
+        if (query == "total repositories"):
+             return FindDistinct ('PushEvent','full_name','$full_name',"repositories")
+        elif (query == "total new repositories"):
+             return FindDistinct ('CreateEvent','full_name','$full_name',"new repositories")
+        elif  (query == "total active users"):
+            return FindDistinct ('PushEvent','actors','$actorlogin', "users")
         elif  (query == "total commits"):   
             return TotalEntries("commits")
         elif  (query.startswith("repository")):
@@ -78,10 +78,10 @@ def numformat(value):
 def TotalEntries (type):
     return ("<div class=\"digital\">" + numformat(db.count()) + "</div> " + type)
 
-def FindDistinct(fieldName,type):
+def FindDistinct(match,field,fieldName,type):
     pipeline= [
-           { '$match': {} },    
-           { '$group': { '_id': fieldName}},
+           { "$match": {"type": match }},     
+           { '$group': { '_id': { field : fieldName}}},
            { '$group': { '_id': 1, 'count': { '$sum': 1 }}}
            ]
     mycursor = db.aggregate(pipeline)
