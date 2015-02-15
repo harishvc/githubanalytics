@@ -8,10 +8,13 @@ choices = ["active users",
            "active repositories",
            "total commits",
            "trending now",
-           "top active repositories by contributors",
-           "top active repositories by branches",
-           "top active repositories by commits"]
-
+           "top repositories sorted by contributors",
+           "top repositories sorted by branches",
+           "top repositories sorted by commits",
+           "top new repositories sorted by contributors",
+           "top new repositories sorted by branches",
+           "top new repositories sorted by commits"
+           ]
 
 def compare(input):
     #print "comparing ....", input

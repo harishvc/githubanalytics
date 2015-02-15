@@ -20,19 +20,34 @@
   "tokens": ["active","what","hot","new","trending", "repo", "trend","ask","question"]
 },
 { 
-  "label": "top active repositories by contributors",
-  "value": "top active repositories by contributors",
+  "label": "top repositories sorted by contributors",
+  "value": "top repositories sorted by contributors",
   "tokens": ["active","repo", "top", "contributor","ask","question"]
 },
 { 
-  "label": "top active repositories by branches",
-  "value": "top active repositories by branches",
+  "label": "top repositories sorted by branches",
+  "value": "top repositories sorted by branches",
   "tokens": ["active","repo", "top", "branch","ask","question"]
 },
 { 
-  "label": "top active repositories by commits",
-  "value": "top active repositories by commits",
+  "label": "top repositories sorted by commits",
+  "value": "top repositories sorted by commits",
   "tokens": ["active","repo", "top", "commit","ask","question"]
+},
+{ 
+  "label": "top new repositories sorted by contributors",
+  "value": "top new repositories sorted by contributors",
+  "tokens": ["active","repo", "top", "new","contributor","ask","question"]
+},
+{ 
+  "label": "top new repositories sorted by branches",
+  "value": "top new repositories sorted by branches",
+  "tokens": ["active","repo", "top", "new","branch","ask","question"]
+},
+{ 
+  "label": "top new repositories sorted by commits",
+  "value": "top new repositories sorted by commits",
+  "tokens": ["active","repo", "top","new" ,"commit","ask","question"]
 }
 ]
 

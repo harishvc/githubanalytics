@@ -55,12 +55,18 @@ def ProcessQuery(query):
             return ProcessRepositories(query.replace('repository ', ''))
         elif  (query == "trending now"):
             return (TrendingNow())
-        elif  (query == "top active repositories by contributors"):
-            return (ReportTopRepositoriesBy("Top active repositories by contributors","authors"))
-        elif  (query == "top active repositories by commits"):
-            return (ReportTopRepositoriesBy("Top active repositories by commits","total"))
-        elif  (query == "top active repositories by branches"):
-            return (ReportTopRepositoriesBy("Top active repositories by branches","branches"))
+        elif  (query == "top repositories sorted by contributors"):
+            return (ReportTopRepositoriesBy("Top repositories sorted by contributors","authors","all"))
+        elif  (query == "top repositories sorted by commits"):
+            return (ReportTopRepositoriesBy("Top repositories sorted by commits","total","all"))
+        elif  (query == "top repositories sorted by branches"):
+            return (ReportTopRepositoriesBy("Top repositories sorted by branches","branches","all"))
+        elif  (query == "top new repositories sorted by contributors"):
+            return (ReportTopRepositoriesBy("Top new repositories sorted by contributors","authors","new"))
+        elif  (query == "top new repositories sorted by commits"):
+            return (ReportTopRepositoriesBy("Top new repositories sorted by commits","total","new"))
+        elif  (query == "top new repositories sorted by branches"):
+            return (ReportTopRepositoriesBy("Top new repositories sorted by branches","branches","new"))
         else:
             #return ("EMPTY")
             #Global Search
@@ -266,23 +272,37 @@ def TrendingNow():
     return ( sh + ULS + output  + ULE)
 
 
-def ReportTopRepositoriesBy(heading,sortBy):
+def ReportTopRepositoriesBy(heading,sortBy,type):
     sh = "<h2 class=\"text-success\">" + heading + "</h2>"
     path1 = "<a href=\"/?q=repository "
     path2 = "&amp;action=Search\">"
     path3 = "</a>"
     output =""
     t2 = "class=\"list-group-item\""
-    pipeline= [
-               { '$match': {"$or" : [ {"type": {"$in": ["PushEvent"]}}, {"type": {"$in": ["CreateEvent"]}}, {"type": {"$in": ["WatchEvent"]}} ]}},
-               { "$group": {"_id": {"full_name": "$full_name", "organization": "$organization"},"authoremails":{"$addToSet":"$actoremail"}, \
-                            "ref":{"$addToSet":"$ref"}, "type":{"$addToSet":"$type"}, \
-                            "total": { "$sum": {"$cond": [ {"$eq": ['$type', 'PushEvent']}, 1, "null" ]}}, \
-                            "stars": { "$sum": {"$cond": [ {"$eq": ['$type', 'WatchEvent']}, 1, "null" ]}} }}, \
-               { "$project": {"_id":0,"full_name":"$_id.full_name","organization":"$_id.organization","stars":"$stars", "type":"$type","total": "$total","branches":{"$size":"$ref"},"authors":{"$size":"$authoremails"}}},
-               { "$sort" : { sortBy: -1}},
-               { "$limit": DefaultLimit} 
-               ]
+    NewQuery =  "CreateEvent"
+    if (type == "all"):
+        pipeline= [
+                   { '$match': {"$or" : [ {"type": {"$in": ["PushEvent"]}}, {"type": {"$in": ["CreateEvent"]}}, {"type": {"$in": ["WatchEvent"]}} ]}},
+                   { "$group": {"_id": {"full_name": "$full_name", "organization": "$organization"},"authoremails":{"$addToSet":"$actoremail"}, \
+                                "ref":{"$addToSet":"$ref"}, "type":{"$addToSet":"$type"}, \
+                                "total": { "$sum": {"$cond": [ {"$eq": ['$type', 'PushEvent']}, 1, "null" ]}}, \
+                                "stars": { "$sum": {"$cond": [ {"$eq": ['$type', 'WatchEvent']}, 1, "null" ]}} }}, \
+                   { "$project": {"_id":0,"full_name":"$_id.full_name","organization":"$_id.organization","stars":"$stars", "type":"$type","total": "$total","branches":{"$size":"$ref"},"authors":{"$size":"$authoremails"}}},
+                   { "$sort" : { sortBy: -1}},
+                   { "$limit": DefaultLimit} 
+                   ]
+    elif (type == "new"):
+        pipeline= [
+                   { '$match': {"$or" : [ {"type": {"$in": ["PushEvent"]}}, {"type": {"$in": ["CreateEvent"]}}, {"type": {"$in": ["WatchEvent"]}} ]}},
+                   { "$group": {"_id": {"full_name": "$full_name", "organization": "$organization"},"authoremails":{"$addToSet":"$actoremail"}, \
+                                "ref":{"$addToSet":"$ref"}, "type":{"$addToSet":"$type"}, \
+                                "total": { "$sum": {"$cond": [ {"$eq": ['$type', 'PushEvent']}, 1, "null" ]}}, \
+                                "stars": { "$sum": {"$cond": [ {"$eq": ['$type', 'WatchEvent']}, 1, "null" ]}} }}, \
+                   { "$project": {"_id":0,"full_name":"$_id.full_name","organization":"$_id.organization","stars":"$stars", "type":"$type","total": "$total","branches":{"$size":"$ref"},"authors":{"$size":"$authoremails"}}},
+                   { "$match": {"type": {"$in": ["CreateEvent"]}}}, 
+                   { "$sort" : { sortBy: -1}},
+                   { "$limit": DefaultLimit} 
+                   ]        
     mycursor = db.aggregate(pipeline)
     for row in mycursor["result"]:
         tmp0 = "<i class=\"lrpadding fa fa-star fa-1x\"></i>" + numformat(row['stars']) + " stars" if (int(row['stars']) > 1) else "<i class=\"lrpadding fa fa-star fa-1x\"></i>1 star" if (int(row['stars']) == 1)  else ""
