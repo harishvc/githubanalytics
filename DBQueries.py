@@ -29,6 +29,7 @@ else:
 #Global variables
 DefaultLimit=10
 SearchLimit = 10
+TypeaheadLimit = 10
 ULS = "<ul class=\"list-group\">"
 ULE = "</ul>"
 LIS = "<li class=\"list-group-item\">"
@@ -137,7 +138,7 @@ def ProcessRepositories(repoName):
             myreturn += "Contributors <span class=\"badge\">" + str(len(record['actorname'])) + "</div></span>" 
             myreturn += "<div id=\"contributors\" class=\"collapse\">" + "<p class=\"cstyle\">" + ', '.join(record['actorname']).encode('utf-8').strip() + "</p></div></a>"
 
-            #Group by hours to create accardion using panels            
+            #Group by hours to create accordion using panels            
             CD = collections.OrderedDict()
             for x in record["comment"]:
                 created_at =  int(record["created_at"].pop(0)/1000)
@@ -217,9 +218,7 @@ def Search(query):
            { '$match': { '$text': { '$search': query }, 'type':'PushEvent' }},
            { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
            { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]},'actorname': "$_a1",'ref': '$_a3'}},
-            #{ '$match': { 'score': { '$gt': 1.0 }}},
            { '$sort':  { 'score': -1, 'count': -1}}
-           #{ '$limit': SearchLimit}
            ]
     
     mycursor = db.aggregate(pipeline)
@@ -325,7 +324,7 @@ def Typeahead(q):
     regx1 = re.compile(q, re.IGNORECASE)
     pipeline= [
                {'$match': {'$and': [ {'type': {'$in': ["PushEvent"]}},{'full_name':regx1}] }}, 
-               { "$limit": SearchLimit}, 
+               { "$limit": TypeaheadLimit}, 
                { "$group": {"_id": {"full_name": "$full_name"}}}, 
                { "$project": {"_id":0,"value": { "$concat": ["repository ","$_id.full_name"]}}}
                ]
