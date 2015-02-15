@@ -15,11 +15,11 @@ import bleach
 from json import dumps
 
 #Local modules
-import RandomQuotes
+import Suggestions
 import DBQueries     
 
 #Global variables
-NORESULT="<div class=\"col-sm-12\"><p class=\"searchstatus text-danger\">You've got me stumped!</p></div>"    #No result
+NORESULT="<h2 class=\"searchstatus text-danger\">You've got me stumped!</h2>"    #No result
 
 
 
@@ -37,8 +37,6 @@ app.jinja_env.filters['numformat'] = numformat
 def index():
     query = ""
     processed_text1  = ""
-    global ShowSuggestion
-    ShowSuggestion = False
     #Debug
     #time.sleep(5)
     if request.method == 'GET':
@@ -54,7 +52,8 @@ def index():
             #End: Uncomment to trigger slow response time
             processed_text1 = DBQueries.ProcessQuery(query)
             if (processed_text1 == "EMPTY") :
-                processed_text1 = NORESULT
+                t1 = Suggestions.compare("now") if (query == "") else Suggestions.compare(query)  
+                processed_text1 =  NORESULT + t1
     else:
         query =""
         processed_text1 =""

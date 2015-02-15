@@ -1,14 +1,36 @@
-import random
+#https://github.com/seatgeek/fuzzywuzzy
+#https://pypi.python.org/pypi/fuzzywuzzy/0.4.0
 
-def RandomQuerySuggestions():
-   foo =    ["<a href=\'/?q=active+repositories&action=Search\'>active repositories</a>",
-            "<a href=\'/?q=active+users&action=Search\'>active users</a>",
-            "<a href=\'/?q=total+commits&action=Search\'>total commits</a>",
-            "<a href=\'/?q=trending+now&action=Search\'>trending now</a>",
-            "<a href=\'/?q=top+active+repositories+by+contributors&action=Search\'>top active repositories by contributors</a>",
-            "<a href=\'/?q=top+active+repositories+by+commits&action=Search\'>top active repositories by commits</a>",
-            "<a href=\'/?q=top+active+repositories+by+branches&action=Search\'>top active repositories by branches</a>"
-            ]
-   return("Suggestion: " + random.choice(foo))
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
+
+choices = ["active users",
+           "active repositories",
+           "total commits",
+           "trending now",
+           "top active repositories by contributors",
+           "top active repositories by branches",
+           "top active repositories by commits"]
 
 
+def compare(input):
+    #print "comparing ....", input
+    r = process.extract(input, choices,limit=5)
+    suggestionList = ""
+    #Pick top 3 if more than 75% exact
+    if (r[0][1] >= 75):
+        suggestionList += "<p class=\"text-info\">Did you mean:</p><ul>"
+        cnt = 1
+        for row in r:
+            if (row[1] >= 75 and cnt <= 3):
+                cnt = cnt + 1
+                suggestionList += "<li><a href=\"/?q=" + str(row[0]) + "&amp;action=Search\">" + str(row[0]) + "</a></li>"
+            else:
+                break
+        suggestionList += "</ul>"
+    #Pick one if no exact       
+    elif (r[0][1] >= 0):
+        suggestionList += "<p class=\"text-info\">Suggestion:</p><a href=\"/?q=" + str(r[0][0]) + "&amp;action=Search\">" + str(r[0][0]) + "</a>"
+    
+    #print suggestionList
+    return suggestionList

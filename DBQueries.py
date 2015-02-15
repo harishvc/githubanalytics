@@ -10,7 +10,6 @@ import collections
 
 #Local modules
 import RandomQuotes
-import Suggestions
 import Neo4jQueries
 import MyMoment
 
@@ -19,7 +18,7 @@ app = Flask(__name__)
 #Configure for production or development based on environment variables
 if (os.environ['deployEnv'] == "production"):
     MONGO_URL = os.environ['connectURLRead']
-    connection = MongoClient(MONGO_URL,auto_start_request=False)
+    connection = MongoClient(MONGO_URL)
     db = connection.githublive.pushevent
 else: 
     MONGO_URL = os.environ['connectURLReaddev']
@@ -40,10 +39,8 @@ SB7  = "<div class=\"col-sm-7\">"
 DE = "</div>"
     
 def ProcessQuery(query):
-    global ShowSuggestion
-    ShowSuggestion = False
     if (query == ""):
-        return ""
+        return "EMPTY"
     else: 
         app.logger.debug("processing ............ ->%s<-" ,  query)
         if (query == "active repositories"):
