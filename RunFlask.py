@@ -1,7 +1,7 @@
 #References
 #https://realpython.com/blog/python/primer-on-jinja-templating/
 
-from flask import Flask, make_response
+from flask import Flask, make_response, send_from_directory
 from flask import request
 from flask import jsonify
 from flask import render_template
@@ -101,6 +101,10 @@ def tsearch(name=None):
         t = DBQueries.Typeahead(query) 
        
     return make_response(dumps(t))
+@app.route('/robots.txt')
+@app.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
 
 if __name__ == '__main__':
     if (os.environ['deployEnv'] == "production"):
