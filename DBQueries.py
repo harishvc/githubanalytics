@@ -358,15 +358,16 @@ def CommitFrequency (heading):
             range5 += record['frequency']
         else:
             range6 += record['frequency'] 
-     
+    total = range0 + range1 + range2 + range3 + range4 + range5  
     output = sh + "<p>" +  FindDistinct ('PushEvent','actors','$actorlogin', "users") + "</p>"
-    output += "<ul><li>1 commit: " + numformat(range0) + " users</li>"
-    output += "<li>2-3 commits: "      + numformat(range1) + " users</li>"
-    output += "<li>4-3 commits: "      + numformat(range2) + " users</li>"
-    output += "<li>6-10 commits: "     + numformat(range3) + " users</li>"
-    output += "<li>11-15 commits: "    + numformat(range4) + " users</li>"
-    output += "<li>16-20 commits: "    + numformat(range5) + " users</li>" 
-    output += "<li>>20 commits: "      + numformat(range6) + " users</li></ul>" 
+    output += "<table class=\"table table-striped\"><tr><th>Commits per user</th><th>Users</th><th>% Users</th></tr>"
+    output += "<tr><td>1</td><td>"     + numformat(range0) + "</td><td>" + "{0:.2f}".format(range0*100/ float(total)) + "%</td></tr>"
+    output += "<tr><td>2-3</td><td>"   + numformat(range1) + "</td><td>" + "{0:.2f}".format(range1*100/ float(total)) + "%</td></tr>"
+    output += "<tr><td>4-3</td><td>"   + numformat(range2) + "</td><td>" + "{0:.2f}".format(range2*100/ float(total)) + "%</td></tr>"
+    output += "<tr><td>6-10</td><td>"  + numformat(range3) + "</td><td>" + "{0:.2f}".format(range3*100/ float(total)) + "%</td></tr>"
+    output += "<tr><td>11-15</td><td>" + numformat(range4) + "</td><td>" + "{0:.2f}".format(range4*100/ float(total)) + "%</td></tr>"
+    output += "<tr><td>16-20</td><td>" + numformat(range5) + "</td><td>" + "{0:.2f}".format(range5*100/ float(total)) + "%</td></tr>" 
+    output += "<tr><td>>20</td><td>"   + numformat(range6) + "</td><td>" + "{0:.2f}".format(range6*100/ float(total)) + "%</td></tr></table>" 
     return output
 
 
