@@ -28,19 +28,14 @@
 	     <div class="row">
 	 		    <div class="col-sm-12">
                        <div id="searchbox">
-                           <p><i>Open-source developers all over the world are working on millions of projects: writing code & documentation, fixing & submitting bugs, and so forth<prefix>*</prefix></i>. 
-                              	Ask GitHub provides a search interface to search latest GitHub public timeline to answer questions like 
-                              	<a href="/?q=trending+now&amp;action=Ask+GitHub\">what is trending now?</a> 
-                              	<a href="/?q=top+repositories+sorted+by+contributors&amp;action=Ask+GitHub\">what are the top repositories?</a> 
-                              	<a href="/?q=user+commit+frequency&amp;action=Ask+GitHub\">how often are users making commits?</a>  
-                              	Twitter's Typeahead provides a list of pre-defined questions 
-                              	and matching repositories are dynamically generated as search queries are typed. *<a href="https://githubarchive.org">GitHub Archive</a>
-                           </p>
-                           <p>Search by repository name or type <code>q</code> in the search 
-                              box for  pre-defined questions. Interested?  <a href="http://harishvc.com/2015/02/15/askgithub/">Ask GitHub blog post</a>, 
-                              <a href="http://bit.ly/harishvc-githubanalytics">let's collaborate</a>. 
-                              <a href="mailto:harishvc@gmail.com?Subject=Ask+GitHub">Feedback is appreciated</a> <i class="class=lpadding fa fa-smile-o fa-1x"></i>
-                           </p>  
+                           <p><i>Open-source developers all over the world are working on millions of projects: writing code &amp; documentation, 
+                           	     fixing &amp; submitting bugs, and so forth<prefix>*</prefix></i>. 
+                              	 Ask GitHub searches latest GitHub public timeline using event types to answer questions including
+                               	 <a href="/?q=trending+now&amp;action=Ask+GitHub">what is trending now?</a> 
+                              	 <a href="/?q=top+repositories+sorted+by+contributors&amp;action=Ask+GitHub">what are the top repositories?</a> 
+                              	 <a href="/?q=user+commit+frequency&amp;action=Ask+GitHub">how often are users making commits?</a> 
+                              	 *<a href="https://githubarchive.org">GitHub Archive</a></p>                              	
+                              	<p class="lead">Search by repository name or type <code>q</code> in the search box for predefined questions.</p>
           			       <form action="." method="get" id="askgithub">
                                  <div class="input-group" id="multiple-datasets">
           	                          <input type="text" class="typeahead" placeholder="search latest GitHub timeline" name="q" type="text" value="{{ query[0]["text"] }}">
