@@ -363,7 +363,7 @@ def CommitFrequency (heading):
     output += "<table class=\"table table-striped\"><tr><th>Commits per user</th><th>Users</th><th>% Users</th></tr>"
     output += "<tr><td>1</td><td>"     + numformat(range0) + "</td><td>" + "{0:.2f}".format(range0*100/ float(total)) + "%</td></tr>"
     output += "<tr><td>2-3</td><td>"   + numformat(range1) + "</td><td>" + "{0:.2f}".format(range1*100/ float(total)) + "%</td></tr>"
-    output += "<tr><td>4-3</td><td>"   + numformat(range2) + "</td><td>" + "{0:.2f}".format(range2*100/ float(total)) + "%</td></tr>"
+    output += "<tr><td>4-5</td><td>"   + numformat(range2) + "</td><td>" + "{0:.2f}".format(range2*100/ float(total)) + "%</td></tr>"
     output += "<tr><td>6-10</td><td>"  + numformat(range3) + "</td><td>" + "{0:.2f}".format(range3*100/ float(total)) + "%</td></tr>"
     output += "<tr><td>11-15</td><td>" + numformat(range4) + "</td><td>" + "{0:.2f}".format(range4*100/ float(total)) + "%</td></tr>"
     output += "<tr><td>16-20</td><td>" + numformat(range5) + "</td><td>" + "{0:.2f}".format(range5*100/ float(total)) + "%</td></tr>" 
