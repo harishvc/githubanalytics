@@ -28,6 +28,7 @@
 	     <div class="row">
 	 		    <div class="col-sm-12">
                        <div id="searchbox">
+                       <div id="intro">
                            <p><i>Open-source developers all over the world are working on millions of projects: writing code &amp; documentation, 
                            	     fixing &amp; submitting bugs, and so forth<prefix>*</prefix></i>. 
                               	 Ask GitHub searches latest GitHub public timeline using event types to answer questions including
@@ -36,6 +37,7 @@
                               	 <a href="/?q=user+commit+frequency&amp;action=Ask+GitHub">how often are users making commits?</a> 
                               	 *<a href="https://githubarchive.org">GitHub Archive</a></p>                              	
                               	<p class="lead">Search by repository name or type <code>q</code> in the search box for predefined questions.</p>
+          			   </div>
           			       <form action="." method="get" id="askgithub">
                                  <div class="input-group" id="multiple-datasets">
           	                          <input type="text" class="typeahead" placeholder="search latest GitHub timeline" name="q" type="text" value="{{ query[0]["text"] }}">
@@ -53,7 +55,7 @@
 <div class="col-sm-12">
   <div class="container">
     <div class="row">
-               <div id="progress" class="progressalign">crunching the latest data just for you <i class="fa fa-spinner fa-pulse fa-1x"></i></div>
+               <div id="progress" class="progressalign">crunching the latest data just for you <i class="fa fa-spinner fa-spin fa-1x"></i></div>
         </div>
     </div>
 </div>       
