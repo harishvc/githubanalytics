@@ -39,3 +39,11 @@ def MT():
 def FT():
     fmt = '%d%b%Y-%H%M%S'
     return ( datetime.datetime.now(pytz.timezone("America/Los_Angeles")).strftime(fmt) )
+
+#Time now in epoch milliseconds
+def TNEM():
+    return (int(datetime.datetime.now().strftime("%s")) * 1000)
+
+#Time then (back in minutes) is epoch milliseconds
+def TTEM(Back):
+    return (int(datetime.datetime.now().strftime("%s")) * 1000 - (Back * 60 * 1000))
