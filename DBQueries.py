@@ -46,6 +46,8 @@ def ProcessQuery(query):
         app.logger.debug("processing ............ ->%s<-" ,  query)
         if (query == "total repositories"):
              return FindDistinct ('PushEvent','full_name','$full_name',"repositories")
+        elif (query == "total users"):
+             return FindDistinct ('PushEvent','actors','$actorlogin', "users")
         elif (query == "total new repositories"):
              return FindDistinct ('CreateEvent','full_name','$full_name',"new repositories")
         elif  (query == "total active users"):
@@ -98,15 +100,11 @@ def ProcessRepositories(repoName):
     #TODO: Add header
     sh = "<h2></h2>"
     mycursor = RepoQuery(repoName)
+    #SR = Neo4jQueries.FindSimilarRepositories(repoName)
     if (len(mycursor["result"]) == 0):
         return ("EMPTY")
     else:       
-        myreturn =""
-        
-        #TODO: Add recommendation using neo4j
-        #similarRepos = Neo4jQueries.FindSimilarRepositories(repoName)
-        #similarRepos = FindSimilarRepositories(repoName)
-           
+        myreturn =""   
         for record in mycursor["result"]:
             myreturn = sh + ULS
             myreturn += LIS + SB5 + "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>" + DE + SB7
@@ -130,8 +128,10 @@ def ProcessRepositories(repoName):
                 if ( (record['description'] != None) and (len(record['description'])) > 0):
                     myreturn += LIS + SB12 + record['description'].encode('utf-8').strip() + DE + LIE
                     #print "Description is not empty -->" , record['description']
-            #TODO
-            #myreturn += similarRepos
+            
+            #Similar repositories        
+            #if (len(SR) > 0):
+            #    myreturn += LIS + SB12 + SR + DE + LIE
             
             # Show contributors using list group badges
             myreturn += "<a href=\"#\" class=\"list-group-item\" data-toggle=\"collapse\" data-target=\"#contributors\">" + SB12
