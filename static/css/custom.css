@@ -86,3 +86,11 @@ body {
    padding-top: 75px; 
 }
 
+.circle-icon {
+    background: #FFFF00;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.nobr	{ white-space:nowrap; }
