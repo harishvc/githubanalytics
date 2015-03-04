@@ -39,21 +39,41 @@ def SE(s):
 				return 0
  		else:
  			return 0
- 	
+
+#Determine Nodes and breakdown 	
 def Nodes(): 
-	for record in graph.cypher.execute("match n return count(*) as count"):
-		return numformat(record.count)
-	
+    for record in graph.cypher.execute("match n return count(n) as count"):
+        total = numformat(record.count)
+    for record in graph.cypher.execute("match (a:Repository) return count(a) as count"):    
+        r = numformat(record.count)
+    for record in graph.cypher.execute("match (a:People) return count(a) as count"):    
+        a = numformat(record.count)
+    for record in graph.cypher.execute("match (a:Organization) return count(a) as count"):    
+        o = numformat(record.count)
+    output = "Nodes:" + str(total) + " (" + "Repositories:" + str(r) + " People:" + str(a) + " Organization:" + str(o) + ")"        
+    return output
+
+#Determine edges and breakdown    
 def Edges():
-	for record in graph.cypher.execute("match (a)-[r]->(b) return count(r) as count"):
-		return numformat(record.count)
-	
+    for record in graph.cypher.execute("match (a)-[r]->(b) return count(r) as count"):
+        total = numformat(record.count)
+    for record in graph.cypher.execute("match (a:Repository)-[r]->(b:People) return count(r) as count"):
+        RA = numformat(record.count)
+    for record in graph.cypher.execute("match (a:Repository)-[r]->(b:Organization) return count(r) as count"):
+        RO = numformat(record.count)
+    output = "Relations:" + str(total) + " (" + "Repositories->People:" + str(RA) + ", Repositories->Organization:" + str(RO) + ")"        
+    return output
+    
 	 		
 def CNR():			
-    #Find entries in the past 120 minutes
-    since = MyMoment.TTEM(120)
+    #Find entries in the past  75 minutes (GitHub Events are processed hourly at 15 minutes past the hour)
+    #Wait 2 hours!!!!
+    since = MyMoment.TTEM(200)
     print MyMoment.MT() + " start: creating new nodes and relations since ", since
-    print "#Nodes:", Nodes(), " #Relations:",Edges()
+    #Force Python's print function
+    sys.stdout.flush()
+    print Nodes(),Edges()
+    sys.stdout.flush()
     pipeline=[
               {'$match': {'$and': [ {'sha': { '$exists': True }},{'created_at': { '$gt': since }} ]}},
               { '$group': {'_id': {'full_name': '$full_name','organization': '$organization' }, '_a1': {"$addToSet": "$actorlogin"}}},
@@ -62,7 +82,7 @@ def CNR():
     mycursor = db.aggregate(pipeline)
     t = 0
     for record in mycursor["result"]:
-        print "processing ......",record["full_name"]    
+        #print "processing ......",record["full_name"]    
         if "github.io" not in record["full_name"]:
             #print "adding node ......",record["full_name"]    
             r = graph.merge_one("Repository", "id", record["full_name"])
@@ -90,15 +110,21 @@ def CNR():
         #else:
             #print "ignore ...",record["full_name"] 
     print MyMoment.MT() + " end: generating new nodes and building new relations ...",t
-    print "#Nodes:", Nodes(), " #Relations:",Edges()
+    #Force Python's print function
+    sys.stdout.flush()
+    print Nodes(),Edges()
+    sys.stdout.flush()
     print "Deleting nodes and relations older than 24 hours ..."
+    sys.stdout.flush()
     DayAgo =  MyMoment.TTEM(60*24)
     d1 = "MATCH (a)-[r]-() where a.created_at <" + str(DayAgo) + " delete a,r"
     d2 = "MATCH (a) where a.created_at <" + str(DayAgo) + " delete a"
     graph.cypher.execute(d1)
     graph.cypher.execute(d2)
     print "#Nodes:", Nodes(), " #Relations:",Edges()
-     
+    #Force Python's print function
+    sys.stdout.flush()
+ 
 	
 #Create Nodes & Relations
 CNR()
