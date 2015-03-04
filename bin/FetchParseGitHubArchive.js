@@ -24,7 +24,7 @@ function GetParse() {
 	//var TimeNow = moment.utc().format();
 	//console.log (TimeNow + " processing " + URL);
 	//Time an hour ago in UTC
-	var TimeAgo = moment.utc().subtract(2, 'hours').format("YYYY-MM-DD-H");
+	var TimeAgo = moment.utc().subtract(1, 'hours').format("YYYY-MM-DD-H");
 	var URL = "http://data.githubarchive.org/" + TimeAgo + ".json.gz";
 	//TEST
 	//var URL = "http://data.githubarchive.org/2015-01-28-0.json.gz";
