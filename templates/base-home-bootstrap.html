@@ -25,7 +25,7 @@
                 });
             });
     </script>
-  {% if appenv == "production" %} {% include 'ga.js' %} {% endif %}
+  {% if showGAcode == "yes" %} {% include 'ga.js' %} {% endif %}
   </head>
   <body>
   	    {% block content %}{% endblock %}

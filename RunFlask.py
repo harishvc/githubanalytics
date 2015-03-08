@@ -60,6 +60,7 @@ def index():
             
     return render_template("index-bootstrap.html",
         title = 'Ask GitHub',
+        showGAcode = os.environ['showGAcode'],
         appenv = os.environ['deployEnv'],
         query = [{"text": query}],     
         processed_text = processed_text1)
