@@ -6,16 +6,7 @@
 @media (max-width: 1200px) {
  .row {
   margin-left: -50px;
-  //margin-right: 0px;	
  }
- //.searchstatus {
-	//padding-top: 5px;
-	//margin-left: -15px;
-// }
-// .progressalign{
- //	padding-top: 30px;
- //	margin-left: -15px;
-// }
 }
 
  .row {
@@ -67,9 +58,16 @@
 
 .list-group-item {
 	padding: 5px 5px;	
-	padding-bottom: 35px;  //Handle large font size
+	padding-bottom: 30px;  //Handle large font size
 }
 
+.clearfloat {
+	float: none;
+}
+
+.nbp{
+	padding-bottom: 5px;  //Remove extra padding at bottom
+}
 .jumbotron {
 	background-color: #fff;
 	margin-bottom: 0px;
@@ -93,4 +91,7 @@ body {
     vertical-align: middle;
 }
 
+a.list-group-item .text-success{
+	color: #3c763d;
+}
 .nobr	{ white-space:nowrap; }

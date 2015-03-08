@@ -24,8 +24,7 @@ else:
     MONGO_URL = os.environ['connectURLReaddev']
     connection = MongoClient(MONGO_URL)
     db = connection.githubdev.pushevent
-     
-
+    
 #Global variables
 DefaultLimit=10
 SearchLimit = 10
@@ -33,12 +32,22 @@ TypeaheadLimit = 10
 ULS = "<ul class=\"list-group\">"
 ULE = "</ul>"
 LIS = "<li class=\"list-group-item\">"
+LISNBP = "<li class=\"list-group-item nbp\">"
+LIS2 = "<li class=\"list-group-item2\">"
 LIE = "</li>"
-SB12 = "<div class=\"col-sm-12\">"
+SB12 = "<div class=\"col-sm-12 clearfloat\">"
+#SB12 = "<div class=\"col-sm-12\" style=\"float:none;\">"
 SB5  = "<div class=\"col-sm-5\">"
 SB7  = "<div class=\"col-sm-7\">"
 DE = "</div>"
-    
+LGIHS = "<h3 class=\"list-group-item-heading text-success\">"
+LGIHE = "</h3>" 
+#z1 = """<h3 class="list-group-item-heading">Similar Repositories</h3>"""
+#z2 = """<p class="list-group-item-text2 nav nav-pills nav-stacked">"""
+#z3 ="</p>"
+#tz1 = """<div class="clearfix visible-xs"></div>
+#    <div class="clearfix visible-sm"></div>"""
+        
 def ProcessQuery(query):
     if (query == ""):
         return "EMPTY"
@@ -100,7 +109,7 @@ def ProcessRepositories(repoName):
     #TODO: Add header
     sh = "<h2></h2>"
     mycursor = RepoQuery(repoName)
-    #SR = Neo4jQueries.FindSimilarRepositories(repoName)
+    SR = Neo4jQueries.FindSimilarRepositories(repoName)
     if (len(mycursor["result"]) == 0):
         return ("EMPTY")
     else:       
@@ -130,13 +139,15 @@ def ProcessRepositories(repoName):
                     #print "Description is not empty -->" , record['description']
             
             #Similar repositories        
-            #if (len(SR) > 0):
-            #    myreturn += LIS + SB12 + SR + DE + LIE
+            if (len(SR) > 0):
+                #myreturn += LIS + ULS + LIS2 + SB12 + SR + LIE + ULE + DE + LIE
+                #myreturn += LIS +  tz1 + SB12 + z1 + z2 + SR + z3 + DE + LIE
+                myreturn += LISNBP + SB12 + LGIHS + "Similar" + LGIHE + SR  + DE + LIE
             
             # Show contributors using list group badges
-            myreturn += "<a href=\"#\" class=\"list-group-item\" data-toggle=\"collapse\" data-target=\"#contributors\">" + SB12
-            myreturn += "Contributors <span class=\"badge\">" + str(len(record['actorname'])) + "</div></span>" 
-            myreturn += "<div id=\"contributors\" class=\"collapse\">" + "<p class=\"cstyle\">" + ', '.join(record['actorname']).encode('utf-8').strip() + "</p></div></a>"
+            myreturn += "<a href=\"#\" class=\"list-group-item nbp\" data-toggle=\"collapse\" data-target=\"#contributors\">" + SB12
+            myreturn += LGIHS + "Contributors&nbsp;&nbsp;" + "<span class=\"badge\">" + str(len(record['actorname'])) + "</div></span>" 
+            myreturn += "<div id=\"contributors\" class=\"collapse\">" + "<p class=\"cstyle\">" + ', '.join(record['actorname']).encode('ascii', 'ignore').strip() + "</p></div></a>" + LGIHE 
 
             #Group by hours to create accordion using panels            
             CD = collections.OrderedDict()
@@ -153,7 +164,7 @@ def ProcessRepositories(repoName):
                 else:
                     CD[key] = value    
             
-            myreturn += "<li class=\"list-group-item\">" + SB12 + "Comments" + "<div class=\"panel-group\" id=\"accordion\">"
+            myreturn += "<li class=\"list-group-item nbp\">" + SB12 + LGIHS + "Comments" + LGIHE + "<div class=\"panel-group\" id=\"accordion\">"
             for k, v in CD.items():
                h = str(k) + " hours" if (int(k) > 1) else  str(k) + " hour" if (int(k) == 1) else "<1 hour"
                myreturn += "<div class=\"panel panel-default\"><div class=\"panel-heading\">"
