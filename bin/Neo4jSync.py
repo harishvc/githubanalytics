@@ -146,8 +146,8 @@ def LoadCSV():
 
 def Cleanup():
     print MyMoment.MT() + ": #Nodes:", Nodes(), " #Relations:",Edges()    
-    print MyMoment.MT() + ": Deleting nodes and relations older than 24 hours ..."
-    DayAgo =  MyMoment.TTEM(60*24)
+    print MyMoment.MT() + ": Deleting nodes and relations older than 28 hours ..."
+    DayAgo =  MyMoment.TTEM(60*28)
     d1 = "MATCH (a)-[r]-() where toInt(a.created_at) <" + str(DayAgo) + " delete a,r"
     d2 = "MATCH (a) where toInt(a.created_at) <" + str(DayAgo) + " delete a"
     graph.cypher.execute(d1)
