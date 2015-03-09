@@ -12,8 +12,13 @@ import collections
 import RandomQuotes
 import Neo4jQueries
 import MyMoment
+import sys
 
 app = Flask(__name__)
+
+#Set encoding 
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 #Configure for production or development based on environment variables
 if (os.environ['deployEnv'] == "production"):
@@ -24,6 +29,7 @@ else:
     MONGO_URL = os.environ['connectURLReaddev']
     connection = MongoClient(MONGO_URL)
     db = connection.githubdev.pushevent
+
     
 #Global variables
 DefaultLimit=10
