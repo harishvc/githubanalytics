@@ -23,6 +23,9 @@
                     $('#result').empty();  
                     $('#progress').show();
                 });
+   			   if ($('#result').html().trim()) {
+   			   	    $('#searchbox #intro').hide();
+               }                
             });
     </script>
   {% if showGAcode == "yes" %} {% include 'ga.js' %} {% endif %}
