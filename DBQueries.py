@@ -133,9 +133,9 @@ def ProcessRepositories(repoName):
             else:
                 myreturn += "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(record['refc'])) + " branch"    
             if (len(record['actorname']) > 1):
-                myreturn += "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(record['actorname'])) + " contributers"
+                myreturn += "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(record['actorname'])) + " contributers</span>"
             else:
-                myreturn += "<i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(record['actorname'])) + " contributer"   
+                myreturn += "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(record['actorname'])) + " contributer</span>"   
             if(record['organization'] != 'Unspecified'):  myreturn += "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>&nbsp;" + str(record['organization']) + "</span>" 
             myreturn += DE + LIE            
             #Handle None & empty description
@@ -260,7 +260,7 @@ def Search(query):
             tmp1 = "<i class=\"lrpadding fa fa-code fa-1x\"></i >" + HSR(qregx,row['language'].encode('utf-8').strip()) if (row['language']) else ""
             tmp2 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + HSR(qregx,str(row['organization'])) + "<span>" if (row['organization'] != 'Unspecified') else ""
             tmp3 = "<br/>" + HSR(qregx,row['description'].encode('utf-8').strip()) if(row['description']) else ""
-            tmp4 = "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(row['actorname'])) + " contributors" if (len(row['actorname']) > 1) else "<i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(row['actorname'])) + " contributor"
+            tmp4 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(row['actorname'])) + " contributors</span>" if (len(row['actorname']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(row['actorname'])) + " contributor</span>"
             tmp5 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branches" if (len(row['ref']) > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branch"
             output += "<li class=\"list-group-item\">" + SB5 + path1 + row['full_name'].encode('utf-8').strip() + path2 + HSR(qregx, row['full_name'].encode('utf-8').strip()) + path3 + DE + SB7 + tmp0 + tmp5 + tmp4 + tmp1 + tmp2 + tmp3+ DE + "</li>"
             #TODO
@@ -326,7 +326,7 @@ def ReportTopRepositoriesBy(heading,sortBy,type):
         tmp0 = "<i class=\"lrpadding fa fa-star fa-1x\"></i>" + numformat(row['stars']) + " stars" if (int(row['stars']) > 1) else "<i class=\"lrpadding fa fa-star fa-1x\"></i>1 star" if (int(row['stars']) == 1)  else ""
         tmp1 = "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['total']) + " commits"
         tmp2 =  "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches" if ( int(row['branches']) > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + "1 branch"        #tmp2 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches"    
-        tmp3 =  "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors" if ( int(row['authors']) > 1) else "<i class=\"lrpadding fa fa-user fa-1x\"></i>" + "1 contributor"
+        tmp3 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors</span>" if ( int(row['authors']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>" + "1 contributor</span>"
         tmp4 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + str(row['organization']) + "</span>" if ('organization' in row.keys()) else "" 
         tmp5 = "<sup><i class=\"rpadding fa fa-bullhorn fa-1x\">New</i></sup>" if ('CreateEvent' in row['type']) else "" 
         output += LIS + SB5 + path1 + row['full_name'].encode('utf-8').strip() + path2 + row['full_name'].encode('utf-8').strip() + path3 + tmp5 + DE + SB7 + tmp0 + tmp1 + tmp2 + tmp3  + tmp4 + DE + LIE
