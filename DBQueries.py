@@ -115,7 +115,10 @@ def ProcessRepositories(repoName):
     #TODO: Add header
     sh = "<h2></h2>"
     mycursor = RepoQuery(repoName)
+    #Query Neo4j for similar repositories
     SR = Neo4jQueries.FindSimilarRepositories(repoName)
+    #Find languages
+    LBD = LanguageBreakdown(repoName)
     if (len(mycursor["result"]) == 0):
         return ("EMPTY")
     else:       
@@ -138,16 +141,20 @@ def ProcessRepositories(repoName):
                 myreturn += "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(record['actorname'])) + " contributer</span>"   
             if(record['organization'] != 'Unspecified'):  myreturn += "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>&nbsp;" + str(record['organization']) + "</span>" 
             myreturn += DE + LIE            
+           
             #Handle None & empty description
             if ('description' in record):
                 if ( (record['description'] != None) and (len(record['description'])) > 0):
                     myreturn += LIS + SB12 + record['description'].encode('utf-8').strip() + DE + LIE
                     #print "Description is not empty -->" , record['description']
-            
+
+            #Display languages
+            if (len(LBD) > 0):
+                t1 = "Languages" if (LBD.count('<li>') > 1) else "Language"
+                myreturn += LISNBP + SB12 + LGIHS + t1 + LGIHE + LBD  + DE + LIE
+
             #Similar repositories        
             if (len(SR) > 0):
-                #myreturn += LIS + ULS + LIS2 + SB12 + SR + LIE + ULE + DE + LIE
-                #myreturn += LIS +  tz1 + SB12 + z1 + z2 + SR + z3 + DE + LIE
                 myreturn += LISNBP + SB12 + LGIHS + "Similar" + LGIHE + SR  + DE + LIE
             
             # Show contributors using list group badges
@@ -387,7 +394,41 @@ def CommitFrequency (heading):
     output += "<tr><td>>20</td><td>"   + numformat(range6) + "</td><td>" + "{0:.2f}".format(range6*100/ float(total)) + "%</td></tr></table>" 
     return output
 
+def stringToDictionary(s, pairSeparator, keyValueSeparator):
+    items = s.split(pairSeparator)
+    data = {}
+    for item in items:
+        keyvalpair = item.split(keyValueSeparator)
+        data[keyvalpair[0].strip()] = int(keyvalpair[1].strip())
+    #print data
+    #for (key, value) in data.items():
+        #print key , "------->", value
+    return data 
 
+def LanguageBreakdown(RFN):
+    output = ""
+    sum = 0 
+    pipeline= [
+                { "$match": {"type": 'RepoInfo' ,'full_name': RFN}},     
+                { "$group": {"_id": {"full_name": "$full_name","language":"$language"}}},
+                { "$project": { '_id': 0, 'full_name': '$_id.full_name','language':'$_id.language'}}
+               ]    
+    mycursor = db.aggregate(pipeline)
+    for row in mycursor["result"]:
+        d = stringToDictionary(row['language'].replace("}","").replace("{",""), ',', ':')
+        #for k, v in sorted(d.items(), key=lambda kv: kv[1], reverse=True):
+        #    print("%s => %s" % (k,v))
+        for (key, value) in d.items():
+            sum += value
+        for k, v in sorted(d.items(), key=lambda kv: kv[1], reverse=True):
+            percentage = round(v / (sum + 0.0)*100,2)
+            if (percentage < 1.00):
+                percentage = "<1"
+            output+= "<li>" + str(k)  + "   " + str(percentage) + "%" + "</li>"            
+        if (len(output) > 0):
+         return ("<ul>" + output + "</ul>") 
+        else:
+            return output
 
     
 def CloseDB():
