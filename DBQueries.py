@@ -115,8 +115,11 @@ def ProcessRepositories(repoName):
     #TODO: Add header
     sh = "<h2></h2>"
     mycursor = RepoQuery(repoName)
+    
+    #TODO: Use AJAX
     #Query Neo4j for similar repositories
-    SR = Neo4jQueries.FindSimilarRepositories(repoName)
+    #SR = Neo4jQueries.FindSimilarRepositories(repoName)
+    
     #Find languages
     LBD = LanguageBreakdown(repoName)
     if (len(mycursor["result"]) == 0):
@@ -153,9 +156,10 @@ def ProcessRepositories(repoName):
                 t1 = "Languages" if (LBD.count('<li>') > 1) else "Language"
                 myreturn += LISNBP + SB12 + LGIHS + t1 + LGIHE + LBD  + DE + LIE
 
+            #TODO
             #Similar repositories        
-            if (len(SR) > 0):
-                myreturn += LISNBP + SB12 + LGIHS + "Similar" + LGIHE + SR  + DE + LIE
+            #if (len(SR) > 0):
+                #myreturn += LISNBP + SB12 + LGIHS + "Similar" + LGIHE + SR  + DE + LIE
             
             # Show contributors using list group badges
             myreturn += "<a href=\"#\" class=\"list-group-item nbp\" data-toggle=\"collapse\" data-target=\"#contributors\">" + SB12
