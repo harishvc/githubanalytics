@@ -152,13 +152,17 @@ def ProcessRepositories(repoName):
                     #print "Description is not empty -->" , record['description']
 
             #Display languages
-            if (len(LBD) > 0):
+            #if (len(LBD) > 0):
+            #Check is a string is empty
+            if LBD:
+                LBD.strip()
                 t1 = "Languages" if (LBD.count('<li>') > 1) else "Language"
                 myreturn += LISNBP + SB12 + LGIHS + t1 + LGIHE + LBD  + DE + LIE
 
             #TODO
             #Similar repositories        
             #if (len(SR) > 0):
+            #if SR:
                 #myreturn += LISNBP + SB12 + LGIHS + "Similar" + LGIHE + SR  + DE + LIE
             
             # Show contributors using list group badges
