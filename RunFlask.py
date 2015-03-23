@@ -16,7 +16,8 @@ from json import dumps
 
 #Local modules
 import Suggestions
-import DBQueries     
+import DBQueries
+import Neo4jQueries     
 
 #Global variables
 NORESULT="<h2 class=\"searchstatus text-danger\">You've got me stumped!</h2>"    #No result
@@ -65,6 +66,13 @@ def index():
         query = [{"text": query}],     
         processed_text = processed_text1)
     
+
+@app.route('/_findsimilarrepositories')
+def findsimilarrepositories():
+    reponame = bleach.clean(request.args['a']).strip()
+    SR = Neo4jQueries.FindSimilarRepositories(reponame)
+    return jsonify(similarrepos=SR)
+
 ############################
 #Handle charts    
 #@app.route('/charts')
