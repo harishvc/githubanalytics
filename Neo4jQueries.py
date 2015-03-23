@@ -1,9 +1,12 @@
 from py2neo import Graph
 import os.path
+import bleach
 from flask import Flask
 app = Flask(__name__)
 
-def FindSimilarRepositories(Inputrepo):
+def FindSimilarRepositories(InputrepoK):
+	#Sanitize input
+	Inputrepo = bleach.clean(InputrepoK).strip()
 	graph = Graph(os.environ['neoURLProduction'])
 	output = ""
 	path1 = "<a href=\"/?q=repository "
@@ -27,5 +30,6 @@ def FindSimilarRepositories(Inputrepo):
  	if (len(output) > 0):
  		return ("<ul>" + output + "</ul>") 
  	else:
-   		return output
+ 		#Nothing found!
+   		return "<span class=\"text-danger\">You got me stumped!</span>"
 
