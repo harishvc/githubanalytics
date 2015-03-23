@@ -32,7 +32,7 @@
     $(function() {
       $('a#findsimilarrepos').bind('click', function() {
         $("#wrapperfindsimilarrepos").empty();$("#wrapperfindsimilarrepos").html("finding similar repositories just for you <i class=\"fa fa-spinner fa-spin fa-1x\"></i>");
-        $.ajax({url:'/_findsimilarrepositories',dataType:'json', timeout: (45 * 1000) ,data: {a: $('input[name="reponame"]').val()},
+        $.ajax({url:'/_findsimilarrepositories',dataType:'json', timeout: (45*1000) ,data: {a: $('input[name="reponame"]').val()},
         success: function(data) {$("#similarrepos").html(data.similarrepos);$("#wrapperfindsimilarrepos").empty();},
         error: function(objAJAXRequest, strError){$("#similarrepos").html("<span class=\"text-danger\">Query taking too long: Please try again latter</span>");$("#wrapperfindsimilarrepos").empty();} 
         });
