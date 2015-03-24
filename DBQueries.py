@@ -118,7 +118,8 @@ def ProcessRepositories(repoName):
     
     #Passing repository name as hidden input
     SR =  "<input type=\"hidden\" name=\"reponame\" value=" + repoName + "></input>\
-          <span id=\"similarrepos\"></span><p><div id=\"wrapperfindsimilarrepos\"><a href=\"javascript:void();\" id=\"findsimilarrepos\">Find similar repositorites</a></div>"
+          <span id=\"similarrepos\"></span><p><div id=\"wrapperfindsimilarrepos\"> \
+          <button type=\"button\" class=\"btn btn-default\"><a href=\"javascript:void();\" id=\"findsimilarrepos\">Find similar repositorites</a></button></div>"
     
     #Find languages
     LBD = LanguageBreakdown(repoName)

@@ -13,14 +13,16 @@ def FindSimilarRepositories(InputrepoK):
 	path2 = "&amp;action=Search\">"
 	path3 = "</a>"
 
-    #Find similar repository > 3 connections       
-	query1= """MATCH (a)-[r1:IS_ACTOR|IN_ORGANIZATION]->(match)<-[r2:IS_ACTOR|IN_ORGANIZATION]-(b)  where a <> b and """
-	query2="a.id = " + "\"" + Inputrepo + "\" " 
-	query3="""with b, collect (distinct match.id) as connections, collect (distinct type(r1)) as rel1 
-            where length(connections) >= 3
-            return b.id,length(connections) as count,length(rel1) as rel order by length(connections)  desc limit 5""" 
+    #Find similar repository > 3 connections
+	query1="MATCH (a {id:\"" + Inputrepo + "\"})"
+	query2="-[r1:IS_ACTOR|IN_ORGANIZATION]->(match)<-[r2:IS_ACTOR|IN_ORGANIZATION]-(b) "
+	query3="with b, collect (distinct match.id) as connections, collect (distinct type(r1)) as rel1 "
+	query4="where length(connections) >= 3 return b.id,length(connections) as count,length(rel1) as rel "
+	query5="order by length(connections)  desc limit 5" 
 	
-	query = query1 + query2 + query3  
+	query = query1 + query2 + query3 + query4 + query5 
+	print query
+	
 	a = graph.cypher.execute(query)
 	for record in a:
 		if (record['rel'] < 2):
