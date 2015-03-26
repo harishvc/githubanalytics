@@ -15,29 +15,8 @@
     <script type="text/javascript" src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
     <script type="text/javascript" src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
     <script type="text/javascript" src="/static/js/typeahead.js"></script>
-    <script>
-            $(document).ready(function() {
-                $('#askgithub').submit(function() {
-                    $('#searchbox #intro').empty();
-                    $('#result').empty();  
-                    $('#progress').show();
-                });
-   			   if ($('#result').html().trim()) {
-   			   	    $('#searchbox #intro').hide();
-               }                
-            });
-    		$(function() {
-		      	$('a#findsimilarrepos').bind('click', function() {
-		        	$("#wrapperfindsimilarrepos").empty();$("#wrapperfindsimilarrepos").html("finding similar repositories just for you <i class=\"fa fa-spinner fa-spin fa-1x\"></i>");
-		        	$.ajax({url:'/_findsimilarrepositories',dataType:'json', timeout: (60000) ,data: {a: $('input[name="reponame"]').val()},
-		        		success: function(data) {$("#similarrepos").html(data.similarrepos);$("#wrapperfindsimilarrepos").empty();},
-		        		error: function(objAJAXRequest, strError){$("#similarrepos").html("<span class=\"text-danger\">Query taking too long: Please try again latter</span>");$("#wrapperfindsimilarrepos").empty();} 
-		        	});
-        		return false;
-      			});
-    		});
-  </script>
-  {% if showGAcode == "yes" %} {% include 'ga.js' %} {% endif %}
+    <script type="text/javascript" src="/static/js/custom.js"></script>
+    {% if showGAcode == "yes" %} {% include 'ga.js' %} {% endif %}
   </head>
   <body>
   	    {% block content %}{% endblock %}
