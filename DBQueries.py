@@ -405,7 +405,11 @@ def stringToDictionary(s, pairSeparator, keyValueSeparator):
     data = {}
     for item in items:
         keyvalpair = item.split(keyValueSeparator)
-        data[keyvalpair[0].strip()] = int(keyvalpair[1].strip())
+        #Handle [u'message', u' Not Found']
+        if (keyvalpair[1].strip() != 'Not Found'):
+            data[keyvalpair[0].strip()] = int(keyvalpair[1].strip())
+        else:
+            break
     #print data
     #for (key, value) in data.items():
         #print key , "------->", value
