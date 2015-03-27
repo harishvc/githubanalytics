@@ -73,6 +73,13 @@ def findsimilarrepositories():
     SR = Neo4jQueries.FindSimilarRepositories(reponame)
     return jsonify(similarrepos=SR)
 
+@app.route('/_listlanguages')
+def listlanguages():
+    reponame = bleach.clean(request.args['a']).strip()
+    #TODO: Handle empty reponame
+    Languages = DBQueries.LanguageBreakdown(reponame)
+    return jsonify(languages=Languages)
+
 ############################
 #Handle charts    
 #@app.route('/charts')
