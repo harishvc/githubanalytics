@@ -13,6 +13,7 @@ import RandomQuotes
 import Neo4jQueries
 import MyMoment
 import sys
+import bleach
 
 app = Flask(__name__)
 
@@ -122,7 +123,9 @@ def ProcessRepositories(repoName):
           <button type=\"button\" class=\"btn btn-default\"><a href=\"javascript:void();\" id=\"findsimilarrepos\">Find similar repositorites</a></button></div>"
     
     #Find languages
-    LBD = LanguageBreakdown(repoName)
+    #LBD = LanguageBreakdown(repoName)
+    LBD = "<div id=\"listlanguages\"></div>"
+    
     if (len(mycursor["result"]) == 0):
         return ("EMPTY")
     else:       
@@ -415,7 +418,8 @@ def stringToDictionary(s, pairSeparator, keyValueSeparator):
         #print key , "------->", value
     return data 
 
-def LanguageBreakdown(RFN):
+def LanguageBreakdown(RFNK):
+    RFN = bleach.clean(RFNK).strip()
     output = ""
     sum = 0 
     pipeline= [
@@ -438,8 +442,8 @@ def LanguageBreakdown(RFN):
         if (len(output) > 0):
          return ("<ul>" + output + "</ul>") 
         else:
-            return output
-
+            #return output
+            return "<span class=\"text-danger\">None</span>"
     
 def CloseDB():
     connection.close()
