@@ -1,12 +1,18 @@
 $(document).ready(function() {
+    //Handle Sumbit
     $('#askgithub').submit(function() {
         $('#searchbox #intro').empty();
         $('#result').empty();
         $('#progress').show();
     });
+    
+    
+    //Handle project intro
     if ($('#result').html().trim()) {
         $('#searchbox #intro').hide();
     }
+    
+    //Find similare repositories on demand
     $('a#findsimilarrepos').bind('click', function() {
         $("#wrapperfindsimilarrepos").empty();
         $("#wrapperfindsimilarrepos").html("finding similar repositories just for you <i class=\"fa fa-spinner fa-spin fa-1x\"></i>");
@@ -28,15 +34,9 @@ $(document).ready(function() {
         });
         return false;
     });
-    //Wait for DOM to load and then call function
-    if ($('#listlanguages').length > 0) { 
-               $(window).bind("load", function() {
-                    $("#listlanguages").empty();$("#listlanguages").html("Lising languages <i class=\"fa fa-spinner fa-spin fa-1x\"></i>");
-                    $.ajax({url:'/_listlanguages',dataType:'json', timeout: (60000) ,data: {a: $('input[name="reponame"]').val()},
-                        success: function(data) {$("#listlanguages").empty();$("#listlanguages").html(data.languages);},
-                        error: function(objAJAXRequest, strError){$("#listlanguages").html("<span class=\"text-danger\">Query taking too long: Please try again latter</span>")} 
-                    });
-               });
-     }
+         
+    //Create horizontal bar chart using JQuery
+    $('.chart').horizBarChart({selector: '.bar',speed: 3000});
+      
 });
 

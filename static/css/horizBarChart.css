@@ -1,0 +1,72 @@
+.clearfix:after {
+    content: " ";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both
+}
+.chart-horiz .chart {
+    width: 90%
+}
+.chart-horiz .chart li {
+    display: block;
+    height: 23px;
+    margin-top: 3px;
+    position: relative
+}
+.chart-horiz .chart li:before {
+    color: #fff;
+    content: attr(title);
+    left: 5px;
+    position: absolute
+}
+.chart-horiz .chart li.title:before {
+    color: black;
+    font-weight: bold;
+    left: 0
+}
+.chart-horiz .chart li:first-child {
+    margin-top: 0
+}
+.chart-horiz .chart li .bar {
+    background: black;
+    height: 100%
+}
+.chart-horiz .chart li .number {
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    padding-left: 5px;
+    position: absolute;
+    top: -2px
+}
+.chart-horiz .chart li.past .bar {
+    background: #539DC2
+}
+.chart-horiz .chart li.past .number {
+    //color: #aaa
+}
+@media screen and (max-width: 480px) {
+    .chart-horiz .chart li {
+        height: auto
+    }
+    .chart-horiz .chart li:before {
+        color: black;
+        display: block;
+        left: 0;
+        position: relative
+    }
+    .chart-horiz .chart li.title:before {
+        border-bottom: 1px solid
+    }
+    .chart-horiz .chart li .bar {
+        height: 23px
+    }
+    .chart-horiz .chart li .number {
+        display: block;
+        left: 0 !important;
+        padding-left: 0;
+        position: relative;
+        top: -8px
+    }
+}

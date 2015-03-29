@@ -123,9 +123,8 @@ def ProcessRepositories(repoName):
           <button type=\"button\" class=\"btn btn-default\"><a href=\"javascript:void();\" id=\"findsimilarrepos\">Find similar repositorites</a></button></div>"
     
     #Find languages
-    #LBD = LanguageBreakdown(repoName)
-    LBD = "<div id=\"listlanguages\"></div>"
-    
+    LBD = LanguageBreakdown(repoName)
+
     if (len(mycursor["result"]) == 0):
         return ("EMPTY")
     else:       
@@ -156,13 +155,10 @@ def ProcessRepositories(repoName):
                     #print "Description is not empty -->" , record['description']
 
             #Display languages
-            #if (len(LBD) > 0):
-            #Check is a string is empty
             if LBD:
                 LBD.strip()
-                t1 = "Languages" if (LBD.count('<li>') > 1) else "Language"
-                myreturn += LISNBP + SB12 + LGIHS + t1 + LGIHE + LBD  + DE + LIE
-
+                myreturn += LISNBP + SB12 + LBD  + DE + LIE
+             
             #Place holder for similar repositories: Invoked by user and driven by AJAX        
             myreturn += LISNBP + SB12 + LGIHS + "Similar" + LGIHE + SR  + DE + LIE
             
@@ -419,6 +415,7 @@ def stringToDictionary(s, pairSeparator, keyValueSeparator):
     return data 
 
 def LanguageBreakdown(RFNK):
+    t1 = "Language" 
     RFN = bleach.clean(RFNK).strip()
     output = ""
     sum = 0 
@@ -432,18 +429,30 @@ def LanguageBreakdown(RFNK):
         d = stringToDictionary(row['language'].replace("}","").replace("{",""), ',', ':')
         #for k, v in sorted(d.items(), key=lambda kv: kv[1], reverse=True):
         #    print("%s => %s" % (k,v))
+        output += "<div class=\"chart-horiz clearfix\"><ul class=\"chart nlpadding\">"
+        #Sum of bytes of code
         for (key, value) in d.items():
             sum += value
+        #Find each language %    
         for k, v in sorted(d.items(), key=lambda kv: kv[1], reverse=True):
-            percentage = round(v / (sum + 0.0)*100,2)
-            if (percentage < 1.00):
-                percentage = "<1"
-            output+= "<li>" + str(k)  + "   " + str(percentage) + "%" + "</li>"            
+            percentage = int(round(v / (sum + 0.0)*100,2))
+            #Group languages less than 10%
+            if (percentage < 10.00):
+                percentage = "<10"
+                #Calculate 10% of total and group all languages less than 5%
+                v = int(round(sum * 9.99/100))
+            output += "<li class=\"past\" title=\"" + str(k) + "\"><span class=\"bar\" data-number=\""+ str(v)+ "\"></span><span class=\"number\">"+str(percentage) + "%" + "</span></li>"
+        output+="</ul></div>"    
         if (len(output) > 0):
-         return ("<ul>" + output + "</ul>") 
+            if (output.count("past") > 1):
+                t1 = "Languages" 
+            return (LGIHS + t1 + LGIHE + "<ul class=\"nlpadding\">" + output + "</ul>") 
         else:
-            #return output
-            return "<span class=\"text-danger\">None</span>"
+            return (LGIHS + t1 + LGIHE + "<span class=\"text-danger\">None</span>")
+    
+    #Handle use case - no languages stored yet!
+    if (len(mycursor['result']) == 0):
+        return (LGIHS + t1 + LGIHE + "<span class=\"text-danger\">You've got me stumped!</span>")
     
 def CloseDB():
     connection.close()
