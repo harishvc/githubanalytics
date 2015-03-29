@@ -50,6 +50,10 @@
 	padding-top: 5px;	
 }
 
+.nlpadding{
+	padding-left: 0px;
+}
+
 //Contributors using list group badge
 .cstyle {
 	padding-left: 15px;
