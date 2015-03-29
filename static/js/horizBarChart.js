@@ -20,8 +20,7 @@
       // Set highest number and use that as 100%
       // This will always make sure the graph is a decent size and all numbers are relative to each other
     	$(this).find($(settings.selector)).each(function() {
-    	  var num = $(this).data('number');
-    	  console.log ("processing ,,,, " + num);
+    	var num = $(this).data('number');
         if (num > highestNumber) {
           highestNumber = num;
         }
