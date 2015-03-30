@@ -66,10 +66,10 @@ def ProcessQuery(query):
              return FindDistinct ('PushEvent','actors','$actorlogin', "users")
         elif (query == "total new repositories"):
              return FindDistinct ('CreateEvent','full_name','$full_name',"new repositories")
-        elif  (query == "total active users"):
-            return FindDistinct ('PushEvent','actors','$actorlogin', "users")
+        #elif  (query == "total active users"):
+            #return FindDistinct ('PushEvent','actors','$actorlogin', "users")
         elif  (query == "total commits"):   
-            return TotalEntries("commits")
+            return TotalEntries("PushEvent","commits")
         elif  (query.startswith("repository")):
             return ProcessRepositories(query.replace('repository ', ''))
         elif  (query == "trending now"):
@@ -88,6 +88,8 @@ def ProcessQuery(query):
             return (ReportTopRepositoriesBy("Top new repositories sorted by commits","total","new"))
         elif  (query == "top new repositories sorted by branches"):
             return (ReportTopRepositoriesBy("Top new repositories sorted by branches","branches","new"))
+        elif (query == "dashboard"):
+            return (Dashboard("regular"))
         else:
             #return ("EMPTY")
             #Global Search
@@ -96,8 +98,11 @@ def ProcessQuery(query):
 def numformat(value):
     return "{:,}".format(value)
 
-def TotalEntries (type):
-    return ("<div class=\"digital\">" + numformat(db.count()) + "</div> " + type)
+def TotalEntries (etype,type):
+    if (type == "regular"):
+        return (db.find({"type": etype}).count())
+    else:
+        return ("<div class=\"digital\">" + numformat(db.find({"type": etype}).count()) + "</div> " + type)
 
 def FindDistinct(match,field,fieldName,type):
     pipeline= [
@@ -107,7 +112,10 @@ def FindDistinct(match,field,fieldName,type):
            ]
     mycursor = db.aggregate(pipeline)
     for row in mycursor["result"]:
-        return ("<div class=\"digital\">" + numformat(row['count']+1) + "</div> " + type)
+        if (type == "regular"):
+            return row['count']
+        else: 
+            return ("<div class=\"digital\">" + numformat(row['count']+1) + "</div> " + type)
         
 def CheckNewRepo(r):
     return (db.find_one({"type":"CreateEvent","full_name":r}))
@@ -414,6 +422,25 @@ def stringToDictionary(s, pairSeparator, keyValueSeparator):
         #print key , "------->", value
     return data 
 
+#Real-time dashboard
+def Dashboard(type):
+    #t0 = TotalEntries("PushEvent",type)
+    t1 = FindDistinct ('PushEvent','full_name','$full_name',type)
+    t2=  FindDistinct ('CreateEvent','full_name','$full_name',type)
+    t3 = FindDistinct ('PushEvent','actors','$actorlogin', type)
+    t4 = FindDistinct ('PushEvent','organization','$organization', type)
+    sh = "<h2 class=\"text-success\">Real-time dashboard</h2>"
+    output = LIS + SB12 + "<div class=\"chart-horiz clearfix\"><ul class=\"chart nlpadding\">"
+    #output += "<li class=\"past\" title=\"Total Commits\"><span class=\"bar\" data-number=\""+ str(t0)+ "\"></span><span class=\"number\">"+ numformat(t0) + "</span></li>"
+    output += "<li class=\"past\" title=\"Active Repositories\"><span class=\"bar\" data-number=\""+ str(t1)+ "\"></span><span class=\"number\">"+ numformat(t1) + "</span></li>"
+    output += "<li class=\"past\" title=\"New Repositories\"><span class=\"bar\" data-number=\""+ str(t2)+ "\"></span><span class=\"number\">"+ numformat(t2) + "</span></li>"
+    output += "<li class=\"past\" title=\"Contributors\"><span class=\"bar\" data-number=\""+ str(t3)+ "\"></span><span class=\"number\">"+ numformat(t3) + "</span></li>"
+    output += "<li class=\"past\" title=\"Organizations\"><span class=\"bar\" data-number=\""+ str(t4)+ "\"></span><span class=\"number\">"+ numformat(t4) + "</span></li>"
+    
+    output += "</ul></div>" +  DE + LIE
+    return (sh + ULS + output  + ULE)
+    
+    
 def LanguageBreakdown(RFNK):
     t1 = "Language" 
     RFN = bleach.clean(RFNK).strip()
