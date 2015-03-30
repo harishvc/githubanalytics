@@ -58,6 +58,11 @@
   "label": "top new repositories sorted by commits",
   "value": "top new repositories sorted by commits",
   "tokens": ["active","repo", "top","new" ,"commit","ask","question"]
+},
+{ 
+  "label": "dashboard",
+  "value": "dashboard",
+  "tokens": ["active","repo", "top","new" ,"commit","ask","question","dashboard"]
 }
 ]
 
