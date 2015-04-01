@@ -60,6 +60,8 @@ def ProcessQuery(query):
              return FindDistinct ('PushEvent','actors','$actorlogin', "users")
         elif (query == "total new repositories"):
              return FindDistinct ('CreateEvent','full_name','$full_name',"new repositories")
+        #elif  (query == "total active users"):
+            #return FindDistinct ('PushEvent','actors','$actorlogin', "users")
         elif  (query == "total commits"):   
             return TotalEntries("PushEvent","commits")
         elif  (query.startswith("repository")):
@@ -83,6 +85,7 @@ def ProcessQuery(query):
         elif (query == "dashboard"):
             return (Dashboard("regular"))
         else:
+            #return ("EMPTY")
             #Global Search
             return Search(query) 
         
@@ -225,7 +228,7 @@ def HSR(regex,text):
 #Global search using MongoDB index on field name
 def Search(query):
     path1 = "<a href=\"/?q=repository "
-    path2 = "&amp;action=Search\">"
+    path2 = "&amp;action=Search\" class=\"repositoryinfo\">"
     path3 = "</a>"
     output = ""
     qregx =""
@@ -304,7 +307,7 @@ def TrendingNow():
 def ReportTopRepositoriesBy(heading,sortBy,type):
     sh = "<h2 class=\"text-success\">" + heading + "</h2>"
     path1 = "<a href=\"/?q=repository "
-    path2 = "&amp;action=Search\">"
+    path2 = "&amp;action=Search\"  class=\"repositoryinfo\">"
     path3 = "</a>"
     output =""
     t2 = "class=\"list-group-item\""
