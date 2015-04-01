@@ -10,7 +10,7 @@ def FindSimilarRepositories(InputrepoK):
 	graph = Graph(os.environ['neoURLProduction'])
 	output = ""
 	path1 = "<a href=\"/?q=repository "
-	path2 = "&amp;action=Search\">"
+	path2 = "&amp;action=Search\"  class=\"repositoryinfo\">"
 	path3 = "</a>"
 
     #Find similar repository > 3 connections
@@ -21,7 +21,7 @@ def FindSimilarRepositories(InputrepoK):
 	query5="order by length(connections)  desc limit 5" 
 	
 	query = query1 + query2 + query3 + query4 + query5 
-	print query
+	#print query
 	
 	a = graph.cypher.execute(query)
 	for record in a:

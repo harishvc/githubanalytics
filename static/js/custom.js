@@ -12,6 +12,20 @@ $(document).ready(function() {
         $('#searchbox #intro').hide();
     }
     
+    //Bind to hyperlinks 
+    $('a.repositoryinfo').bind('click', function() {
+        $('#searchbox #intro').empty();
+        $('#searchbox #intro2').empty();
+         $('#askgithub').empty();
+        $('#result').empty();
+        $('#progress').show();
+    });
+  
+  
+    $("a").on("click", "repositoryinfo", function(event){
+        alert($(this).text());
+    });
+  
     //Find similare repositories on demand
     $('a#findsimilarrepos').bind('click', function() {
         $("#wrapperfindsimilarrepos").empty();
