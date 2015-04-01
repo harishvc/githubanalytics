@@ -43,17 +43,11 @@ LISNBP = "<li class=\"list-group-item nbp\">"
 LIS2 = "<li class=\"list-group-item2\">"
 LIE = "</li>"
 SB12 = "<div class=\"col-sm-12 clearfloat\">"
-#SB12 = "<div class=\"col-sm-12\" style=\"float:none;\">"
 SB5  = "<div class=\"col-sm-5\">"
 SB7  = "<div class=\"col-sm-7\">"
 DE = "</div>"
 LGIHS = "<h3 class=\"list-group-item-heading text-success\">"
 LGIHE = "</h3>" 
-#z1 = """<h3 class="list-group-item-heading">Similar Repositories</h3>"""
-#z2 = """<p class="list-group-item-text2 nav nav-pills nav-stacked">"""
-#z3 ="</p>"
-#tz1 = """<div class="clearfix visible-xs"></div>
-#    <div class="clearfix visible-sm"></div>"""
         
 def ProcessQuery(query):
     if (query == ""):
@@ -66,8 +60,6 @@ def ProcessQuery(query):
              return FindDistinct ('PushEvent','actors','$actorlogin', "users")
         elif (query == "total new repositories"):
              return FindDistinct ('CreateEvent','full_name','$full_name',"new repositories")
-        #elif  (query == "total active users"):
-            #return FindDistinct ('PushEvent','actors','$actorlogin', "users")
         elif  (query == "total commits"):   
             return TotalEntries("PushEvent","commits")
         elif  (query.startswith("repository")):
@@ -91,7 +83,6 @@ def ProcessQuery(query):
         elif (query == "dashboard"):
             return (Dashboard("regular"))
         else:
-            #return ("EMPTY")
             #Global Search
             return Search(query) 
         
