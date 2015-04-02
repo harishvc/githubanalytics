@@ -60,8 +60,6 @@ def ProcessQuery(query):
              return FindDistinct ('PushEvent','actors','$actorlogin', "users")
         elif (query == "total new repositories"):
              return FindDistinct ('CreateEvent','full_name','$full_name',"new repositories")
-        #elif  (query == "total active users"):
-            #return FindDistinct ('PushEvent','actors','$actorlogin', "users")
         elif  (query == "total commits"):   
             return TotalEntries("PushEvent","commits")
         elif  (query.startswith("repository")):
@@ -85,8 +83,6 @@ def ProcessQuery(query):
         elif (query == "dashboard"):
             return (Dashboard("regular"))
         else:
-            #return ("EMPTY")
-            #Global Search
             return Search(query) 
         
 def numformat(value):
@@ -124,9 +120,9 @@ def ProcessRepositories(repoName):
           <span id=\"similarrepos\"></span><p><div id=\"wrapperfindsimilarrepos\"> \
           <button type=\"button\" class=\"btn btn-default\"><a href=\"javascript:void();\" id=\"findsimilarrepos\">Find similar repositorites</a></button></div>"
     
-    #Find languages
-    LBD = LanguageBreakdown(repoName)
-
+    #Place holder for languages loaded using AJAX
+    LBD = "<div id=\"listlanguages\"></div>"
+    
     if (len(mycursor["result"]) == 0):
         return ("EMPTY")
     else:       
@@ -277,9 +273,6 @@ def Search(query):
             tmp4 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(row['actorname'])) + " contributors</span>" if (len(row['actorname']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(row['actorname'])) + " contributor</span>"
             tmp5 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branches" if (len(row['ref']) > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branch"
             output += "<li class=\"list-group-item\">" + SB5 + path1 + row['full_name'].encode('utf-8').strip() + path2 + HSR(qregx, row['full_name'].encode('utf-8').strip()) + path3 + DE + SB7 + tmp0 + tmp5 + tmp4 + tmp1 + tmp2 + tmp3+ DE + "</li>"
-            #TODO
-            #output += Neo4jQueries.FindSimilarRepositories(row['url'])
-            #output += FindSimilarRepositories(row['url'])
     if (len(output) > 0 ): 
         return ( sh + "<ul class=\"list-group\">" + output + "</ul>")
     else:
