@@ -13,7 +13,7 @@ $(document).ready(function() {
         $('#progress').show();
     }
     
-    //Handle Sumbit
+    //Handle submit
     $('#askgithub').submit(function() {
         $('#searchbox #intro').empty();
         $('#result').empty();
@@ -26,9 +26,12 @@ $(document).ready(function() {
         $('#searchbox #intro').hide();
     }
     
+    
     //Bind to hyperlinks 
     $('a.repositoryinfo').bind('click', cleanup);
    
+   //Handle chart div
+    $('.chart').horizBarChart({selector: '.bar',speed: 3000});
    
     //Find similare repositories on demand
     $('a#findsimilarrepos').bind('click', function() {
