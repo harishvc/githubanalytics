@@ -1,68 +1,23 @@
 [
 { 
-  "label": "total users",
-  "value": "total users",
-  "tokens": ["total","users","ask","question"]
-},
-{ 
-  "label": "total repositories",
-  "value": "total repositories",
-  "tokens": ["total","repo","ask","question"]
-},
-{ 
-   "label": "total new repositories",
-	"value": "total new repositories",
-	"tokens": ["total","new","repo","ask","question"]
-},
-{ 
-  "label": "total commits",
-  "value": "total commits",
-  "tokens": ["total", "commits","ask","question"]
-},
-{ 
   "label": "trending now",
   "value": "trending now",
   "tokens": ["active","what","hot","new","trending", "repo", "trend","ask","question"]
 },
 { 
-	  "label": "user commit frequency",
-	  "value": "user commit frequency",
-	  "tokens": ["commit","user","frequency","ask","question"]
-},
-{ 
-  "label": "top repositories sorted by contributors",
+  "label": "top repositories",
   "value": "top repositories sorted by contributors",
   "tokens": ["active","repo", "top", "contributor","ask","question"]
 },
 { 
-  "label": "top repositories sorted by branches",
-  "value": "top repositories sorted by branches",
-  "tokens": ["active","repo", "top", "branch","ask","question"]
-},
-{ 
-  "label": "top repositories sorted by commits",
-  "value": "top repositories sorted by commits",
-  "tokens": ["active","repo", "top", "commit","ask","question"]
-},
-{ 
-  "label": "top new repositories sorted by contributors",
+  "label": "top new repositories",
   "value": "top new repositories sorted by contributors",
   "tokens": ["active","repo", "top", "new","contributor","ask","question"]
 },
 { 
-  "label": "top new repositories sorted by branches",
-  "value": "top new repositories sorted by branches",
-  "tokens": ["active","repo", "top", "new","branch","ask","question"]
-},
-{ 
-  "label": "top new repositories sorted by commits",
-  "value": "top new repositories sorted by commits",
-  "tokens": ["active","repo", "top","new" ,"commit","ask","question"]
-},
-{ 
   "label": "dashboard",
   "value": "dashboard",
-  "tokens": ["active","repo", "top","new" ,"commit","ask","question","dashboard"]
+  "tokens": ["active","repo", "top","new" ,"commit","ask","question","dashboard", "visual"]
 }
 ]
 

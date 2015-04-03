@@ -66,8 +66,6 @@ def ProcessQuery(query):
             return ProcessRepositories(query.replace('repository ', ''))
         elif  (query == "trending now"):
             return (TrendingNow())
-        elif  (query == "user commit frequency"):
-            return (CommitFrequency("User commit frequency"))
         elif  (query == "top repositories sorted by contributors"):
             return (ReportTopRepositoriesBy("Top repositories sorted by contributors","authors","all"))
         elif  (query == "top repositories sorted by commits"):
@@ -357,8 +355,7 @@ def Typeahead(q):
     return (mycursor['result'])
 
   
-def CommitFrequency (heading):
-    sh = "<h2 class=\"text-success\">" + heading + "</h2>"
+def CommitFrequency ():
     range0 = range1 = range2 = range3 = range4 = range5 = range6 = 0
     pipeline= [
            { '$group': {'_id': '$actorlogin', 'commits': { '$sum' : 1 }}},
@@ -378,20 +375,17 @@ def CommitFrequency (heading):
             range3 += record['frequency']
         elif(record['_id'] > 10 and record['_id'] <= 15):
             range4 += record['frequency']
-        elif(record['_id'] > 15 and record['_id'] <= 20):
-            range5 += record['frequency']
         else:
-            range6 += record['frequency'] 
-    total = range0 + range1 + range2 + range3 + range4 + range5  
-    output = sh + "<p>" +  FindDistinct ('PushEvent','actors','$actorlogin', "users") + "</p>"
-    output += "<table class=\"table table-striped\"><tr><th>Commits per user</th><th>Users</th><th>% Users</th></tr>"
-    output += "<tr><td>1</td><td>"     + numformat(range0) + "</td><td>" + "{0:.2f}".format(range0*100/ float(total)) + "%</td></tr>"
-    output += "<tr><td>2-3</td><td>"   + numformat(range1) + "</td><td>" + "{0:.2f}".format(range1*100/ float(total)) + "%</td></tr>"
-    output += "<tr><td>4-5</td><td>"   + numformat(range2) + "</td><td>" + "{0:.2f}".format(range2*100/ float(total)) + "%</td></tr>"
-    output += "<tr><td>6-10</td><td>"  + numformat(range3) + "</td><td>" + "{0:.2f}".format(range3*100/ float(total)) + "%</td></tr>"
-    output += "<tr><td>11-15</td><td>" + numformat(range4) + "</td><td>" + "{0:.2f}".format(range4*100/ float(total)) + "%</td></tr>"
-    output += "<tr><td>16-20</td><td>" + numformat(range5) + "</td><td>" + "{0:.2f}".format(range5*100/ float(total)) + "%</td></tr>" 
-    output += "<tr><td>>20</td><td>"   + numformat(range6) + "</td><td>" + "{0:.2f}".format(range6*100/ float(total)) + "%</td></tr></table>" 
+            range5 += record['frequency'] 
+    
+    output = LIS + SB12 + "<h3>Contributors commit frequency</h3><div class=\"chart-horiz clearfix\"><ul class=\"chart nlpadding\">" 
+    output += "<li class=\"past\" title=\"1 commit\"><span class=\"bar\" data-number=\""+ str(range0) + "\"></span><span class=\"number\">"+ numformat(range0) + "</span></li>"
+    output +="<li class=\"past\" title=\"2-3 commits\"><span class=\"bar\" data-number=\""+ str(range1) + "\"></span><span class=\"number\">"+ numformat(range1) + "</span></li>"
+    output +="<li class=\"past\" title=\"4-5 commits\"><span class=\"bar\" data-number=\""+ str(range2) + "\"></span><span class=\"number\">"+ numformat(range2) + "</span></li>"
+    output +="<li class=\"past\" title=\"6-10 commits\"><span class=\"bar\" data-number=\""+ str(range3) + "\"></span><span class=\"number\">"+ numformat(range3) + "</span></li>"
+    output +="<li class=\"past\" title=\"11-15 commits\"><span class=\"bar\" data-number=\""+ str(range4) + "\"></span><span class=\"number\">"+ numformat(range4) + "</span></li>"
+    output +="<li class=\"past\" title=\">15 commits\"><span class=\"bar\" data-number=\""+ str(range5) + "\"></span><span class=\"number\">"+ numformat(range5) + "</span></li>"
+    output +="</ul></div>" +  DE + LIE    
     return output
 
 def stringToDictionary(s, pairSeparator, keyValueSeparator):
@@ -411,21 +405,27 @@ def stringToDictionary(s, pairSeparator, keyValueSeparator):
 
 #Real-time dashboard
 def Dashboard(type):
-    #t0 = TotalEntries("PushEvent",type)
+    t0 = TotalEntries("PushEvent",type)
     t1 = FindDistinct ('PushEvent','full_name','$full_name',type)
     t2=  FindDistinct ('CreateEvent','full_name','$full_name',type)
     t3 = FindDistinct ('PushEvent','actors','$actorlogin', type)
     t4 = FindDistinct ('PushEvent','organization','$organization', type)
-    sh = "<h2 class=\"text-success\">Real-time dashboard</h2>"
-    output = LIS + SB12 + "<div class=\"chart-horiz clearfix\"><ul class=\"chart nlpadding\">"
-    #output += "<li class=\"past\" title=\"Total Commits\"><span class=\"bar\" data-number=\""+ str(t0)+ "\"></span><span class=\"number\">"+ numformat(t0) + "</span></li>"
+
+    sh = "<h2 class=\"text-success\">Visual Dashboard</h2>"
+    output0 =  LIS + SB12 + "<h2>" + numformat(t0) + " Commits</h2>"  + DE + LIE 
+    
+    #Repository, Contributors & Organizations
+    output = LIS + SB12 + "<h3>Repositories, Contributors &amp; Organizations</h3><div class=\"chart-horiz clearfix\"><ul class=\"chart nlpadding\">" 
     output += "<li class=\"past\" title=\"Active Repositories\"><span class=\"bar\" data-number=\""+ str(t1)+ "\"></span><span class=\"number\">"+ numformat(t1) + "</span></li>"
     output += "<li class=\"past\" title=\"New Repositories\"><span class=\"bar\" data-number=\""+ str(t2)+ "\"></span><span class=\"number\">"+ numformat(t2) + "</span></li>"
     output += "<li class=\"past\" title=\"Contributors\"><span class=\"bar\" data-number=\""+ str(t3)+ "\"></span><span class=\"number\">"+ numformat(t3) + "</span></li>"
     output += "<li class=\"past\" title=\"Organizations\"><span class=\"bar\" data-number=\""+ str(t4)+ "\"></span><span class=\"number\">"+ numformat(t4) + "</span></li>"
-    
     output += "</ul></div>" +  DE + LIE
-    return (sh + ULS + output  + ULE)
+    
+    #Contributor commit frequency
+    output3 = CommitFrequency()
+    
+    return (sh + ULS + output0 + output + output3 + ULE)
     
     
 def LanguageBreakdown(RFNK):
