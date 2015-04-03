@@ -22,8 +22,6 @@ import Neo4jQueries
 #Global variables
 NORESULT="<h2 class=\"searchstatus text-danger\">You've got me stumped!</h2>"    #No result
 
-
-
 app = Flask(__name__)
 
 #Format integers with comma
@@ -80,21 +78,12 @@ def listlanguages():
     Languages = DBQueries.LanguageBreakdown(reponame)
     return jsonify(languages=Languages)
 
-############################
-#Handle charts    
-#@app.route('/charts')
-#@app.route('/charts/')
-#def charts():
-#    Generate()
-#    return render_template("charts.html",
-#        title = 'Ask GitHub',
-#        LCA = DBQueries.ActiveLanguagesBubble(),
-#        CF = DBQueries.CommitFrequency(),
-#        ARA = ARA,
-#        AR = AR
-#        )
 
-############################
+#TEST
+#@app.route('/test/')
+#def test():
+#    return render_template("test.html")
+
 #Handle errors        
 @app.errorhandler(404)
 def page_not_found(e):
