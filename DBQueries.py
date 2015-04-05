@@ -410,9 +410,12 @@ def Dashboard(type):
     t2=  FindDistinct ('CreateEvent','full_name','$full_name',type)
     t3 = FindDistinct ('PushEvent','actors','$actorlogin', type)
     t4 = FindDistinct ('PushEvent','organization','$organization', type)
+    #t5 = TotalEntries ('WatchEvent',type)
+    t5 = FindDistinct ('WatchEvent','full_name','$full_name', type)
 
     sh = "<h2 class=\"text-success\">Visual Dashboard</h2>"
     output0 =  LIS + SB12 + "<h2>" + numformat(t0) + " Commits</h2>"  + DE + LIE 
+    output4 =  LIS + SB12 + "<h2>" + numformat(t5) + " Repositories Starred</h2>"  + DE + LIE
     
     #Repository, Contributors & Organizations
     output = LIS + SB12 + "<h3>Repositories, Contributors &amp; Organizations</h3><div class=\"chart-horiz clearfix\"><ul class=\"chart nlpadding\">" 
@@ -425,7 +428,7 @@ def Dashboard(type):
     #Contributor commit frequency
     output3 = CommitFrequency()
     
-    return (sh + ULS + output0 + output + output3 + ULE)
+    return (sh + ULS + output0 + output4 + output + output3 + ULE)
     
     
 def LanguageBreakdown(RFNK):
