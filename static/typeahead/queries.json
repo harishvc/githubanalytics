@@ -10,6 +10,11 @@
   "tokens": ["active","repo", "top", "contributor","ask","question"]
 },
 { 
+  "label": "top organizations",
+  "value": "top organizations",
+  "tokens": ["active","org", "top", "contributor","ask","question"]
+},
+{ 
   "label": "top new repositories",
   "value": "top new repositories sorted by contributors",
   "tokens": ["active","repo", "top", "new","contributor","ask","question"]

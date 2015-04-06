@@ -78,6 +78,10 @@ def ProcessQuery(query):
             return (ReportTopRepositoriesBy("Top new repositories sorted by commits","total","new"))
         elif  (query == "top new repositories sorted by branches"):
             return (ReportTopRepositoriesBy("Top new repositories sorted by branches","branches","new"))
+        elif  (query == "top organizations"):
+            return (ReportTopOrganizations("Top Organizations"))
+        elif  (query.startswith("organization")):
+            return Search(bleach.clean(query.replace('organization ', '').strip()),"organization")
         elif (query == "dashboard"):
             return (Dashboard("regular"))
         else:
@@ -209,18 +213,20 @@ def RepoQuery (repoURL):
 #Modified from http://www.saltycrane.com/blog/2007/10/using-pythons-finditer-to-highlight/
 #Highlight Search Results
 def HSR(regex,text):
-    #COLOR = ['yellow']
     i = 0; output = ""
     for m in regex.finditer(text):
         #output += "".join([text[i:m.start()],"<span class='highlight'>", text[m.start():m.end()],"</span>"])
         output += "".join([text[i:m.start()],"<mark>", text[m.start():m.end()],"</mark>"])
         i = m.end()
-    return ("".join([output, text[i:]])) 
-    
-       
-    
+    output = "".join([output, text[i:]])
+    #Handle long repository names
+    if (len(output) > 50):
+        return (output[0:45] + "...")
+    else:    
+        return output
+     
 #Global search using MongoDB index on field name
-def Search(query):
+def Search(query,type=None):
     path1 = "<a href=\"/?q=repository "
     path2 = "&amp;action=Search\" class=\"repositoryinfo\">"
     path3 = "</a>"
@@ -239,18 +245,28 @@ def Search(query):
         nwords.append(re.escape(word))
     qregx = re.compile('|'.join(nwords), re.IGNORECASE)
     #Aggregation based on index score
-    pipeline = [
-           { '$match': { '$text': { '$search': query }, 'type':'PushEvent' }},
-           { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]},'actorname': "$_a1",'ref': '$_a3'}},
-           { '$sort':  { 'score': -1, 'count': -1}}
-           ]
+    if (type =="organization"):
+        pipeline = [
+                    #{ '$match': { 'organization': query, 'type':'PushEvent' }},
+                    {'$match': {'$and': [ {'type': {'$in': ["PushEvent"]}},{'organization':query}] }}, 
+                    { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name", 'language': "$language",'description': "$description",'organization': '$organization'},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
+                    { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'organization': '$_id.organization','actorname': "$_a1",'ref': '$_a3'}},
+                    { '$sort':  {'count': -1}}
+                   ]
+    else:
+        pipeline = [
+                    { '$match': { '$text': { '$search': query }, 'type':'PushEvent' }},
+                    { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
+                    { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]},'actorname': "$_a1",'ref': '$_a3'}},
+                    { '$sort':  { 'score': -1, 'count': -1}}
+                   ]
+    
     
     mycursor = db.aggregate(pipeline)
     #print mycursor
-    
     #Search results header 
     #print "Found .....", len(mycursor['result']) , " search matches ...."
+    
     if (len(mycursor['result']) > SearchLimit):
         sh = "<p class=\"tpadding text-success\">Top " + str(SearchLimit) + " matches (found " + str(numformat(len(mycursor['result'])))  +  " matches in " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
     else:
@@ -261,7 +277,7 @@ def Search(query):
     for row in mycursor["result"]:
         tmp0=""
         totalSearchResults += 1
-        if (totalSearchResults > SearchLimit):
+        if ( type != "organization" and totalSearchResults > SearchLimit):
             break
         else:
             tmp0 = "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['count']) + " commits" if (row['count'] > 1) else "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + str(row['count']) + " commit"
@@ -270,7 +286,7 @@ def Search(query):
             tmp3 = "<br/>" + HSR(qregx,row['description'].encode('utf-8').strip()) if(row['description']) else ""
             tmp4 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(row['actorname'])) + " contributors</span>" if (len(row['actorname']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(row['actorname'])) + " contributor</span>"
             tmp5 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branches" if (len(row['ref']) > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branch"
-            output += "<li class=\"list-group-item\">" + SB5 + path1 + row['full_name'].encode('utf-8').strip() + path2 + HSR(qregx, row['full_name'].encode('utf-8').strip()) + path3 + DE + SB7 + tmp0 + tmp5 + tmp4 + tmp1 + tmp2 + tmp3+ DE + "</li>"
+            output += "<li class=\"list-group-item\">" + SB5 + path1  + row['full_name'].encode('utf-8').strip() + path2 + HSR(qregx,row['full_name'].encode('utf-8').strip()) + path3 + DE + SB7 + tmp0 + tmp5 + tmp4 + tmp1 + tmp2 + tmp3+ DE + "</li>"        
     if (len(output) > 0 ): 
         return ( sh + "<ul class=\"list-group\">" + output + "</ul>")
     else:
@@ -338,6 +354,31 @@ def ReportTopRepositoriesBy(heading,sortBy,type):
             
     return ( sh + ULS + output  + ULE)
 
+def ReportTopOrganizations(heading):
+    sh = "<h2 class=\"text-success\">" + heading + "</h2>"
+    path1 = "<a href=\"/?q=organization "
+    path2 = "&amp;action=Search\"  class=\"repositoryinfo\">"
+    path3 = "</a>"
+    output =""
+    t2 = "class=\"list-group-item\""
+    pipeline= [
+               { '$match': {"type": {"$in": ["PushEvent"]}}},
+               { "$group": {"_id": {"organization": "$organization"},"authoremails":{"$addToSet":"$actoremail"},"repositories":{"$addToSet":"$full_name"}}},
+            #{"total": {"$add": ["$_id.rnum","$_id.authors"]}} 
+               { "$project": {"_id":0,"organization":"$_id.organization","rnum":{"$size":"$repositories"},"authors":{"$size":"$authoremails"} }},
+               { '$sort' : { 'authors': -1 }},
+               { "$limit": DefaultLimit} 
+               ]
+    mycursor = db.aggregate(pipeline)
+    #print mycursor
+    
+    for row in mycursor["result"]:
+        if row['organization']:
+            tmp1 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors</span>" if ( int(row['authors']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>" + "1 contributor</span>"
+            tmp2 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-file-code-o fa-1x\"></i>" + str(row['rnum']) + " repositories</span>" if ( int(row['rnum']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-file-code-o fa-1x\"></i>" + "1 repository</span>"
+            output += LIS + SB5 + path1 + row['organization'] + path2 + row['organization'] + path3 + DE + SB7 + tmp1 + tmp2  + DE + LIE
+            
+    return ( sh + ULS + output  + ULE)
 
 
 def Typeahead(q):
@@ -410,7 +451,6 @@ def Dashboard(type):
     t2=  FindDistinct ('CreateEvent','full_name','$full_name',type)
     t3 = FindDistinct ('PushEvent','actors','$actorlogin', type)
     t4 = FindDistinct ('PushEvent','organization','$organization', type)
-    #t5 = TotalEntries ('WatchEvent',type)
     t5 = FindDistinct ('WatchEvent','full_name','$full_name', type)
 
     sh = "<h2 class=\"text-success\">Visual Dashboard</h2>"
