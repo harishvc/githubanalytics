@@ -225,7 +225,7 @@ def HSR(regex,text):
         i = m.end()
     output = "".join([output, text[i:]])
     #Handle long repository names
-    if (len(output) > 50):
+    if (len(output) > 60):
         return (output[0:45] + "...")
     else:    
         return output
