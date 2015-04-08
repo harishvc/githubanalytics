@@ -15,6 +15,12 @@
   "tokens": ["active","org", "top", "contributor","ask","question"]
 },
 { 
+  "label": "top contributors",
+  "value": "top contributors",
+  "tokens": ["active","org", "top", "contributor","ask","question"]
+},
+
+{ 
   "label": "top new repositories",
   "value": "top new repositories sorted by contributors",
   "tokens": ["active","repo", "top", "new","contributor","ask","question"]
