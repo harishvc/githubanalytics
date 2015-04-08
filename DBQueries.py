@@ -80,12 +80,17 @@ def ProcessQuery(query):
             return (ReportTopRepositoriesBy("Top new repositories sorted by branches","branches","new"))
         elif  (query == "top organizations"):
             return (ReportTopOrganizations("Top Organizations"))
+        elif  (query == "top contributors"):
+            return (ReportTopContributors("Top Contributors"))
         elif  (query.startswith("organization")):
             return Search(bleach.clean(query.replace('organization ', '').strip()),"organization")
+        elif  (query.startswith("contributor")):
+            return Search(bleach.clean(query.replace('contributor ', '').strip()),"contributor")
         elif (query == "dashboard"):
             return (Dashboard("regular"))
         else:
-            return Search(query) 
+            #Default
+            return Search(query,"all") 
         
 def numformat(value):
     return "{:,}".format(value)
@@ -226,15 +231,12 @@ def HSR(regex,text):
         return output
      
 #Global search using MongoDB index on field name
-def Search(query,type=None):
+def Search(query,type):
     path1 = "<a href=\"/?q=repository "
     path2 = "&amp;action=Search\" class=\"repositoryinfo\">"
     path3 = "</a>"
     output = ""
     qregx =""
-    #d1 ="<div class=\"col-sm-5\">"
-    #d2 ="<div class=\"col-sm-7\">"
-    #d3 = "</div>"
     nwords = []
     #Query Start Time in milliseconds
     QST = int(datetime.datetime.now().strftime("%s"))
@@ -245,10 +247,16 @@ def Search(query,type=None):
         nwords.append(re.escape(word))
     qregx = re.compile('|'.join(nwords), re.IGNORECASE)
     #Aggregation based on index score
-    if (type =="organization"):
+    if (type == "organization"):
         pipeline = [
-                    #{ '$match': { 'organization': query, 'type':'PushEvent' }},
                     {'$match': {'$and': [ {'type': {'$in': ["PushEvent"]}},{'organization':query}] }}, 
+                    { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name", 'language': "$language",'description': "$description",'organization': '$organization'},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
+                    { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'organization': '$_id.organization','actorname': "$_a1",'ref': '$_a3'}},
+                    { '$sort':  {'count': -1}}
+                   ]
+    elif (type == "contributor"):
+        pipeline = [
+                    {'$match': {'$and': [ {'type': {'$in': ["PushEvent"]}},{'actoremail':query}] }}, 
                     { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name", 'language': "$language",'description': "$description",'organization': '$organization'},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
                     { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'organization': '$_id.organization','actorname': "$_a1",'ref': '$_a3'}},
                     { '$sort':  {'count': -1}}
@@ -259,35 +267,37 @@ def Search(query,type=None):
                     { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
                     { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]},'actorname': "$_a1",'ref': '$_a3'}},
                     { '$sort':  { 'score': -1, 'count': -1}}
-                   ]
-    
-    
+                   ]    
     mycursor = db.aggregate(pipeline)
     #print mycursor
     #Search results header 
-    #print "Found .....", len(mycursor['result']) , " search matches ...."
-    
-    if (len(mycursor['result']) > SearchLimit):
-        sh = "<p class=\"tpadding text-success\">Top " + str(SearchLimit) + " matches (found " + str(numformat(len(mycursor['result'])))  +  " matches in " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
-    else:
-        sh = "<p class=\"tpadding text-success\">" + str(len(mycursor['result']))  + " matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
-    
-    
+    #print "Found .....", len(mycursor['result']) , " search matches ...."   
     totalSearchResults = 0
     for row in mycursor["result"]:
         tmp0=""
         totalSearchResults += 1
-        if ( type != "organization" and totalSearchResults > SearchLimit):
+        if ( type == "all" and totalSearchResults > SearchLimit):
             break
         else:
             tmp0 = "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['count']) + " commits" if (row['count'] > 1) else "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + str(row['count']) + " commit"
-            tmp1 = "<i class=\"lrpadding fa fa-code fa-1x\"></i >" + HSR(qregx,row['language'].encode('utf-8').strip()) if (row['language']) else ""
-            tmp2 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + HSR(qregx,str(row['organization'])) + "<span>" if (row['organization'] != 'Unspecified') else ""
-            tmp3 = "<br/>" + HSR(qregx,row['description'].encode('utf-8').strip()) if(row['description']) else ""
+            tmp2 = ""
+            if 'organization' in row:
+                tmp2 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + HSR(qregx,str(row['organization'])) + "<span>" if (row['organization'] != 'Unspecified') else ""
             tmp4 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(row['actorname'])) + " contributors</span>" if (len(row['actorname']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(row['actorname'])) + " contributor</span>"
             tmp5 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branches" if (len(row['ref']) > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branch"
-            output += "<li class=\"list-group-item\">" + SB5 + path1  + row['full_name'].encode('utf-8').strip() + path2 + HSR(qregx,row['full_name'].encode('utf-8').strip()) + path3 + DE + SB7 + tmp0 + tmp5 + tmp4 + tmp1 + tmp2 + tmp3+ DE + "</li>"        
+            output += "<li class=\"list-group-item\">" + SB5 + path1  + row['full_name'].encode('utf-8').strip() + path2 + HSR(qregx,row['full_name'].encode('utf-8').strip()) + path3 + DE + SB7 + tmp0 + tmp5 + tmp4 + tmp2 + DE + "</li>"        
+            #print output
     if (len(output) > 0 ): 
+        #Generate Heading for search results
+        if (type == "all"):
+            if (len(mycursor['result']) > SearchLimit):
+                sh = "<p class=\"tpadding text-success\">Top " + str(SearchLimit) + " matches (found " + str(numformat(len(mycursor['result'])))  +  " matches in " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+            else:
+                sh = "<p class=\"tpadding text-success\">" + str(len(mycursor['result']))  + " matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+        elif (type == "organization"):
+                sh = "<p class=\"tpadding text-success\">" + "List of repositories that belong to " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+        elif (type == "contributor"):
+                sh = "<p class=\"tpadding text-success\">" + "List of repositories " + query + " has contributed to (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         return ( sh + "<ul class=\"list-group\">" + output + "</ul>")
     else:
         return ("EMPTY")  #0 rows return
@@ -379,6 +389,34 @@ def ReportTopOrganizations(heading):
             output += LIS + SB5 + path1 + row['organization'] + path2 + row['organization'] + path3 + DE + SB7 + tmp1 + tmp2  + DE + LIE
             
     return ( sh + ULS + output  + ULE)
+
+def ReportTopContributors(heading):
+    myLimit = 28
+    sh = "<h2 class=\"text-success\">" + heading + "</h2>"
+    path1 = "<a href=\"/?q=contributor "
+    path2 = "&amp;action=Search\"  class=\"repositoryinfo\">"
+    path3 = "</a>"
+    output =""
+    t2 = "class=\"list-group-item\""
+    pipeline= [
+               { '$match': {"type": {"$in": ["PushEvent"]}}},
+               { "$group": {"_id": {"actoremail": "$actoremail","actorname": "$actorname"},"organizations":{"$addToSet":"$organization"},"repositories":{"$addToSet":"$full_name"}}},
+               # total = sum of repositories + sum of organizations x 10 
+               { "$project": {"_id":1,"actoremail":"$_id.actoremail","actorname":"$_id.actorname","rnum":{"$size":"$repositories"},"onum":{"$size":"$organizations"},"total":{"$add":[{"$size":"$repositories"}, {"$multiply":[10,{"$size":"$organizations"}]}]}}},
+               { '$sort' : { 'total': -1 }},
+               { "$limit": myLimit} 
+               ]
+    mycursor = db.aggregate(pipeline)
+    #print mycursor
+    
+    for row in mycursor["result"]:
+        if row['actoremail']:
+            tmp1 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-file-code-o fa-1x\"></i>" + str(row['rnum']) + " repositories</span>" if ( int(row['rnum']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-file-code-o fa-1x\"></i>" + "1 repository</span>"
+            tmp2 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + str(row['onum']) + " organizations</span>" if ( int(row['onum']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + "1 organization</span>"
+            output += LIS + SB5 + path1 + row['actoremail'] + path2 + row['actorname'] + path3 + DE + SB7 + tmp1 + tmp2  + DE + LIE
+            
+    return ( sh + ULS + output  + ULE)
+
 
 
 def Typeahead(q):
