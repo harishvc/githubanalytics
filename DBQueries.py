@@ -82,6 +82,8 @@ def ProcessQuery(query):
             return (ReportTopOrganizations("Top Organizations"))
         elif  (query == "top contributors"):
             return (ReportTopContributors("Top Contributors"))
+        elif  (query == "top languages"):
+            return (ReportTopLanguages("Top Languages"))
         elif  (query.startswith("organization")):
             return Search(bleach.clean(query.replace('organization ', '').strip()),"organization")
         elif  (query.startswith("contributor")):
@@ -391,7 +393,7 @@ def ReportTopOrganizations(heading):
     return ( sh + ULS + output  + ULE)
 
 def ReportTopContributors(heading):
-    myLimit = 28
+    myLimit = 18
     sh = "<h2 class=\"text-success\">" + heading + "</h2>"
     path1 = "<a href=\"/?q=contributor "
     path2 = "&amp;action=Search\"  class=\"repositoryinfo\">"
@@ -417,6 +419,30 @@ def ReportTopContributors(heading):
             
     return ( sh + ULS + output  + ULE)
 
+def ReportTopLanguages(heading):
+    myLimit = 15
+    #path1 = "<a href=\"/?q=language "
+    #path2 = "&amp;action=Search\"  class=\"repositoryinfo\">"
+    #path3 = "</a>"
+    output = ""
+    sh = "<h2 class=\"text-success\">" + heading + "</h2>" 
+    pipeline= [
+                { "$match": {"type": 'RepoInfo2'}},
+                { "$unwind" : "$language" }, 
+                { "$group": {"_id": {"language": "$language.l"},"lcount": {"$sum": 1}, "bcount": {"$sum": "$language.b"} }},
+                { "$project": {"_id":1,"language":"$_id.language","lcount":"$lcount","bcount":"$bcount","total":{"$multiply": ["$lcount","$bcount"]}}},           
+                { '$sort': {'total': -1}},
+                { '$limit': myLimit}       
+               ]    
+    mycursor = db.aggregate(pipeline)
+    for row in mycursor["result"]:
+        tmp1 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-file-code-o fa-1x\"></i>" + numformat(row['lcount']) + " repositories</span>" 
+        tmp2 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-info fa-1x\"></i>" + numformat(row['bcount']) + " bytes</span>"
+        #TODO: Show repositories by language
+        #output += LIS + SB5 + path1 + row['language'] + path2 + row['language'] + path3 + DE + SB7 + tmp1 + tmp2 + DE + LIE
+        output += LIS + SB5 + row['language'] + DE + SB7 + tmp1 + tmp2 + DE + LIE
+            
+    return ( sh + ULS + output  + ULE)
 
 
 def Typeahead(q):
