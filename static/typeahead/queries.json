@@ -12,14 +12,18 @@
 { 
   "label": "top organizations",
   "value": "top organizations",
-  "tokens": ["active","org", "top", "contributor","ask","question"]
+  "tokens": ["active","org", "top","ask","question"]
 },
 { 
   "label": "top contributors",
   "value": "top contributors",
   "tokens": ["active","org", "top", "contributor","ask","question"]
 },
-
+{ 
+  "label": "top languages",
+  "value": "top languages",
+  "tokens": ["active","org", "top", "language","ask","question"]
+},
 { 
   "label": "top new repositories",
   "value": "top new repositories sorted by contributors",
