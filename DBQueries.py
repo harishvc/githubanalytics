@@ -431,7 +431,7 @@ def ReportTopLanguages(heading):
                 { "$unwind" : "$language" }, 
                 { "$group": {"_id": {"language": "$language.l"},"lcount": {"$sum": 1}, "bcount": {"$sum": "$language.b"} }},
                 { "$project": {"_id":1,"language":"$_id.language","lcount":"$lcount","bcount":"$bcount","total":{"$multiply": ["$lcount","$bcount"]}}},           
-                { '$sort': {'total': -1}},
+                { '$sort': {'lcount': -1}},
                 { '$limit': myLimit}       
                ]    
     mycursor = db.aggregate(pipeline)
