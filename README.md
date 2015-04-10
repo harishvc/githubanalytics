@@ -58,7 +58,7 @@ $>python MongoInsert.py                #insert recommendations inside mongo
 ````
 
 ### Hosted on [Heroku](https://www.heroku.com/) and powered by [Compose](https://www.compose.io/)
-Interested? Visit [Ask GitHub](http://aksgithub.com)
+Interested? Visit [Ask GitHub](http://askgithub.com)
 
 ### GitHub Data Challenge
 branch "datachallenge" contains the code branch for GitHub <a href="https://github.com/blog/1864-third-annual-github-data-challenge">third annual data challenge</a>
