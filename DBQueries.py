@@ -86,6 +86,8 @@ def ProcessQuery(query):
             return (ReportTopLanguages("Top Languages"))
         elif  (query.startswith("organization")):
             return Search(bleach.clean(query.replace('organization ', '').strip()),"organization")
+        elif  (query.startswith("language")):
+            return Search(bleach.clean(query.replace('language ', '').strip()),"language")
         elif  (query.startswith("contributor")):
             return Search(bleach.clean(query.replace('contributor ', '').strip()),"contributor")
         elif (query == "dashboard"):
@@ -240,6 +242,7 @@ def Search(query,type):
     output = ""
     qregx =""
     nwords = []
+    sh = ""
     #Query Start Time in milliseconds
     QST = int(datetime.datetime.now().strftime("%s"))
     #Handle query with more than one word and spaces between words
@@ -263,6 +266,31 @@ def Search(query,type):
                     { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'organization': '$_id.organization','actorname': "$_a1",'ref': '$_a3'}},
                     { '$sort':  {'count': -1}}
                    ]
+    elif (type == "language"):
+        #Step 1: Find all repositories
+        pipeline= [
+                { "$match": {"type": "RepoInfo2"}},
+                { "$unwind" : "$language" },
+                { "$match": {"language.l": { "$regex" : qregx }}},
+                { "$project": {"_id":1,"full_name":"$full_name"}}  
+               ]
+        
+        #print pipeline
+        mycursor = db.aggregate(pipeline)
+        #print mycursor
+        
+        ALLR = []         
+        for row in mycursor["result"]: 
+            ALLR.append(row['full_name'])
+        #print ALLR
+        
+        #Step 2: Gather more information about each repository
+        pipeline = [
+              { '$match': {'$and': [ {"type":"PushEvent"},{"full_name" : {'$in': ALLR}} ]}},
+              { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name", 'language': "$language",'description': "$description",'organization': '$organization'},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
+              { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'organization': '$_id.organization','actorname': "$_a1",'ref': '$_a3'}},
+              { '$sort':  {'count': -1}}
+              ]  
     else:
         pipeline = [
                     { '$match': { '$text': { '$search': query }, 'type':'PushEvent' }},
@@ -300,6 +328,8 @@ def Search(query,type):
                 sh = "<p class=\"tpadding text-success\">" + "List of repositories that belong to " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         elif (type == "contributor"):
                 sh = "<p class=\"tpadding text-success\">" + "List of repositories " + query + " has contributed to (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+        elif (type == "language"):
+                sh = "<p class=\"tpadding text-success\">Found " + numformat(len(mycursor['result'])) + " repositories written in " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"    
         return ( sh + "<ul class=\"list-group\">" + output + "</ul>")
     else:
         return ("EMPTY")  #0 rows return
@@ -421,9 +451,9 @@ def ReportTopContributors(heading):
 
 def ReportTopLanguages(heading):
     myLimit = 15
-    #path1 = "<a href=\"/?q=language "
-    #path2 = "&amp;action=Search\"  class=\"repositoryinfo\">"
-    #path3 = "</a>"
+    path1 = "<a href=\"/?q=language "
+    path2 = "&amp;action=Search\"  class=\"repositoryinfo\">"
+    path3 = "</a>"
     output = ""
     sh = "<h2 class=\"text-success\">" + heading + "</h2>" 
     pipeline= [
@@ -438,9 +468,7 @@ def ReportTopLanguages(heading):
     for row in mycursor["result"]:
         tmp1 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-file-code-o fa-1x\"></i>" + numformat(row['lcount']) + " repositories</span>" 
         tmp2 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-info fa-1x\"></i>" + numformat(row['bcount']) + " bytes</span>"
-        #TODO: Show repositories by language
-        #output += LIS + SB5 + path1 + row['language'] + path2 + row['language'] + path3 + DE + SB7 + tmp1 + tmp2 + DE + LIE
-        output += LIS + SB5 + row['language'] + DE + SB7 + tmp1 + tmp2 + DE + LIE
+        output += LIS + SB5 + path1 + row['language'] + path2 + row['language'] + path3 + DE + SB7 + tmp1 + tmp2 + DE + LIE
             
     return ( sh + ULS + output  + ULE)
 
@@ -541,13 +569,17 @@ def LanguageBreakdown(RFNK):
     output = ""
     sum = 0 
     pipeline= [
-                { "$match": {"type": 'RepoInfo' ,'full_name': RFN}},     
+                { "$match": {"type": 'RepoInfo2' ,'full_name': RFN}},     
                 { "$group": {"_id": {"full_name": "$full_name","language":"$language"}}},
                 { "$project": { '_id': 0, 'full_name': '$_id.full_name','language':'$_id.language'}}
                ]    
     mycursor = db.aggregate(pipeline)
-    for row in mycursor["result"]:
-        d = stringToDictionary(row['language'].replace("}","").replace("{",""), ',', ':')
+    #print mycursor
+    
+    for row in mycursor["result"]:    
+        d = {}
+        for x in row['language']:
+            d[x['l']] = x['b']            
         #for k, v in sorted(d.items(), key=lambda kv: kv[1], reverse=True):
         #    print("%s => %s" % (k,v))
         output += "<div class=\"chart-horiz clearfix\"><ul class=\"chart nlpadding\">"
