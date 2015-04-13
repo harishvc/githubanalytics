@@ -35,7 +35,6 @@
     pointer-events : none;
 }
 
-
 .rpadding {
 	padding-left: 1px;
     padding-right: 2px;
@@ -99,3 +98,19 @@ a.list-group-item .text-success{
 	color: #3c763d;
 }
 .nobr	{ white-space:nowrap; }
+
+.pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+}
+.pagination-page-info b {
+    color: black;
+    background: #FFFF00;
+    padding-left: 2px;
+    padding: .1em .25em;
+    font-size: 150%;
+}
