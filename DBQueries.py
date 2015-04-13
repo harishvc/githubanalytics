@@ -332,17 +332,14 @@ def Search(query,type,offset, per_page):
         output += "<li class=\"list-group-item\">" + SB5 + path1  + fn + path2 + HSR(qregx,fn) + path3 + DE + SB7 + tmp1 + tmp2 + tmp3 + tmp4 + DE + "</li>"        
     
     if (len(output) > 0 ):
-        #TODO: Generate Heading for search results
         if (type == "all"):
-            #sh = "<p class=\"tpadding text-success\">" + str(total)  + " matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
-            sh = ""
+            sh = "<p class=\"tpadding text-success\">Repository matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         elif (type == "organization"):
                 sh = "<p class=\"tpadding text-success\">" + "Repositories inside organization " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         elif (type == "contributor"):
-                sh = "<p class=\"tpadding text-success\">" + "List of repositories " + query + " has contributed to (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
-                #sh = ""
+                sh = "<p class=\"tpadding text-success\">" + "Repositories " + query + " has contributed to (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         elif (type == "language"):
-                sh = "<p class=\"tpadding text-success\">Found " + numformat(len(mycursor['result'])) + " repositories written in " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"            
+                sh = "<p class=\"tpadding text-success\">Repositories written in " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"            
         return ( total, sh + "<ul class=\"list-group\">" + output + "</ul>")
     else:
         return (total, "EMPTY")  #0 rows return
