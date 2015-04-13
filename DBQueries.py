@@ -49,52 +49,52 @@ DE = "</div>"
 LGIHS = "<h3 class=\"list-group-item-heading text-success\">"
 LGIHE = "</h3>" 
         
-def ProcessQuery(query):
+def ProcessQuery(query,offset, per_page):
     if (query == ""):
         return "EMPTY"
     else: 
         app.logger.debug("processing ............ ->%s<-" ,  query)
         if (query == "total repositories"):
-             return FindDistinct ('PushEvent','full_name','$full_name',"repositories")
+             return (0, FindDistinct ('PushEvent','full_name','$full_name',"repositories"))
         elif (query == "total users"):
-             return FindDistinct ('PushEvent','actors','$actorlogin', "users")
+             return (0, FindDistinct ('PushEvent','actors','$actorlogin', "users"))
         elif (query == "total new repositories"):
-             return FindDistinct ('CreateEvent','full_name','$full_name',"new repositories")
+             return (0, FindDistinct ('CreateEvent','full_name','$full_name',"new repositories"))
         elif  (query == "total commits"):   
-            return TotalEntries("PushEvent","commits")
-        elif  (query.startswith("repository")):
-            return ProcessRepositories(query.replace('repository ', ''))
+            return (0,TotalEntries("PushEvent","commits"))
         elif  (query == "trending now"):
-            return (TrendingNow())
-        elif  (query == "top repositories sorted by contributors"):
-            return (ReportTopRepositoriesBy("Top repositories sorted by contributors","authors","all"))
-        elif  (query == "top repositories sorted by commits"):
-            return (ReportTopRepositoriesBy("Top repositories sorted by commits","total","all"))
-        elif  (query == "top repositories sorted by branches"):
-            return (ReportTopRepositoriesBy("Top repositories sorted by branches","branches","all"))
-        elif  (query == "top new repositories sorted by contributors"):
-            return (ReportTopRepositoriesBy("Top new repositories sorted by contributors","authors","new"))
-        elif  (query == "top new repositories sorted by commits"):
-            return (ReportTopRepositoriesBy("Top new repositories sorted by commits","total","new"))
-        elif  (query == "top new repositories sorted by branches"):
-            return (ReportTopRepositoriesBy("Top new repositories sorted by branches","branches","new"))
+            return (0,TrendingNow())
+        elif  (query == "top repositories"):
+            return (0, ReportTopRepositoriesBy("Top repositories sorted by contributors","authors","all"))
+#         elif  (query == "top repositories sorted by commits"):
+#             return (ReportTopRepositoriesBy("Top repositories sorted by commits","total","all"))
+#         elif  (query == "top repositories sorted by branches"):
+#             return (ReportTopRepositoriesBy("Top repositories sorted by branches","branches","all"))
+        elif  (query == "top new repositories"):
+            return (0, ReportTopRepositoriesBy("Top new repositories sorted by contributors","authors","new"))
+#         elif  (query == "top new repositories sorted by commits"):
+#             return (ReportTopRepositoriesBy("Top new repositories sorted by commits","total","new"))
+#         elif  (query == "top new repositories sorted by branches"):
+#             return (ReportTopRepositoriesBy("Top new repositories sorted by branches","branches","new"))
         elif  (query == "top organizations"):
-            return (ReportTopOrganizations("Top Organizations"))
+             return (0, ReportTopOrganizations("Top Organizations"))
         elif  (query == "top contributors"):
-            return (ReportTopContributors("Top Contributors"))
+            return (0, ReportTopContributors("Top Contributors"))
         elif  (query == "top languages"):
-            return (ReportTopLanguages("Top Languages"))
+            return (0, ReportTopLanguages("Top Languages"))
+        elif  (query.startswith("repository")):
+            return (0,ProcessRepositories(query.replace('repository ', '')))  
         elif  (query.startswith("organization")):
-            return Search(bleach.clean(query.replace('organization ', '').strip()),"organization")
+            return Search(bleach.clean(query.replace('organization ', '').strip()),"organization",offset, per_page)
         elif  (query.startswith("language")):
-            return Search(bleach.clean(query.replace('language ', '').strip()),"language")
+            return Search(bleach.clean(query.replace('language ', '').strip()),"language",offset, per_page)
         elif  (query.startswith("contributor")):
-            return Search(bleach.clean(query.replace('contributor ', '').strip()),"contributor")
+            return (Search(bleach.clean(query.replace('contributor ', '').strip()),"contributor",offset, per_page))
         elif (query == "dashboard"):
-            return (Dashboard("regular"))
+            return (0, Dashboard("regular"))
         else:
             #Default
-            return Search(query,"all") 
+            return Search(query,"all",offset, per_page) 
         
 def numformat(value):
     return "{:,}".format(value)
@@ -235,7 +235,7 @@ def HSR(regex,text):
         return output
      
 #Global search using MongoDB index on field name
-def Search(query,type):
+def Search(query,type,offset, per_page):
     path1 = "<a href=\"/?q=repository "
     path2 = "&amp;action=Search\" class=\"repositoryinfo\">"
     path3 = "</a>"
@@ -254,17 +254,25 @@ def Search(query,type):
     #Aggregation based on index score
     if (type == "organization"):
         pipeline = [
-                    {'$match': {'$and': [ {'type': {'$in': ["PushEvent"]}},{'organization':query}] }}, 
-                    { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name", 'language': "$language",'description': "$description",'organization': '$organization'},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
-                    { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'organization': '$_id.organization','actorname': "$_a1",'ref': '$_a3'}},
-                    { '$sort':  {'count': -1}}
+                    { '$match': {'$and': [ {'type': {'$in': ["PushEvent"]}},{'organization':query}] }}, 
+                    { '$group':  {'_id': {'full_name': "$full_name", 'organization': '$organization'},'_a1': {"$addToSet": "$actorname"},'_a3': {"$addToSet": "$ref"},'count': { '$sum' : 1 }}},
+                    { '$sort':  {'count': -1}},
+                    { "$group" : {"_id" : 'null',"my_documents" : {"$push" : {"_id" : "$_id",'actorname':'$_a1','ref':'$_a3','count':"$count"}},"TOTAL" : {"$sum" : 1}}},
+                    { "$unwind" : "$my_documents" },
+                    { "$project" : {"_id" : 0,"my_documents" : 1,"TOTAL" : "$TOTAL"}},
+                    { "$skip": offset},
+                    { "$limit": per_page} 
                    ]
     elif (type == "contributor"):
         pipeline = [
-                    {'$match': {'$and': [ {'type': {'$in': ["PushEvent"]}},{'actoremail':query}] }}, 
-                    { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name", 'language': "$language",'description': "$description",'organization': '$organization'},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
-                    { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'organization': '$_id.organization','actorname': "$_a1",'ref': '$_a3'}},
-                    { '$sort':  {'count': -1}}
+                    { '$match': {'$and': [ {'type': {'$in': ["PushEvent"]}},{'actoremail':query}] }}, 
+                    { '$group':  {'_id': {'full_name': "$full_name",'organization': { '$ifNull': [ "$organization", "Unspecified"]}},'_a1': {"$addToSet": "$actorname"},'_a3': {"$addToSet": "$ref"},'count': { '$sum' : 1 }}},
+                    { '$sort':  {'count': -1}},
+                    { "$group" : {"_id" : 'null',"my_documents" : {"$push" : {"_id" : "$_id",'actorname':'$_a1','ref':'$_a3','count':"$count"}},"TOTAL" : {"$sum" : 1}}},                    
+                    { "$unwind" : "$my_documents" },
+                    { "$project" : {"_id" : 0,"my_documents" : 1,"TOTAL" : "$TOTAL"}},
+                    { "$skip": offset},
+                    { "$limit": per_page} 
                    ]
     elif (type == "language"):
         #Step 1: Find all repositories
@@ -274,65 +282,70 @@ def Search(query,type):
                 { "$match": {"language.l": { "$regex" : qregx }}},
                 { "$project": {"_id":1,"full_name":"$full_name"}}  
                ]
-        
-        #print pipeline
         mycursor = db.aggregate(pipeline)
-        #print mycursor
-        
         ALLR = []         
         for row in mycursor["result"]: 
-            ALLR.append(row['full_name'])
-        #print ALLR
-        
+            ALLR.append(row['full_name'])    
         #Step 2: Gather more information about each repository
         pipeline = [
               { '$match': {'$and': [ {"type":"PushEvent"},{"full_name" : {'$in': ALLR}} ]}},
-              { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name", 'language': "$language",'description': "$description",'organization': '$organization'},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
-              { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'organization': '$_id.organization','actorname': "$_a1",'ref': '$_a3'}},
-              { '$sort':  {'count': -1}}
-              ]  
+              { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name",'organization': { '$ifNull': [ "$organization", "Unspecified"]}},'_a1': {"$addToSet": "$actorname"},'_a3': {"$addToSet": "$ref"},'count': { '$sum' : 1 }}},
+              { '$sort':  {'count': -1}},
+              { "$group" : {"_id" : 'null',"my_documents" : {"$push" : {"_id" : "$_id",'actorname':'$_a1','ref':'$_a3','count':"$count"}},"TOTAL" : {"$sum" : 1}}},                    
+              { "$unwind" : "$my_documents" },
+              { "$project" : {"_id" : 0,"my_documents" : 1,"TOTAL" : "$TOTAL"}},
+              { "$skip": offset},
+              { "$limit": per_page} 
+              ]
+ 
+    #Default search      
     else:
         pipeline = [
                     { '$match': { '$text': { '$search': query }, 'type':'PushEvent' }},
-                    { '$group':  {'_id': {'url': '$url',  'full_name': "$full_name", 'language': "$language",'description': "$description",'organization': '$organization','score': { '$meta': "textScore" }},'_a1': {"$addToSet": "$actorname"},'_a2': {"$push": "$comment"},'_a3': {"$addToSet": "$ref"},'_a4': {"$push": "$ref"},'count': { '$sum' : 1 }}},
-                    { '$project': { '_id': 0, 'url': '$_id.url', 'full_name': "$_id.full_name", 'count': '$count', 'language': "$_id.language",'description': "$_id.description",'score': "$_id.score",'organization': { '$ifNull': [ "$_id.organization", "Unspecified"]},'actorname': "$_a1",'ref': '$_a3'}},
-                    { '$sort':  { 'score': -1, 'count': -1}}
+                    { '$group':  {'_id': {'full_name': '$full_name','organization': { '$ifNull': [ "$organization", "Unspecified"]},\
+                                          'score': { '$meta': "textScore" }},'_a1': {"$addToSet": "$actorname"},'_a3': {"$addToSet": "$ref"},\
+                                          'count': { '$sum' : 1 } }},
+                    { "$group" : {"_id" : 'null',"my_documents" : {"$push" : {"_id" : "$_id",'actorname':'$_a1','ref':'$_a3','count':"$count"}},"TOTAL" : {"$sum" : 1}}},
+                    { "$unwind" : "$my_documents" },
+                    { "$project" : {"_id" : 0,"my_documents" : 1,"TOTAL" : "$TOTAL"}}, 
+                    { '$sort':  { 'score': -1, 'count': -1}},
+                    { "$skip": offset},
+                    { "$limit": per_page}
                    ]    
+    
+    #PROCESS
     mycursor = db.aggregate(pipeline)
     #print mycursor
-    #Search results header 
-    #print "Found .....", len(mycursor['result']) , " search matches ...."   
-    totalSearchResults = 0
-    for row in mycursor["result"]:
-        tmp0=""
-        totalSearchResults += 1
-        if ( type == "all" and totalSearchResults > SearchLimit):
-            break
-        else:
-            tmp0 = "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['count']) + " commits" if (row['count'] > 1) else "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + str(row['count']) + " commit"
-            tmp2 = ""
-            if 'organization' in row:
-                tmp2 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + HSR(qregx,str(row['organization'])) + "<span>" if (row['organization'] != 'Unspecified') else ""
-            tmp4 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(len(row['actorname'])) + " contributors</span>" if (len(row['actorname']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>" + str(len(row['actorname'])) + " contributor</span>"
-            tmp5 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branches" if (len(row['ref']) > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(len(row['ref'])) + " branch"
-            output += "<li class=\"list-group-item\">" + SB5 + path1  + row['full_name'].encode('utf-8').strip() + path2 + HSR(qregx,row['full_name'].encode('utf-8').strip()) + path3 + DE + SB7 + tmp0 + tmp5 + tmp4 + tmp2 + DE + "</li>"        
-            #print output
-    if (len(output) > 0 ): 
-        #Generate Heading for search results
+    
+    
+    total = 0
+    for ritem in mycursor["result"]:
+        total =  ritem['TOTAL']
+        count = ritem['my_documents']['count']
+        lactors = len(ritem['my_documents']['actorname'])
+        lbranches = len(ritem['my_documents']['ref'])
+        fn = ritem['my_documents']['_id']['full_name'].encode('utf-8').strip()
+        tmp1 = "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + numformat(count) + " commits" if (count > 1) else "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>1 commit"
+        tmp2 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(lbranches) + " branches" if (lbranches > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>1 branch"
+        tmp3 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(lactors) + " contributors</span>" if (lactors > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>1 contributor</span>"
+        tmp4 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + HSR(qregx,ritem['my_documents']['_id']['organization']) + "</span>" if ritem['my_documents']['_id']['organization']!= "Unspecified" else ""
+        output += "<li class=\"list-group-item\">" + SB5 + path1  + fn + path2 + HSR(qregx,fn) + path3 + DE + SB7 + tmp1 + tmp2 + tmp3 + tmp4 + DE + "</li>"        
+    
+    if (len(output) > 0 ):
+        #TODO: Generate Heading for search results
         if (type == "all"):
-            if (len(mycursor['result']) > SearchLimit):
-                sh = "<p class=\"tpadding text-success\">Top " + str(SearchLimit) + " matches (found " + str(numformat(len(mycursor['result'])))  +  " matches in " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
-            else:
-                sh = "<p class=\"tpadding text-success\">" + str(len(mycursor['result']))  + " matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+            #sh = "<p class=\"tpadding text-success\">" + str(total)  + " matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+            sh = ""
         elif (type == "organization"):
-                sh = "<p class=\"tpadding text-success\">" + "List of repositories that belong to " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+                sh = "<p class=\"tpadding text-success\">" + "Repositories inside organization " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         elif (type == "contributor"):
                 sh = "<p class=\"tpadding text-success\">" + "List of repositories " + query + " has contributed to (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+                #sh = ""
         elif (type == "language"):
-                sh = "<p class=\"tpadding text-success\">Found " + numformat(len(mycursor['result'])) + " repositories written in " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"    
-        return ( sh + "<ul class=\"list-group\">" + output + "</ul>")
+                sh = "<p class=\"tpadding text-success\">Found " + numformat(len(mycursor['result'])) + " repositories written in " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"            
+        return ( total, sh + "<ul class=\"list-group\">" + output + "</ul>")
     else:
-        return ("EMPTY")  #0 rows return
+        return (total, "EMPTY")  #0 rows return
 
 
 def TrendingNow():    
@@ -465,6 +478,7 @@ def ReportTopLanguages(heading):
                 { '$limit': myLimit}       
                ]    
     mycursor = db.aggregate(pipeline)
+
     for row in mycursor["result"]:
         tmp1 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-file-code-o fa-1x\"></i>" + numformat(row['lcount']) + " repositories</span>" 
         tmp2 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-info fa-1x\"></i>" + numformat(row['bcount']) + " bytes</span>"
