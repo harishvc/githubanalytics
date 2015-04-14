@@ -109,7 +109,7 @@ a.list-group-item .text-success{
 }
 .pagination-page-info b {
     color: black;
-    background: #FFFF00;
+    //background: #FFFF00;
     padding-left: 2px;
     padding: .1em .25em;
     font-size: 150%;
