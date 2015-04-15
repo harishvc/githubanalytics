@@ -47,6 +47,8 @@ def index():
     pagination = get_pagination(page=page,
                                 per_page=per_page,
                                 total=total,
+                                format_total=True,
+                                format_number=True,
                                 )
     if request.method == 'GET':
         if 'q' in request.args:
@@ -63,6 +65,9 @@ def index():
             pagination = get_pagination(page=page,
                                 per_page=per_page,
                                 total=total,
+                                format_total=True,
+                                format_number=True,
+                                record_name='repositories',
                                 )
             if (processed_text1 == "EMPTY") :
                 t1 = Suggestions.compare("now") if (query == "") else Suggestions.compare(query)  
@@ -112,7 +117,7 @@ def get_page_items():
     offset = (page - 1) * per_page
     return page, per_page, offset
 def get_pagination(**kwargs):
-    kwargs.setdefault('record_name', 'records')
+    kwargs.setdefault('record_name', 'repositories')
     return Pagination(css_framework=get_css_framework(),
                       link_size=get_link_size(),
                       show_single_page=show_single_page_or_not(),
