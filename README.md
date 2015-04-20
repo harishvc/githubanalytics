@@ -60,15 +60,18 @@ $>python MongoInsert.py                #insert recommendations inside mongo
 ### Hosted on [Heroku](https://www.heroku.com/) and powered by [Compose](https://www.compose.io/)
 Interested? Visit [Ask GitHub](http://askgithub.com)
 
-### GitHub Data Challenge
-branch "datachallenge" contains the code branch for GitHub <a href="https://github.com/blog/1864-third-annual-github-data-challenge">third annual data challenge</a>
 
 ### Neo4j 2015 Data Challenge
-Ask (http://gist.neo4j.org/?d9adad5c248385bea68c)[GitHub GraphGist] won the (http://neo4j.com/blog/winners-neo4j-graphgist-winter-challenge-2015/)[2015 Neo4j Data Challenge in the category Creative Graph Search and Insights]
+Ask [GitHub GraphGist](http://gist.neo4j.org/?d9adad5c248385bea68c) won the [2015 Neo4j Data Challenge in the category Creative Graph Search and Insights](http://neo4j.com/blog/winners-neo4j-graphgist-winter-challenge-2015/)
+
+### 2014 GitHub Data Challenge
+branch "datachallenge" contains the code branch for GitHub <a href="https://github.com/blog/1864-third-annual-github-data-challenge">third annual data challenge</a>
 
 
 ###TODO
-1. Enable cache
+[Open issues on GitHub](https://github.com/harishvc/githubanalytics/issues)
+1. Build finder app based on information gathered
+2. Add content analysis toEnable cache
 2. Integrate with GitHub API to provide real-time information about users and repositories
 
 [![Analytics](https://ga-beacon.appspot.com/UA-55381661-1/githubanalytics/readme)](https://github.com/igrigorik/ga-beacon)
