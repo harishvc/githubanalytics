@@ -70,8 +70,5 @@ branch "datachallenge" contains the code branch for GitHub <a href="https://gith
 
 ###TODO
 [Open issues on GitHub](https://github.com/harishvc/githubanalytics/issues)
-1. Build finder app based on information gathered
-2. Add content analysis toEnable cache
-2. Integrate with GitHub API to provide real-time information about users and repositories
 
 [![Analytics](https://ga-beacon.appspot.com/UA-55381661-1/githubanalytics/readme)](https://github.com/igrigorik/ga-beacon)
