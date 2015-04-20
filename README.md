@@ -63,6 +63,9 @@ Interested? Visit [Ask GitHub](http://askgithub.com)
 ### GitHub Data Challenge
 branch "datachallenge" contains the code branch for GitHub <a href="https://github.com/blog/1864-third-annual-github-data-challenge">third annual data challenge</a>
 
+### Neo4j 2015 Data Challenge
+Ask (http://gist.neo4j.org/?d9adad5c248385bea68c)[GitHub GraphGist] won the (http://neo4j.com/blog/winners-neo4j-graphgist-winter-challenge-2015/)[2015 Neo4j Data Challenge in the category Creative Graph Search and Insights]
+
 
 ###TODO
 1. Enable cache
