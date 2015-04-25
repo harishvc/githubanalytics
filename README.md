@@ -8,7 +8,7 @@ and powered by [Compose](https://www.compose.io/).
 * Fetch and parse public GitHub activity from [GitHub Archive](https://www.githubarchive.org/). Event type ```PushEvent``` are parsed using Node.js and inserted into MongoDB 
 * Nodes and relations are built using Cypher query language and inserted into Neo4j for insights and recommendations 
 * Application is developed in Python using Flask framework
-* Interested? Visit [Ask GitHub](http://aksgithub.com)
+* Interested? Visit [Ask GitHub](http://askgithub.com)
 
 ### Deployment Steps
 Step1: Set environment variables
