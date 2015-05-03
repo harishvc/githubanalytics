@@ -32,8 +32,9 @@ $(document).ready(function() {
    
    //Handle chart div
     $('.chart').horizBarChart({selector: '.bar',speed: 3000});
+
    
-    //Find similare repositories on demand
+    //Find similar repositories on demand
     $('a#findsimilarrepos').bind('click', function() {
         $("#wrapperfindsimilarrepos").empty();
         $("#wrapperfindsimilarrepos").html("finding similar repositories just for you <i class=\"fa fa-spinner fa-spin fa-1x\"></i>");
@@ -58,6 +59,34 @@ $(document).ready(function() {
         });
         return false;
     });
+
+    //Find trending topics on demand
+    $('a#findtrendingtopics').bind('click', function() {
+        $("#wrapperfindtrendingtopics").empty();
+        $("#wrapperfindtrendingtopics").html("finding trending topics just for you <i class=\"fa fa-spinner fa-spin fa-1x\"></i>");
+        var d2 = $.ajax({
+            url : '/_findtrendingtopics',
+            dataType : 'json',
+            timeout : (60000),
+            data : {
+                qvalue : $('input[name="qvalue"]').val(),qtype : $('input[name="qtype"]').val()
+            },
+            success : function(data) {
+                $("#trendingtopics").html(data.trendingtopics);
+                $("#wrapperfindtrendingtopics").empty();
+            },
+            error : function(objAJAXRequest, strError) {
+                $("#trendingtopics").html("<span class=\"text-danger\">Query taking too long: Please try again latter</span>");
+                $("#wrapperfindtrendingtopics").empty();
+            }
+        });
+        $.when( d2 ).done(function(){
+            $('a.trendingtopics').bind('click',cleanup);
+        });
+        return false;
+    });
+
+
     
     //Automatically display Horizontal Bar Charts
     if ($('#listlanguages').length > 0) {

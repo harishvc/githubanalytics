@@ -7,13 +7,13 @@ from flask import Flask
 import re
 import datetime
 import collections
+import sys
+import bleach
 
 #Local modules
 import RandomQuotes
 import Neo4jQueries
 import MyMoment
-import sys
-import bleach
 
 app = Flask(__name__)
 
@@ -243,6 +243,7 @@ def Search(query,type,offset, per_page):
     qregx =""
     nwords = []
     sh = ""
+    tt = ""  #Trending Topics
     #Query Start Time in milliseconds
     QST = int(datetime.datetime.now().strftime("%s"))
     #Handle query with more than one word and spaces between words
@@ -336,11 +337,16 @@ def Search(query,type,offset, per_page):
             sh = "<p class=\"tpadding text-success\">Repository matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         elif (type == "organization"):
                 sh = "<p class=\"tpadding text-success\">" + "Repositories inside organization " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+                #Link to find trending topics
+                tt =  "<input type=\"hidden\" name=\"qvalue\" value=" + query + "></input>\
+                      <input type=\"hidden\" name=\"qtype\" value=" + type + "></input>\
+                      <p><span id=\"trendingtopics\"></span><p><div id=\"wrapperfindtrendingtopics\"> \
+                      <button type=\"button\" class=\"btn btn-default\"><a href=\"javascript:void();\" id=\"findtrendingtopics\">Find trending topics</a></button></div></p>"
         elif (type == "contributor"):
                 sh = "<p class=\"tpadding text-success\">" + "Repositories " + query + " has contributed to (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         elif (type == "language"):
                 sh = "<p class=\"tpadding text-success\">Repositories written in " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"            
-        return ( total, sh + "<ul class=\"list-group\">" + output + "</ul>")
+        return ( total, tt + sh + "<ul class=\"list-group\">" + output + "</ul>")
     else:
         return (total, "EMPTY")  #0 rows return
 
