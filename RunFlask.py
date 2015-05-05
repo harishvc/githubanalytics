@@ -42,6 +42,7 @@ def index():
     query = ""
     processed_text1  = ""
     response2 = ""
+    resultheading = ""
     #Debug
     #time.sleep(5)
     page, per_page, offset = get_page_items()    
