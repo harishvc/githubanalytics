@@ -342,7 +342,7 @@ def Search(query,type,offset, per_page):
                 response2 =  "<input type=\"hidden\" name=\"qvalue\" value=" + query + "></input>\
                       <input type=\"hidden\" name=\"qtype\" value=" + type + "></input>\
                       <p><span id=\"trendingtopics\"></span><p><div id=\"wrapperfindtrendingtopics\"> \
-                      <button type=\"button\" class=\"btn btn-default\"><a href=\"javascript:void();\" id=\"findtrendingtopics\">Find trending topics</a></button></div></p>"
+                      <button type=\"button\" class=\"btn btn-default\"><a href=\"javascript:void();\" id=\"findtrendingtopics\">Find interesting topics</a></button></div></p>"
         elif (type == "contributor"):
                 sh = "<p class=\"tpadding text-success\">" + "Repositories " + query + " has contributed to (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         elif (type == "language"):
