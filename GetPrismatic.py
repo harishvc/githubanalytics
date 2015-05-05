@@ -66,9 +66,9 @@ def GetInterestTopics(type,value):
             for topic in P3['topics']:
                 rt.append(topic['topic'])
             if len(rt) > 1:
-                output = "<p class=\"tpadding text-success\">" + "Trending topics in organization " + value + "</p>"
+                output = "<p class=\"tpadding text-success\">" + "Interesting topics in organization " + value + "</p>"
             else:
-                output = "<p class=\"tpadding text-success\">" + "Trending topic in organization " + value + "</p>"
+                output = "<p class=\"tpadding text-success\">" + "Interesting topic in organization " + value + "</p>"
             output += ', '.join(rt)     
         else:
             output = "Sorry, found no trending topics based on contributor comment(s)"
