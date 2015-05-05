@@ -63,7 +63,7 @@ $(document).ready(function() {
     //Find trending topics on demand
     $('a#findtrendingtopics').bind('click', function() {
         $("#wrapperfindtrendingtopics").empty();
-        $("#wrapperfindtrendingtopics").html("finding trending topics just for you <i class=\"fa fa-spinner fa-spin fa-1x\"></i>");
+        $("#wrapperfindtrendingtopics").html("finding interesting topics just for you <i class=\"fa fa-spinner fa-spin fa-1x\"></i>");
         var d2 = $.ajax({
             url : '/_findtrendingtopics',
             dataType : 'json',
