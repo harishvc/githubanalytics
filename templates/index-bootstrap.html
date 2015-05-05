@@ -78,8 +78,7 @@
     	     	{% if query[0]["text"] | length>= 1 %}
                     {% if total > 1 %}
                          {{ pagination.info }}
-                    {% endif %}     
-  					{{ pagination.links }}                                    
+                    {% endif %}                                     
 	              {{ processed_text.decode('utf-8')  | safe }}
 	              {{ pagination.links }}    
                 {% endif %}
