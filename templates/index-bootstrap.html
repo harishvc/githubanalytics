@@ -69,7 +69,13 @@
 <div class="container">
     <div class="row">
     	     <div id="result">
-                {% if query[0]["text"] | length>= 1 %}
+ 				{% if response2 %}
+ 				    {{ response2.decode('utf-8')  | safe }}   
+ 				{%endif %}	
+ 				{% if resultheading %}
+ 				    {{ resultheading.decode('utf-8')  | safe }}   
+ 				{%endif %}	
+    	     	{% if query[0]["text"] | length>= 1 %}
                     {% if total > 1 %}
                          {{ pagination.info }}
                     {% endif %}     
@@ -80,7 +86,5 @@
               </div>
     </div>
 </div>
-
-
 {% endblock %}
 
