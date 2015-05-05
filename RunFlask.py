@@ -41,6 +41,7 @@ app.jinja_env.filters['numformat'] = numformat
 def index():
     query = ""
     processed_text1  = ""
+    response2 = ""
     #Debug
     #time.sleep(5)
     page, per_page, offset = get_page_items()    
@@ -62,7 +63,7 @@ def index():
             #time.sleep(15)
             #app.logger.debug ("awake .....")
             #End: Uncomment to trigger slow response time
-            (total, processed_text1) = DBQueries.ProcessQuery(query,offset, per_page)
+            (total, resultheading,processed_text1,response2) = DBQueries.ProcessQuery(query,offset, per_page)
             pagination = get_pagination(page=page,
                                 per_page=per_page,
                                 total=total,
@@ -76,6 +77,7 @@ def index():
     else:
         query =""
         processed_text1 =""
+        response2 = ""
     return render_template("index-bootstrap.html",
         page=page,
         total=total,
@@ -84,7 +86,9 @@ def index():
         title = 'Ask GitHub',
         showGAcode = os.environ['showGAcode'],
         appenv = os.environ['deployEnv'],
-        query = [{"text": query}],     
+        query = [{"text": query}],
+        resultheading = resultheading,
+        response2 = response2,     
         processed_text = processed_text1)
     
 
