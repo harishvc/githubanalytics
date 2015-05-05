@@ -51,39 +51,39 @@ LGIHE = "</h3>"
         
 def ProcessQuery(query,offset, per_page):
     if (query == ""):
-        return "EMPTY"
+        return( 0,"","EMPTY","")
     else: 
         app.logger.debug("processing ............ ->%s<-" ,  query)
         if (query == "total repositories"):
-             return (0, FindDistinct ('PushEvent','full_name','$full_name',"repositories"))
+             return (0, "", FindDistinct ('PushEvent','full_name','$full_name',"repositories"),"")
         elif (query == "total users"):
-             return (0, FindDistinct ('PushEvent','actors','$actorlogin', "users"))
+             return (0, "", FindDistinct ('PushEvent','actors','$actorlogin', "users"),"")
         elif (query == "total new repositories"):
-             return (0, FindDistinct ('CreateEvent','full_name','$full_name',"new repositories"))
+             return (0, "", FindDistinct ('CreateEvent','full_name','$full_name',"new repositories"),"")
         elif  (query == "total commits"):   
-            return (0,TotalEntries("PushEvent","commits"))
+            return (0,"", TotalEntries("PushEvent","commits"),"")
         elif  (query == "trending now"):
-            return (0,TrendingNow())
+            return (0,"",TrendingNow(),"")
         elif  (query == "top repositories"):
-            return (0, ReportTopRepositoriesBy("Top repositories sorted by contributors","authors","all"))
+            return (0,"", ReportTopRepositoriesBy("Top repositories sorted by contributors","authors","all"),"")
 #         elif  (query == "top repositories sorted by commits"):
 #             return (ReportTopRepositoriesBy("Top repositories sorted by commits","total","all"))
 #         elif  (query == "top repositories sorted by branches"):
 #             return (ReportTopRepositoriesBy("Top repositories sorted by branches","branches","all"))
         elif  (query == "top new repositories"):
-            return (0, ReportTopRepositoriesBy("Top new repositories sorted by contributors","authors","new"))
+            return (0, "", ReportTopRepositoriesBy("Top new repositories sorted by contributors","authors","new"),"")
 #         elif  (query == "top new repositories sorted by commits"):
 #             return (ReportTopRepositoriesBy("Top new repositories sorted by commits","total","new"))
 #         elif  (query == "top new repositories sorted by branches"):
 #             return (ReportTopRepositoriesBy("Top new repositories sorted by branches","branches","new"))
         elif  (query == "top organizations"):
-             return (0, ReportTopOrganizations("Top Organizations"))
+             return (0, "", ReportTopOrganizations("Top Organizations"),"")
         elif  (query == "top contributors"):
-            return (0, ReportTopContributors("Top Contributors"))
+            return (0, "", ReportTopContributors("Top Contributors"),"")
         elif  (query == "top languages"):
-            return (0, ReportTopLanguages("Top Languages"))
+            return (0, "", ReportTopLanguages("Top Languages"),"")
         elif  (query.startswith("repository")):
-            return (0,ProcessRepositories(query.replace('repository ', '')))  
+            return (0,"", ProcessRepositories(query.replace('repository ', '')),"")  
         elif  (query.startswith("organization")):
             return Search(bleach.clean(query.replace('organization ', '').strip()),"organization",offset, per_page)
         elif  (query.startswith("language")):
@@ -91,7 +91,7 @@ def ProcessQuery(query,offset, per_page):
         elif  (query.startswith("contributor")):
             return (Search(bleach.clean(query.replace('contributor ', '').strip()),"contributor",offset, per_page))
         elif (query == "dashboard"):
-            return (0, Dashboard("regular"))
+            return (0, "", Dashboard("regular"),"")
         else:
             #Default
             return Search(query,"all",offset, per_page) 
@@ -320,6 +320,7 @@ def Search(query,type,offset, per_page):
     
     
     total = 0
+    response2=""
     for ritem in mycursor["result"]:
         total =  ritem['TOTAL']
         count = ritem['my_documents']['count']
@@ -338,7 +339,7 @@ def Search(query,type,offset, per_page):
         elif (type == "organization"):
                 sh = "<p class=\"tpadding text-success\">" + "Repositories inside organization " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
                 #Link to find trending topics
-                tt =  "<input type=\"hidden\" name=\"qvalue\" value=" + query + "></input>\
+                response2 =  "<input type=\"hidden\" name=\"qvalue\" value=" + query + "></input>\
                       <input type=\"hidden\" name=\"qtype\" value=" + type + "></input>\
                       <p><span id=\"trendingtopics\"></span><p><div id=\"wrapperfindtrendingtopics\"> \
                       <button type=\"button\" class=\"btn btn-default\"><a href=\"javascript:void();\" id=\"findtrendingtopics\">Find trending topics</a></button></div></p>"
@@ -346,9 +347,9 @@ def Search(query,type,offset, per_page):
                 sh = "<p class=\"tpadding text-success\">" + "Repositories " + query + " has contributed to (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         elif (type == "language"):
                 sh = "<p class=\"tpadding text-success\">Repositories written in " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"            
-        return ( total, tt + sh + "<ul class=\"list-group\">" + output + "</ul>")
+        return ( total,  sh , "<ul class=\"list-group\">" + output + "</ul>", response2)
     else:
-        return (total, "EMPTY")  #0 rows return
+        return (total, "", "EMPTY",response2)  #0 rows return
 
 
 def TrendingNow():    
