@@ -4,19 +4,11 @@
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
-choices = ["total users",
-           "total repositories",
-           "total new repositories",
-           "total commits",
-           "trending now",
-           "user commit frequency",
-           "top repositories sorted by contributors",
-           "top repositories sorted by branches",
-           "top repositories sorted by commits",
-           "top new repositories sorted by contributors",
-           "top new repositories sorted by branches",
-           "top new repositories sorted by commits"
-           ]
+choices = ["trending now",
+          "top organizations",
+          "top contributors",
+          "top repositories",
+          "top new repositories"]
 
 def compare(input):
     #print "comparing ....", input
