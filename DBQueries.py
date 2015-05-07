@@ -83,7 +83,13 @@ def ProcessQuery(query,offset, per_page):
         elif  (query == "top languages"):
             return (0, "", ReportTopLanguages("Top Languages"),"")
         elif  (query.startswith("repository")):
-            return (0,"", ProcessRepositories(query.replace('repository ', '')),"")  
+            repoName =  query.replace('repository ', '')
+            #show interesting topics
+            response2 = "<input type=\"hidden\" name=\"qvalue\" value=" + repoName + "></input>\
+                      <input type=\"hidden\" name=\"qtype\" value=\"full_name\"></input>\
+                      <p><span id=\"trendingtopics\"></span><p><div id=\"wrapperfindtrendingtopics\"> \
+                      <button type=\"button\" class=\"btn btn-default\"><a href=\"javascript:void();\" id=\"findtrendingtopics\">Find interesting topics</a></button></div></p>"
+            return (0,"",ProcessRepositories(repoName),response2)  
         elif  (query.startswith("organization")):
             return Search(bleach.clean(query.replace('organization ', '').strip()),"organization",offset, per_page)
         elif  (query.startswith("language")):
@@ -130,14 +136,14 @@ def ProcessRepositories(repoName):
     SR =  "<input type=\"hidden\" name=\"reponame\" value=" + repoName + "></input>\
           <span id=\"similarrepos\"></span><p><div id=\"wrapperfindsimilarrepos\"> \
           <button type=\"button\" class=\"btn btn-default\"><a href=\"javascript:void();\" id=\"findsimilarrepos\">Find similar repositorites</a></button></div>"
-    
+                      
     #Place holder for languages loaded using AJAX
     LBD = "<div id=\"listlanguages\"></div>"
     
     if (len(mycursor["result"]) == 0):
-        return ("EMPTY")
-    else:       
-        myreturn =""   
+        return ("EMPTY","")
+    else:
+        myreturn =""                
         for record in mycursor["result"]:
             myreturn = sh + ULS
             myreturn += LIS + SB5 + "<a href=" + str(record['url']) + ">" + str(record['name']) + "</a>" + DE + SB7
@@ -317,14 +323,13 @@ def Search(query,type,offset, per_page):
     #PROCESS
     mycursor = db.aggregate(pipeline)
     #print mycursor
-    
-    
     total = 0
     response2=""
     for ritem in mycursor["result"]:
         total =  ritem['TOTAL']
         count = ritem['my_documents']['count']
         lactors = len(ritem['my_documents']['actorname'])
+        actorname = ritem['my_documents']['actorname'][0] if (ritem['my_documents']['actorname'][0]) else ""
         lbranches = len(ritem['my_documents']['ref'])
         fn = ritem['my_documents']['_id']['full_name'].encode('utf-8').strip()
         tmp1 = "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>" + numformat(count) + " commits" if (count > 1) else "<i class=\"rpadding fa fa-clock-o fa-1x\"></i>1 commit"
@@ -338,13 +343,18 @@ def Search(query,type,offset, per_page):
             sh = "<p class=\"tpadding text-success\">Repository matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         elif (type == "organization"):
                 sh = "<p class=\"tpadding text-success\">" + "Repositories inside organization " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
-                #Link to find trending topics
+                #Link to find trending topics for organization
                 response2 =  "<input type=\"hidden\" name=\"qvalue\" value=" + query + "></input>\
                       <input type=\"hidden\" name=\"qtype\" value=" + type + "></input>\
                       <p><span id=\"trendingtopics\"></span><p><div id=\"wrapperfindtrendingtopics\"> \
                       <button type=\"button\" class=\"btn btn-default\"><a href=\"javascript:void();\" id=\"findtrendingtopics\">Find interesting topics</a></button></div></p>"
         elif (type == "contributor"):
-                sh = "<p class=\"tpadding text-success\">" + "Repositories " + query + " has contributed to (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+                sh = "<p class=\"tpadding text-success\">" + "Repositories <strong>" + actorname + "</strong> has contributed (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+                #Link to find trending topics for contributor
+                response2 =  "<input type=\"hidden\" name=\"qvalue\" value=" + query + "></input>\
+                      <input type=\"hidden\" name=\"qtype\" value=\"actoremail\"></input>\
+                      <p><span id=\"trendingtopics\"></span><p><div id=\"wrapperfindtrendingtopics\"> \
+                      <button type=\"button\" class=\"btn btn-default\"><a href=\"javascript:void();\" id=\"findtrendingtopics\">Find interesting topics</a></button></div></p>"
         elif (type == "language"):
                 sh = "<p class=\"tpadding text-success\">Repositories written in " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"            
         return ( total,  sh , "<ul class=\"list-group\">" + output + "</ul>", response2)
