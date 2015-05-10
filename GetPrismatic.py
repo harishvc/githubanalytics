@@ -56,7 +56,7 @@ def GetInterestTopics(type,value):
         #clean up: remove spaces
         #TODO: remove special characters, html, +++ , ====
         P2 = re.sub( '\s+', ' ', P1).strip()
-    #Condition 1: Call Prismatic API when there is more than 1000 characters in comments    
+    #Condition 1: Call Prismatic API when there is more than 500 characters in comments    
     if len(P2) > 500:
         P3 = ""
         #Condition 2: Send only 2k characters
