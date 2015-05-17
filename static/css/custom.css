@@ -28,11 +28,17 @@
 #progress { 
   display: none;
   padding-top: 30px;
-
  }
 
 #navhome {
     pointer-events : none;
+}
+
+#findtrendingtopics{
+  background: #4c66a4;
+  color: #FFF;
+  text-decoration: none;
+  padding: 5px 10px 5px;	
 }
 
 .rpadding {
