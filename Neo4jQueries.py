@@ -1,4 +1,4 @@
-from py2neo import Graph
+from py2neo import authenticate, Graph
 import os.path
 import bleach
 from flask import Flask
