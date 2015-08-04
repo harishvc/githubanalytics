@@ -39,8 +39,7 @@ $(document).ready(function() {
        ga('send', {
            'hitType': 'event',          // Required.
            'eventCategory': 'similarrepos',   // Required.
-           'eventAction': 'click',      // Required.
-           'eventLabel': $('input[name="reponame"]').val()
+           'eventAction': $('input[name="reponame"]').val()      // Required.
         });
         $("#wrapperfindsimilarrepos").empty();
         $("#wrapperfindsimilarrepos").html("finding similar repositories just for you <i class=\"fa fa-spinner fa-spin fa-1x\"></i>");
@@ -71,8 +70,7 @@ $(document).ready(function() {
     	ga('send', {
            'hitType': 'event',          // Required.
            'eventCategory': 'trendingtopics',   // Required.
-           'eventAction': 'click',      // Required.
-           'eventLabel': $('input[name="reponame"]').val()
+           'eventAction': $('input[name="reponame"]').val()      // Required.
         });
         $("#wrapperfindtrendingtopics").empty();
         $("#wrapperfindtrendingtopics").html("finding interesting topics just for you <i class=\"fa fa-spinner fa-spin fa-1x\"></i>");
