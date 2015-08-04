@@ -17,7 +17,7 @@ def FindSimilarRepositories(InputrepoK):
 	path2 = "&amp;action=Search\"  class=\"repositoryinfo\">"
 	path3 = "</a>"
 
-    #Find similar repository > 3 connections
+    #Find similar repository > 1 connections
 	query1="MATCH (a {id:\"" + Inputrepo + "\"})"
 	query2="-[r1:IS_ACTOR|IN_ORGANIZATION]->(match)<-[r2:IS_ACTOR|IN_ORGANIZATION]-(b) "
 	query3="with b, collect (distinct match.id) as connections, collect (distinct type(r1)) as rel1 "
