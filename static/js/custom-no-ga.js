@@ -36,12 +36,6 @@ $(document).ready(function() {
    
     //Find similar repositories on demand
     $('a#findsimilarrepos').bind('click', function() {
-       ga('send', {
-           'hitType': 'event',          // Required.
-           'eventCategory': 'similarrepos',   // Required.
-           'eventAction': 'click',      // Required.
-           'eventLabel': $('input[name="reponame"]').val()
-        });
         $("#wrapperfindsimilarrepos").empty();
         $("#wrapperfindsimilarrepos").html("finding similar repositories just for you <i class=\"fa fa-spinner fa-spin fa-1x\"></i>");
         var d2 = $.ajax({
@@ -68,12 +62,6 @@ $(document).ready(function() {
 
     //Find trending topics on demand
     $('a#findtrendingtopics').bind('click', function() {
-    	ga('send', {
-           'hitType': 'event',          // Required.
-           'eventCategory': 'trendingtopics',   // Required.
-           'eventAction': 'click',      // Required.
-           'eventLabel': $('input[name="reponame"]').val()
-        });
         $("#wrapperfindtrendingtopics").empty();
         $("#wrapperfindtrendingtopics").html("finding interesting topics just for you <i class=\"fa fa-spinner fa-spin fa-1x\"></i>");
         var d2 = $.ajax({
