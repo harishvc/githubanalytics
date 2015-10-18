@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 import os
 
 driver = webdriver.Firefox()
-driver.get("http://askgithub.com")
+driver.get("http://localhost")
 assert "Ask GitHub" in driver.title
 elem = driver.find_element_by_name("q")
 elem.send_keys("trending now")
