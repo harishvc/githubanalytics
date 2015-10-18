@@ -17,3 +17,5 @@ pytz==2014.4
 python-Levenshtein==0.12.0 
 flask-paginate==0.3.0
 rq==0.5.4
+selenium==2.47.3
+
