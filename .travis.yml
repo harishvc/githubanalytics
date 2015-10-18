@@ -2,9 +2,15 @@
 language: python
 python:
   - "2.7"
-before_install:
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
-# command to run tests
+env:
+  global:
+    - secure: zE1orjsyyTFqdrb+FUBotnJjS26HIzfhTDhsrg+F74vcmgQVLcSIxpjDfc4rIh20EBT52sY+4+4INtYPudVgffBv8OeOf6hzhTGoHW9vdhCNKORmSNnQo3iVe/FZTCXrIuvxGrnVaZwb7jLsuEaBPVEMSNj/g+6T383/7A0JWoGpXyNfB/Z/C52UGFHysVNC3AoLLeFiNOUXRWpW3beJWrhVqbIFNR4OOG3h7wWIyDts9BHPgxbjfzJv7yDYusMYCiQ5p4X7F4m19dSnsnRm8aKz/6B2WMcWMZy06L0OJ6q9LDqmSJkDfvi+f0mFZZlxgBu/VmtTKKkQLRWFJa+decN1supGkKbGMVUARfNQwk/tsdH/kCuhosR409k9upkpgaf9ovOGSYeTFojhSrtTaVsrpP5CKTpBTgqZk9EparuS0/G3vG8Swf3LWCpV3BtqbmsU4ROPNi4iz3YB8rw+A0/5s9rnLaT+qCDcjKq2S9gEucwF8ZPxx7AFeFOltRVamBN2CueNfqiqxPnLNHjUTytaCwiRTkH+mDGuf+aSX/4W92yVi4MfIbzifhSJDjKnL21B9FSI7SoVZgkIsPrIJMYnfSV4C5ZhhkJkFEuM/i+bWuOkfuE1E4NAnDEEWBL3PbOusoTo1bq4SrhIAvitcUXK9ZPYpLJ9Gy6pKicN//U=
+    - secure: QmPEhG7NjOIHgJugCqEq4aGfINX0KlL1r+QY/eTZhZnlRMluHRLpBQMHif+pg9MEBlZZe7Qa6o0QOPqimaYepehdLGRfJ6EYj4CLabVEBBXMpa4bdsArvHdUPhBItwu41lIEK1GMr3kJTuht1rst812b9STyRvGkQFCNPw0qPZZ6+/gKFiFB5yUwTccXMUmh3hWMObztQ+aFuiZj9+0vBbApW0qlmlCwaWVC55jDC+MZpTEbGC31p88t7sCgf+G787XpuYMauexeywB/GYwxwsU18H+7Vg8NXbF4sxax8QXi5TALEUmI8187CR9Nfg5k9zF2gToTc9MCbqKoj0rHnQiCE0mVEjFnN52J7z/qjkE0wvX8Gtor/8ica/xFvJ8bn4tEZxmIcryLzvO+Jp+ulFxNO2NePecXwXfrtT/vqB971cPF9CdtYd4RHnfyrOEqODXJcC/aSBg5Y16YXHfmWZS/oBAD11t/Y78le1q2jSKzEhhAyWA71/SWNmYu7uK+NkiGvU9svFErbdMho/fNuJcfO+/62PZbdvMPazA+Qf4Tkn2GlQDx/ENf7pAUs8vP5/+ipc1n/eIrjx1Qegy02KedrdQC0pvh5ncaM5dZKABXde7EwgmH2jitxvuTxyFnexlNr6eMaxyGj8k6AKElHHkYS9fLGWPVdVmeLA8gwYQ=
+addons:
+  sauce_connect: true
+before_script:
+  - python RunFlask.py &
+  - sleep 2000
 script: python test/travis-testcases.py
 branches:
   only:
