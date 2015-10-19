@@ -6,22 +6,18 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import os
 
 #Get Environment variables
-#if os.environ.get('TRAVIS_BUILD_NUMBER') is not None:
-#    version = os.environ.get('TRAVIS_BUILD_NUMBER')
-#else:
-#    version = ""
-
-version=""
 if os.environ.get('TRAVIS_BUILD_NUMBER') is not None:
     build = os.environ.get('TRAVIS_BUILD_NUMBER')
 else:
     build = ""
     
 desired_cap = {
-    'platform': "Mac OS X 10.9",
+    #'platform': "Mac OS X 10.9",
     'browserName': "chrome",
-    'version': version,
     'build': build,
+    'tunnel-identifier': os.environ.get('TRAVIS_JOB_NUMBER'),
+    'username': os.environ.get('SauceLogin'),
+    'accessKey': os.environ.get('SauceAccessKey'),
 }
 
 #Sauce Labs
