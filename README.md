@@ -1,7 +1,5 @@
-[![Travis CI](https://travis-ci.org/harishvc/githubanalytics.svg)](https://travis-ci.org/harishvc/githubanalytics.svg)  
-[![Sauce Test Status](https://saucelabs.com/buildstatus/harishvc)](https://saucelabs.com/buildstatus/harishvc)
-
-GitHub Analytics
+ 
+GitHub Analytics [![Travis CI](https://travis-ci.org/harishvc/githubanalytics.svg)](https://travis-ci.org/harishvc/githubanalytics.svg)  [![Sauce Test Status](https://saucelabs.com/buildstatus/harishvc)](https://saucelabs.com/buildstatus/harishvc)
 ===============
 
 Analyze GitHub public timeline &amp; provide insights.
