@@ -15,7 +15,7 @@ desired_cap = {
     #'platform': "Mac OS X 10.9",
     'browserName': "chrome",
     'build': build,
-    'tunnel-identifier': os.environ.get('TRAVIS_JOB_NUMBER'),
+    'tunnel-identifier': os.environ.get('TRAVIS_JOB_NUMBER'), #IMPORTANT!!!
     'username': os.environ.get('SauceLogin'),
     'accessKey': os.environ.get('SauceAccessKey'),
 }
@@ -36,6 +36,11 @@ elem = driver.find_element_by_name("q")
 elem.send_keys("trending now")
 elem.send_keys(Keys.RETURN)
 assert "No results found." not in driver.page_source
+
+#Update status on Sauce
+#https://docs.saucelabs.com/tutorials/python/#reporting-to-the-sauce-labs-dashboard
+sauce_client = SauceClient(SauceLogin, SauceAccessKey)
+sauce_client.jobs.update_job(driver.session_id, passed=True)
 
 # This is where you tell Sauce Labs to stop running tests on your behalf.  
 # It's important so that you aren't billed after your test finishes.
