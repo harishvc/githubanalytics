@@ -6,8 +6,8 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import os
 
 #Get Environment variables
-if os.environ.get('TRAVIS_COMMIT') is not None:
-    version = os.environ.get('TRAVIS_COMMIT')
+if os.environ.get('TRAVIS_BUILD_NUMBER') is not None:
+    version = os.environ.get('TRAVIS_BUILD_NUMBER')
 else:
     version = ""
 if os.environ.get('TRAVIS_BUILD_NUMBER') is not None:
