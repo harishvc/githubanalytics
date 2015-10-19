@@ -14,13 +14,19 @@ from json import loads
 import bleach
 from json import dumps
 
+
+#Background queue
+from rq import Queue
+from worker import conn
+BQ = Queue(connection=conn)
+from Neo4jQueries import FindSimilarRepositories     
+
 #Pagination
 from flask.ext.paginate import Pagination
 
 #Local modules
 import Suggestions
 import DBQueries
-import Neo4jQueries     
 import GetPrismatic
 
 #Global variables
@@ -96,8 +102,12 @@ def index():
 @app.route('/_findsimilarrepositories')
 def findsimilarrepositories():
     reponame = bleach.clean(request.args['a']).strip()
-    SR = Neo4jQueries.FindSimilarRepositories(reponame)
-    return jsonify(similarrepos=SR)
+    print("staring queue ...")
+    SR = BQ.enqueue(FindSimilarRepositories,reponame)
+    while SR.result is None:
+        time.sleep(1)
+    print("ending queue .....")
+    return jsonify(similarrepos=SR.result)
 
 @app.route('/_listlanguages')
 def listlanguages():
@@ -150,7 +160,7 @@ def page_not_found(e):
     return render_template('404.html'), 404
 @app.errorhandler(500)
 def error(e):
-    print e
+    print(e)
     return render_template('500.html'), 500
 @app.route('/hello')
 def hello(name=None):
@@ -173,6 +183,9 @@ def static_from_root():
 
 if __name__ == '__main__':
     if (os.environ['deployEnv'] == "production"):
-        app.run(host='0.0.0.0', port=os.environ['PORT']) 
+        IP = "0.0.0.0" 
+        if os.environ.get('CIURL') is not None:
+            IP = os.environ.get('CIURL')
+        app.run(host=IP, port=os.environ['PORT']) 
     else:
         app.run(host=os.environ['myIP'],debug=True)

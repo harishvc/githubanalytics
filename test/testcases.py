@@ -6,10 +6,7 @@ import os
 
 #driver = webdriver.Firefox()
 #driver = webdriver.PhantomJS(service_args=["--webdriver-loglevel=OFF"])
-#CMD
-#driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
-#TRAVIS-CI
-driver = webdriver.phantomjs(service_log_path=os.path.devnull)
+driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
 driver.get("http://askgithub.com")
 assert "Ask GitHub" in driver.title
 elem = driver.find_element_by_name("q")
