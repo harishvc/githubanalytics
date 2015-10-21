@@ -102,11 +102,11 @@ def index():
 @app.route('/_findsimilarrepositories')
 def findsimilarrepositories():
     reponame = bleach.clean(request.args['a']).strip()
-    print("staring queue ...")
+    #print("staring queue ...")
     SR = BQ.enqueue(FindSimilarRepositories,reponame)
     while SR.result is None:
         time.sleep(1)
-    print("ending queue .....")
+    #print("ending queue .....")
     return jsonify(similarrepos=SR.result)
 
 @app.route('/_listlanguages')
