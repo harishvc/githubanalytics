@@ -8,7 +8,7 @@ env:
 addons:
   sauce_connect: true
 services:
-  - redis-server
+- redis-server
 before_script:
 - python RunFlask.py worker.py &
 - python worker.py &
@@ -18,6 +18,6 @@ branches:
   - master
 deploy:
   provider: heroku
+  app: rocky-hamlet-2442
   api_key:
-   secure: EwV1/pUlwPl23xxSFqCRs6TCJ9qharRrAEVEKm8Uyar4Fy+yFd07wu4JEuZAvzVeWWm7tQH6D2spqpuazDkEKt5xwFor0sIR3tSfgARvEyQ99CdzjkNH8Qu++g3xx9MWBr0ClTJCI6HEVZ6i5k/k2jCBU51J4y3KQA1pr7aDp008Pd/wb5dEGxcqj6zUkt+Wd7DemPbBkOmufBiFtDpOxizb0gkuSLyl1iLJPOtsx5bPP+Dr65EImCgyzlwGU9Mjxy98MfC+bvrqlI1SYKMSJfHOZTAkJM2bFOsG43EjVPLbPP/rphjKdxphlZLd9kFVT0ofOvYMGrpAK2yHWAl+V47gA5EPwNwOKIQ+MppOryftyIoVI3/b7qkD+ZJqBVbQ6HhOtJKcm33iFJGz6HvDstQ4w2w5Vi26vrRnjOhRipnVfNWnANca5o/meOg4GqiqFMey9a6Bbg0vIdNz9WNkXnRk8EW5fo7TquyKYd9EWfZpfpB/IXBU5x/UK8Iy109z3TvZ5VJIBXaaKKGIeEdh+DneS+t4JqjsXKZqmqiEguvQXOit/PlBwAFgUgI+9oetOFBdlzlg7/snPBcWnu7vy/8dgzInZtMw8K71TVLYCdlDfIQBkYdahK+Jbb01C+j6Ax5WsKQgS3u5PN26xbC3CEEMpRbYaCwsXkhuGcZTr3w= 
-   app: rocky-hamlet-2442
+    - secure: tUPtAlo3JnsntuX5nXI8Rd+t35RkgTifzIb1nau5qpj9O+og+Y4FX9gJ8Vv9clubCq8DEo61FDRCBjVBcKDdLWbkqTlMtHHiaTMY7MCIX+gyniFyT0NyvPo7TwG8Y+aIYYGwX+pUYfu1fvEg1dpZKrZ+UOu52mSbpJCNDaLXH9TlNM9BC3P28SJKTXWNUT6q4vH8Xgd24F6khZf0yOXYbhfJtwJLgjEAlauMt1GxLQpiSFBaLQeMyDY3EBYatD/3toA4rzNzHck1wQVbybUXE2HwumUN507UcHX9YUAel68VB7stzPMuF7RxrAk46HGagj33YSWS1+9oy41ZKsl1OhDqxo+gZv4H/OZuo+L5eQDAZgJLRtXONQE/AldGBus9GkMqEu20IBCx53g8JHSg64eCl9tscXsXPBENE3y3N0QNwbR+cUkI0zmtUTT29PafX8NlMJsHoHU5jWJH76VjRw6isZMB7iXnEgztqchf9T3gFD2mCpuQZvJrPydAvusTbyrF6WMtgWd7i4Rgsa5/Wnu7w94gpoqqCYEfnaI1tS6TvLthCH0dCwREGEGwjj6TDa5OUBxDzHwTKdClGUgIoSzDI8rWyNZ9dmN9NcN+yYkXoTaLjCUPDF3zqT9tRmmqDFXnAMHQKDa1rZfZ2NfUgZy/QDM14NK7lryBHsydYZo=
