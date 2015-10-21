@@ -4,8 +4,8 @@ python:
   - "2.7"
 env:
   global:
-    - secure:  <%= ENV['SauceLogin'] %>
-    - secure:  <%= ENV['SauceAccessKey'] %>
+    - secure: driiFkngxIL3rMaU30qXUsOZqmtBjsuMphDxHYWLehKVvVzfKkr76r0g7dcdLP+BWYzFc+L/r7sSHWZ21mdKDc/q/B8przX4RA5tK5zE4yHZmtovFplZt3NbW0WTOd3IKxKGjzZ9LzYP7/L1O8rD3OnmMhtmNYlK2b5+nq/BR3/n+Y+Y8GyVzuse6TylZ/4B4fYYqP5eBrTqWr470mEj/J9knyzyfqeGUPJd4eQvyx4u64Ff/n9xK7Q5B/jh6dc3FAwaHv7aDQGo1diP/U+rmv0VuYUKjbAAXFZ31gwozV9qbmS8eqxrfB9YbECZyJeoMQ1DE3Ajf9e9Mg3nJD3/RaJNPshcxCLEFmbQf/rcuATOR2F4iGbW0UsCS/9636vp8CEM0/9gYSiMjuQCOxdHEXxrGHcPWCT81a4ahZTrNCS2CjC4LgXYgpYFjpqAkeC2Cc/54gQ8o+mrOfrTDmVRIPOOKUYzbKEqGO6qyr+PkbhxxHm/x/gIkIc2E6ju8lbZVaxsiGkFQoT5tEI5R7nvu1bv0Xqp6tSqLJ8SRmBrAIbaDfopWJVwinO0Z/WbYWw5agy2egJOqTWhBsRQFwKOW8dC3/3Lg/OIcm2IvyMMnTPvKCHn6lKUDM1dy+G0mkkkUwQYFJBi9S2ZrIhx7FOyM5W/mykRHPoDS4HHSm5lp2s=
+    - secure: ijQGcdwBl77mwnlyseHZWo2hJi8pv1rBE9Vpc1fzjoloUqdTYUJ8bK74rxpkXAlIe16Ou7tFV2GZDsBRk6Yk+GbcX7/KgMUNVu66KwWTfY6bNPZsaK28y0VQ+807w2Q3mQDjFv3VlzCJGiyKXvyXGg7QuSsgNDO0nZxsRJ6Mz6FlU8yTvJykZvGKs6Dk4HoCYetV1uwaeEJaDADAwzENqSjiMJZiJkCE3cRos42GhRMBZgUPsXgXZKQ0gWUufcL/IRD4ncDdLNiLOtLqBGa46uw+ZN8vkA27ea0HmYlcyvQ+RyrjhB1eUUNXjPKvDqWQsS1Ohv1xaYzEg5gFgQ+ujPpFYN63Wnqbe0x0sr8O1yhx2mHslXe3wfB+KUnD+Li7UajLcHQrT2S6BGz4ywidhhJnLbwjs2e7r5p1yg1hFfAnhzk1W2kuClwuGF0K/RuiiXtWus+1GGgtOqGuXjWqX8b+MB/bSvJDb6VaxlPO2keUlolsd6on7wQjCWUKzaUd11P5vBsAZ+55y0L7yPHOInW2DoNjlQI+YHPSbdnpJXBXkevWNzowF/lG0cn0FjoF/NDjVuQJTz5Zb7tG23JVATtxIJrqJ9dcx/Y9l22WO+1zBekIL7uitC6ZeDmaveZCGYZtH+oUWcn5G8zVVepDT70QrKvANRKB0kFP7A6nyN8=
 addons:
   sauce_connect: true
 before_script:
