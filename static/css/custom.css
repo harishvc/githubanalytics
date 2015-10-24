@@ -70,6 +70,11 @@
 	padding-bottom: 20px;  //Handle large font size
 }
 
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .clearfloat {
 	float: none;
 }
