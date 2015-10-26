@@ -28,29 +28,31 @@
 	     <div class="row">
 	 		    <div class="col-sm-12">
                        <div id="searchbox">
-                       <div id="intro">
-                           <p><i>Open-source developers all over the world are working on millions of projects: writing code &amp; documentation, 
+                        <div ng-app>
+                       	<div ng-controller="InfoMessageController">
+                         <div id="intro">
+                                <p ng-hide="showHeading"><i>Open-source developers all over the world are working on millions of projects: writing code &amp; documentation, 
                            	     fixing &amp; submitting bugs, and so forth</i><prefix>*</prefix>. 
                               	 Ask GitHub searches latest GitHub public timeline using event types to answer questions including
                                	 <a href="/?q=trending+now&amp;action=Ask+GitHub">what is trending now?</a> 
                               	 <a href="/?q=top+repositories+sorted+by+contributors&amp;action=Ask+GitHub">what are the top repositories?</a> 
                               	 <a href="/?q=dashboard&amp;action=Ask+GitHub">got insights?</a> 
                               	 *<a href="https://githubarchive.org">GitHub Archive</a></p>                              	
-                         </div>
-                         <div id="intro2">
-                         	    <p class="lead">Search latest GitHub timeline or type <code>q</code> for questions.                             
-                                <span class="nobr"><a href="mailto:harishvc@gmail.com?Subject=Ask+GitHub">Feedback?</a> 
-                                    <i class="circle-icon fa fa-smile-o fa-1x"></i></span>
-                                </p>
-          			     </div>
+                          </div>
+                          <div id="intro2">
+                         	    <p class="lead">Search latest GitHub timeline</p>
+          			      </div>
+          			               			     
           			       <form action="." method="get" id="askgithub">
                                  <div class="input-group" id="multiple-datasets">
-          	                          <input type="text" class="typeahead" placeholder="search latest GitHub timeline" name="q" value="{{ query[0]["text"] }}">
+          	                          <input type="text" class="typeahead" placeholder="Type q for questions" ng-keyup="add($event.q)" ng-model="q" name=q value="{{ query[0]["text"] }}">
 				                      <div class="input-group-btn">
 						                   <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
 					                  </div>
                                  </div>
                            </form>
+                         </div> <!-- controller -->
+                        </div> <!-- ng-app -->
                        </div>
                  </div>
          </div>
