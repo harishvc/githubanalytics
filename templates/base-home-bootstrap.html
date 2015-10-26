@@ -10,15 +10,21 @@
     <script type="text/javascript" src="/static/js/handlebars.js"></script>
     <script type="text/javascript" src="/static/js/typeahead.bundle.js"></script>
     <script type="text/javascript" src="/static/js/typeahead.js"></script>
-    <script type="text/javascript" src="/static/js/custom.js"></script>
+    {% if showGAcode == "yes" %} 
+    {% include 'ga.js' %}
+     <script type="text/javascript" src="/static/js/custom.js"></script> 
+    {% else %}
+     <script type="text/javascript" src="/static/js/custom-no-ga.js"></script>
+    {% endif %}
     <script type="text/javascript" src="/static/js/horizBarChart.js"></script>
+    <script type="text/javascript" src="/static/js/angular.min.js"></script>
+    <script type="text/javascript" src="/static/js/angular-controller.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-theme.min.css" />    
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />     
     <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/typeahead.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/horizBarChart.css" />     
-    {% if showGAcode == "yes" %} {% include 'ga.js' %} {% endif %}
   </head>
   <body>
   	    {% block content %}{% endblock %}
