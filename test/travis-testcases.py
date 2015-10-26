@@ -31,7 +31,8 @@ driver = webdriver.Remote(
 
 # This is your test logic. You can add multiple tests here.
 driver.implicitly_wait(10)
-driver.get("http://localhost:5000")
+URL = "http://localhost:" + os.environ.get('PORT')
+driver.get("http://localhost:"+)
 assert "Ask GitHub" in driver.title
 elem = driver.find_element_by_name("q")
 elem.send_keys("trending now")
