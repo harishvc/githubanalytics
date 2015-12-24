@@ -27,7 +27,6 @@ from flask.ext.paginate import Pagination
 #Local modules
 import Suggestions
 import DBQueries
-import GetPrismatic
 
 #Global variables
 NORESULT="<h2 class=\"searchstatus text-danger\">You've got me stumped!</h2>"    #No result
@@ -115,14 +114,6 @@ def listlanguages():
     #TODO: Handle empty reponame
     Languages = DBQueries.LanguageBreakdown(reponame)
     return jsonify(languages=Languages)
-
-@app.route('/_findtrendingtopics')
-def findtrendingtopics():
-    qvalue = bleach.clean(request.args['qvalue']).strip()
-    qtype = bleach.clean(request.args['qtype']).strip()
-    TT = GetPrismatic.GetInterestTopics(qtype,qvalue)
-    return jsonify(trendingtopics=TT)
-
 
 
 def get_css_framework():

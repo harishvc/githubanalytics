@@ -27,7 +27,7 @@ if (os.environ['deployEnv'] == "production"):
     connection = MongoClient(MONGO_URL)
     db = connection.githublive.pushevent
 else: 
-    MONGO_URL = os.environ['connectURLReaddev']
+    MONGO_URL = os.environ['connectURLRead']
     connection = MongoClient(MONGO_URL)
     db = connection.githubdev.pushevent
 
@@ -88,10 +88,7 @@ def ProcessQuery(query,offset, per_page):
         elif  (query.startswith("repository")):
             repoName =  query.replace('repository ', '')
             #show interesting topics
-            response2 = "<input type=\"hidden\" name=\"qvalue\" value=" + repoName + "></input>\
-                      <input type=\"hidden\" name=\"qtype\" value=\"full_name\"></input>\
-                      <p><span id=\"trendingtopics\"></span><p><div id=\"wrapperfindtrendingtopics\"> \
-                      <a href=\"javascript:void();\" id=\"findtrendingtopics\">Find interesting topics</a></div></p>"
+            response2 = ""
             return (0,"",ProcessRepositories(repoName),response2)  
         elif  (query.startswith("organization")):
             return Search(bleach.clean(query.replace('organization ', '').strip()),"organization",offset, per_page)
@@ -345,18 +342,8 @@ def Search(query,type,offset, per_page):
             sh = "<p class=\"tpadding text-success\">Repository matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         elif (type == "organization"):
                 sh = "<p class=\"tpadding text-success\">" + "Repositories inside organization " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
-                #Link to find trending topics for organization
-                response2 =  "<input type=\"hidden\" name=\"qvalue\" value=" + query + "></input>\
-                      <input type=\"hidden\" name=\"qtype\" value=" + type + "></input>\
-                      <p><span id=\"trendingtopics\"></span><p><div id=\"wrapperfindtrendingtopics\"> \
-                      <a href=\"javascript:void();\" id=\"findtrendingtopics\">Find interesting topics</a></div></p>"
         elif (type == "contributor"):
                 sh = "<p class=\"tpadding text-success\">" + "Repositories <strong>" + actorname + "</strong> has contributed to (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
-                #Link to find trending topics for contributor
-                response2 =  "<input type=\"hidden\" name=\"qvalue\" value=" + query + "></input>\
-                      <input type=\"hidden\" name=\"qtype\" value=\"actoremail\"></input>\
-                      <p><span id=\"trendingtopics\"></span><p><div id=\"wrapperfindtrendingtopics\"> \
-                      <a href=\"javascript:void();\" id=\"findtrendingtopics\">Find interesting topics</a></div></p>"
         elif (type == "language"):
                 sh = "<p class=\"tpadding text-success\">Repositories written in " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"            
         return ( total,  sh , "<ul class=\"list-group\">" + output + "</ul>", response2)
