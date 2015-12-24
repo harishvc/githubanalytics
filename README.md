@@ -42,7 +42,7 @@ $> node FetchParseGitHubArchive.js //Add this script to Heroku scheduler
 
 Step 3: Start Flask
 ````
-$> python RunFlash.py
+$> python RunFlask.py
 # Procfile used for Heroku deployment
 ````
 
