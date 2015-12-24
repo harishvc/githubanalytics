@@ -1,0 +1,576 @@
+###############################################
+2015-09-12 00:13:02 start processing ... http://data.githubarchive.org/2015-09-12-6.json.gz
+## entries generated from githubarchive.org: 13,387
+2015-09-12 00:13:08 end processing
+2015-09-12 00:13:08 start inserting to mongodb 
+Deleting entries older than 1441955634822
+## deleted: 28,505
+start re-index
+### documents: 643,086
+2015-09-12 00:14:37 end inserting to mongodb 
+###  2015-09-12 00:14:39  MongoDB Stats ###
+Documents: 643,086
+Size: 390.3 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 00:14:39 start: mongodb documents since  1442037579000
+2015-09-12 00:14:46: #new mongodb documents found .... 3401
+2015-09-12 00:14:46: start generating CSV files
+2015-09-12 00:14:46: end generating CSV files
+2015-09-12 00:14:46: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 00:16:10:Found  68,220  documents of type=RepoInfo2
+2015-09-12 00:16:17:Found  5,000  repositories for finding languages
+2015-09-12 00:16:17:Start PyCurl for  5,000  repositories
+2015-09-12 00:58:31:End PyCurl
+###############################################
+2015-09-12 01:13:02 start processing ... http://data.githubarchive.org/2015-09-12-7.json.gz
+## entries generated from githubarchive.org: 13,332
+2015-09-12 01:13:07 end processing
+2015-09-12 01:13:07 start inserting to mongodb 
+Deleting entries older than 1441959233704
+## deleted: 29,206
+start re-index
+### documents: 629,955
+2015-09-12 01:14:37 end inserting to mongodb 
+###  2015-09-12 01:14:38  MongoDB Stats ###
+Documents: 629,955
+Size: 381.6 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 01:14:38 start: mongodb documents since  1442041178000
+2015-09-12 01:14:44: #new mongodb documents found .... 3485
+2015-09-12 01:14:44: start generating CSV files
+2015-09-12 01:14:44: end generating CSV files
+2015-09-12 01:14:44: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 01:16:08:Found  68,273  documents of type=RepoInfo2
+2015-09-12 01:16:15:Found  5,000  repositories for finding languages
+2015-09-12 01:16:15:Start PyCurl for  5,000  repositories
+2015-09-12 01:58:32:End PyCurl
+###############################################
+2015-09-12 02:13:01 start processing ... http://data.githubarchive.org/2015-09-12-8.json.gz
+## entries generated from githubarchive.org: 14,751
+2015-09-12 02:13:15 end processing
+2015-09-12 02:13:15 start inserting to mongodb 
+Deleting entries older than 1441962849278
+## deleted: 33,893
+start re-index
+### documents: 613,698
+2015-09-12 02:14:52 end inserting to mongodb 
+###  2015-09-12 02:14:56  MongoDB Stats ###
+Documents: 613,698
+Size: 370.8 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 02:14:57 start: mongodb documents since  1442044796000
+2015-09-12 02:15:01: #new mongodb documents found .... 3756
+2015-09-12 02:15:01: start generating CSV files
+2015-09-12 02:15:02: end generating CSV files
+2015-09-12 02:15:02: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 02:16:25:Found  68,338  documents of type=RepoInfo2
+2015-09-12 02:16:35:Found  5,000  repositories for finding languages
+2015-09-12 02:16:35:Start PyCurl for  5,000  repositories
+2015-09-12 02:58:50:End PyCurl
+###############################################
+2015-09-12 03:13:02 start processing ... http://data.githubarchive.org/2015-09-12-9.json.gz
+## entries generated from githubarchive.org: 14,931
+2015-09-12 03:13:07 end processing
+2015-09-12 03:13:07 start inserting to mongodb 
+Deleting entries older than 1441966438572
+## deleted: 32,430
+start re-index
+### documents: 599,071
+2015-09-12 03:14:43 end inserting to mongodb 
+###  2015-09-12 03:14:47  MongoDB Stats ###
+Documents: 599,071
+Size: 361.0 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 03:14:48 start: mongodb documents since  1442048388000
+2015-09-12 03:14:54: #new mongodb documents found .... 3929
+2015-09-12 03:14:54: start generating CSV files
+2015-09-12 03:14:54: end generating CSV files
+2015-09-12 03:14:54: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 03:16:19:Found  68,352  documents of type=RepoInfo2
+2015-09-12 03:16:27:Found  5,000  repositories for finding languages
+2015-09-12 03:16:27:Start PyCurl for  5,000  repositories
+2015-09-12 03:58:43:End PyCurl
+###############################################
+2015-09-12 04:13:01 start processing ... http://data.githubarchive.org/2015-09-12-10.json.gz
+## entries generated from githubarchive.org: 15,411
+2015-09-12 04:13:09 end processing
+2015-09-12 04:13:09 start inserting to mongodb 
+Deleting entries older than 1441970044271
+## deleted: 26,759
+start re-index
+### documents: 590,566
+2015-09-12 04:14:45 end inserting to mongodb 
+###  2015-09-12 04:14:50  MongoDB Stats ###
+Documents: 590,566
+Size: 355.4 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 04:14:50 start: mongodb documents since  1442051990000
+2015-09-12 04:14:54: #new mongodb documents found .... 4003
+2015-09-12 04:14:54: start generating CSV files
+2015-09-12 04:14:55: end generating CSV files
+2015-09-12 04:14:55: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 04:16:22:Found  68,346  documents of type=RepoInfo2
+2015-09-12 04:16:33:Found  5,000  repositories for finding languages
+2015-09-12 04:16:33:Start PyCurl for  5,000  repositories
+2015-09-12 04:58:46:End PyCurl
+###############################################
+2015-09-12 05:13:02 start processing ... http://data.githubarchive.org/2015-09-12-11.json.gz
+## entries generated from githubarchive.org: 14,448
+2015-09-12 05:13:07 end processing
+2015-09-12 05:13:07 start inserting to mongodb 
+Deleting entries older than 1441973639087
+## deleted: 27,270
+start re-index
+### documents: 580,528
+2015-09-12 05:14:37 end inserting to mongodb 
+###  2015-09-12 05:14:38  MongoDB Stats ###
+Documents: 580,528
+Size: 348.2 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 05:14:38 start: mongodb documents since  1442055578000
+2015-09-12 05:14:44: #new mongodb documents found .... 3911
+2015-09-12 05:14:44: start generating CSV files
+2015-09-12 05:14:44: end generating CSV files
+2015-09-12 05:14:44: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 05:16:08:Found  68,282  documents of type=RepoInfo2
+2015-09-12 05:16:17:Found  5,000  repositories for finding languages
+2015-09-12 05:16:17:Start PyCurl for  5,000  repositories
+2015-09-12 05:58:34:End PyCurl
+###############################################
+2015-09-12 06:13:02 start processing ... http://data.githubarchive.org/2015-09-12-12.json.gz
+## entries generated from githubarchive.org: 15,892
+2015-09-12 06:13:07 end processing
+2015-09-12 06:13:07 start inserting to mongodb 
+Deleting entries older than 1441977249327
+## deleted: 32,853
+start re-index
+### documents: 566,305
+2015-09-12 06:14:52 end inserting to mongodb 
+###  2015-09-12 06:14:53  MongoDB Stats ###
+Documents: 566,305
+Size: 338.4 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 06:14:54 start: mongodb documents since  1442059194000
+2015-09-12 06:15:00: #new mongodb documents found .... 4430
+2015-09-12 06:15:00: start generating CSV files
+2015-09-12 06:15:00: end generating CSV files
+2015-09-12 06:15:00: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 06:16:24:Found  68,208  documents of type=RepoInfo2
+2015-09-12 06:16:32:Found  5,000  repositories for finding languages
+2015-09-12 06:16:32:Start PyCurl for  5,000  repositories
+2015-09-12 06:58:58:End PyCurl
+###############################################
+2015-09-12 07:13:02 start processing ... http://data.githubarchive.org/2015-09-12-13.json.gz
+## entries generated from githubarchive.org: 17,752
+2015-09-12 07:13:09 end processing
+2015-09-12 07:13:09 start inserting to mongodb 
+Deleting entries older than 1441980856350
+## deleted: 36,195
+start re-index
+### documents: 550,636
+2015-09-12 07:15:04 end inserting to mongodb 
+###  2015-09-12 07:15:06  MongoDB Stats ###
+Documents: 550,636
+Size: 327.4 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 07:15:07 start: mongodb documents since  1442062807000
+2015-09-12 07:15:12: #new mongodb documents found .... 4810
+2015-09-12 07:15:12: start generating CSV files
+2015-09-12 07:15:13: end generating CSV files
+2015-09-12 07:15:13: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 07:16:39:Found  68,341  documents of type=RepoInfo2
+2015-09-12 07:16:48:Found  5,000  repositories for finding languages
+2015-09-12 07:16:48:Start PyCurl for  5,000  repositories
+2015-09-12 07:59:11:End PyCurl
+###############################################
+2015-09-12 08:13:02 start processing ... http://data.githubarchive.org/2015-09-12-14.json.gz
+## entries generated from githubarchive.org: 19,861
+2015-09-12 08:13:10 end processing
+2015-09-12 08:13:11 start inserting to mongodb 
+Deleting entries older than 1441984463321
+## deleted: 38,999
+start re-index
+### documents: 534,235
+2015-09-12 08:15:01 end inserting to mongodb 
+###  2015-09-12 08:15:02  MongoDB Stats ###
+Documents: 534,235
+Size: 316.1 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 08:15:03 start: mongodb documents since  1442066403000
+2015-09-12 08:15:07: #new mongodb documents found .... 5260
+2015-09-12 08:15:07: start generating CSV files
+2015-09-12 08:15:07: end generating CSV files
+2015-09-12 08:15:07: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 08:16:31:Found  68,032  documents of type=RepoInfo2
+2015-09-12 08:16:40:Found  5,000  repositories for finding languages
+2015-09-12 08:16:40:Start PyCurl for  5,000  repositories
+2015-09-12 08:59:03:End PyCurl
+###############################################
+2015-09-12 09:13:01 start processing ... http://data.githubarchive.org/2015-09-12-15.json.gz
+## entries generated from githubarchive.org: 20,464
+2015-09-12 09:13:09 end processing
+2015-09-12 09:13:09 start inserting to mongodb 
+Deleting entries older than 1441988066888
+## deleted: 37,757
+start re-index
+### documents: 519,759
+2015-09-12 09:15:10 end inserting to mongodb 
+###  2015-09-12 09:15:10  MongoDB Stats ###
+Documents: 519,759
+Size: 305.9 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 09:15:11 start: mongodb documents since  1442070011000
+2015-09-12 09:15:16: #new mongodb documents found .... 5640
+2015-09-12 09:15:16: start generating CSV files
+2015-09-12 09:15:16: end generating CSV files
+2015-09-12 09:15:16: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 09:16:40:Found  67,820  documents of type=RepoInfo2
+2015-09-12 09:16:48:Found  5,000  repositories for finding languages
+2015-09-12 09:16:48:Start PyCurl for  5,000  repositories
+2015-09-12 09:59:06:End PyCurl
+###############################################
+2015-09-12 10:13:02 start processing ... http://data.githubarchive.org/2015-09-12-16.json.gz
+## entries generated from githubarchive.org: 21,299
+2015-09-12 10:13:09 end processing
+2015-09-12 10:13:09 start inserting to mongodb 
+Deleting entries older than 1441991673068
+## deleted: 33,302
+start re-index
+### documents: 510,625
+2015-09-12 10:15:14 end inserting to mongodb 
+###  2015-09-12 10:15:16  MongoDB Stats ###
+Documents: 510,625
+Size: 299.7 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 10:15:17 start: mongodb documents since  1442073617000
+2015-09-12 10:15:22: #new mongodb documents found .... 5871
+2015-09-12 10:15:22: start generating CSV files
+2015-09-12 10:15:23: end generating CSV files
+2015-09-12 10:15:23: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 10:16:45:Found  67,558  documents of type=RepoInfo2
+2015-09-12 10:16:53:Found  5,000  repositories for finding languages
+2015-09-12 10:16:53:Start PyCurl for  5,000  repositories
+2015-09-12 10:59:11:End PyCurl
+###############################################
+2015-09-12 11:13:02 start processing ... http://data.githubarchive.org/2015-09-12-17.json.gz
+## entries generated from githubarchive.org: 20,212
+2015-09-12 11:13:09 end processing
+2015-09-12 11:13:09 start inserting to mongodb 
+Deleting entries older than 1441995262538
+## deleted: 33,018
+start re-index
+### documents: 500,722
+2015-09-12 11:15:04 end inserting to mongodb 
+###  2015-09-12 11:15:06  MongoDB Stats ###
+Documents: 500,722
+Size: 292.0 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 11:15:06 start: mongodb documents since  1442077206000
+2015-09-12 11:15:10: #new mongodb documents found .... 5536
+2015-09-12 11:15:10: start generating CSV files
+2015-09-12 11:15:11: end generating CSV files
+2015-09-12 11:15:11: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 11:16:34:Found  67,437  documents of type=RepoInfo2
+2015-09-12 11:16:41:Found  5,000  repositories for finding languages
+2015-09-12 11:16:41:Start PyCurl for  5,000  repositories
+2015-09-12 11:59:38:End PyCurl
+###############################################
+2015-09-12 12:13:01 start processing ... http://data.githubarchive.org/2015-09-12-18.json.gz
+## entries generated from githubarchive.org: 20,146
+2015-09-12 12:13:08 end processing
+2015-09-12 12:13:08 start inserting to mongodb 
+Deleting entries older than 1441998860105
+## deleted: 32,228
+start re-index
+### documents: 491,557
+2015-09-12 12:14:57 end inserting to mongodb 
+###  2015-09-12 12:14:59  MongoDB Stats ###
+Documents: 491,557
+Size: 284.6 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 12:14:59 start: mongodb documents since  1442080799000
+2015-09-12 12:15:03: #new mongodb documents found .... 5504
+2015-09-12 12:15:03: start generating CSV files
+2015-09-12 12:15:04: end generating CSV files
+2015-09-12 12:15:04: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 12:16:26:Found  67,597  documents of type=RepoInfo2
+2015-09-12 12:16:33:Found  5,000  repositories for finding languages
+2015-09-12 12:16:33:Start PyCurl for  5,000  repositories
+2015-09-12 12:59:01:End PyCurl
+###############################################
+2015-09-12 13:13:01 start processing ... http://data.githubarchive.org/2015-09-12-19.json.gz
+## entries generated from githubarchive.org: 19,443
+2015-09-12 13:13:09 end processing
+2015-09-12 13:13:09 start inserting to mongodb 
+Deleting entries older than 1442002460604
+## deleted: 31,129
+start re-index
+### documents: 482,678
+2015-09-12 13:14:52 end inserting to mongodb 
+###  2015-09-12 13:14:56  MongoDB Stats ###
+Documents: 482,678
+Size: 278.0 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 13:14:56 start: mongodb documents since  1442084396000
+2015-09-12 13:15:00: #new mongodb documents found .... 5553
+2015-09-12 13:15:00: start generating CSV files
+2015-09-12 13:15:01: end generating CSV files
+2015-09-12 13:15:01: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 13:16:24:Found  67,334  documents of type=RepoInfo2
+2015-09-12 13:16:32:Found  5,000  repositories for finding languages
+2015-09-12 13:16:32:Start PyCurl for  5,000  repositories
+2015-09-12 13:58:54:End PyCurl
+###############################################
+2015-09-12 14:13:02 start processing ... http://data.githubarchive.org/2015-09-12-20.json.gz
+## entries generated from githubarchive.org: 19,431
+2015-09-12 14:13:08 end processing
+2015-09-12 14:13:08 start inserting to mongodb 
+Deleting entries older than 1442006060440
+## deleted: 31,816
+start re-index
+### documents: 473,245
+2015-09-12 14:14:56 end inserting to mongodb 
+###  2015-09-12 14:14:59  MongoDB Stats ###
+Documents: 473,245
+Size: 270.3 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 14:14:59 start: mongodb documents since  1442087999000
+2015-09-12 14:15:03: #new mongodb documents found .... 5344
+2015-09-12 14:15:03: start generating CSV files
+2015-09-12 14:15:04: end generating CSV files
+2015-09-12 14:15:04: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 14:16:25:Found  67,477  documents of type=RepoInfo2
+2015-09-12 14:16:31:Found  5,000  repositories for finding languages
+2015-09-12 14:16:31:Start PyCurl for  5,000  repositories
+2015-09-12 14:58:49:End PyCurl
+###############################################
+2015-09-12 15:13:02 start processing ... http://data.githubarchive.org/2015-09-12-21.json.gz
+## entries generated from githubarchive.org: 19,153
+2015-09-12 15:13:09 end processing
+2015-09-12 15:13:09 start inserting to mongodb 
+Deleting entries older than 1442009654966
+## deleted: 27,863
+start re-index
+### documents: 467,379
+2015-09-12 15:14:50 end inserting to mongodb 
+###  2015-09-12 15:14:55  MongoDB Stats ###
+Documents: 467,379
+Size: 265.6 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 15:14:55 start: mongodb documents since  1442091595000
+2015-09-12 15:14:59: #new mongodb documents found .... 5264
+2015-09-12 15:14:59: start generating CSV files
+2015-09-12 15:14:59: end generating CSV files
+2015-09-12 15:14:59: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 15:16:21:Found  67,263  documents of type=RepoInfo2
+2015-09-12 15:16:27:Found  5,000  repositories for finding languages
+2015-09-12 15:16:27:Start PyCurl for  5,000  repositories
+2015-09-12 15:58:38:End PyCurl
+###############################################
+2015-09-12 16:13:02 start processing ... http://data.githubarchive.org/2015-09-12-22.json.gz
+## entries generated from githubarchive.org: 17,881
+2015-09-12 16:13:08 end processing
+2015-09-12 16:13:08 start inserting to mongodb 
+Deleting entries older than 1442013251391
+## deleted: 24,310
+start re-index
+### documents: 463,884
+2015-09-12 16:14:41 end inserting to mongodb 
+###  2015-09-12 16:14:44  MongoDB Stats ###
+Documents: 463,884
+Size: 262.3 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 16:14:44 start: mongodb documents since  1442095184000
+2015-09-12 16:14:48: #new mongodb documents found .... 4764
+2015-09-12 16:14:48: start generating CSV files
+2015-09-12 16:14:48: end generating CSV files
+2015-09-12 16:14:48: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 16:16:11:Found  67,383  documents of type=RepoInfo2
+2015-09-12 16:16:17:Found  5,000  repositories for finding languages
+2015-09-12 16:16:17:Start PyCurl for  5,000  repositories
+2015-09-12 16:58:26:End PyCurl
+###############################################
+2015-09-12 17:13:01 start processing ... http://data.githubarchive.org/2015-09-12-23.json.gz
+## entries generated from githubarchive.org: 15,044
+2015-09-12 17:13:08 end processing
+2015-09-12 17:13:08 start inserting to mongodb 
+Deleting entries older than 1442016839763
+## deleted: 20,501
+start re-index
+### documents: 461,244
+2015-09-12 17:14:25 end inserting to mongodb 
+###  2015-09-12 17:14:28  MongoDB Stats ###
+Documents: 461,244
+Size: 259.9 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 17:14:29 start: mongodb documents since  1442098769000
+2015-09-12 17:14:32: #new mongodb documents found .... 4112
+2015-09-12 17:14:32: start generating CSV files
+2015-09-12 17:14:32: end generating CSV files
+2015-09-12 17:14:32: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 17:15:54:Found  67,277  documents of type=RepoInfo2
+2015-09-12 17:16:00:Found  5,000  repositories for finding languages
+2015-09-12 17:16:00:Start PyCurl for  5,000  repositories
+2015-09-12 17:58:25:End PyCurl
+###############################################
+2015-09-12 18:13:01 start processing ... http://data.githubarchive.org/2015-09-13-0.json.gz
+## entries generated from githubarchive.org: 14,391
+2015-09-12 18:13:18 end processing
+2015-09-12 18:13:18 start inserting to mongodb 
+Deleting entries older than 1442020449544
+## deleted: 18,835
+start re-index
+### documents: 459,531
+2015-09-12 18:14:37 end inserting to mongodb 
+###  2015-09-12 18:14:39  MongoDB Stats ###
+Documents: 459,531
+Size: 258.2 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 18:14:40 start: mongodb documents since  1442102380000
+2015-09-12 18:14:43: #new mongodb documents found .... 3856
+2015-09-12 18:14:43: start generating CSV files
+2015-09-12 18:14:44: end generating CSV files
+2015-09-12 18:14:44: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 18:16:06:Found  67,257  documents of type=RepoInfo2
+2015-09-12 18:16:11:Found  5,000  repositories for finding languages
+2015-09-12 18:16:11:Start PyCurl for  5,000  repositories
+2015-09-12 18:58:23:End PyCurl
+###############################################
+2015-09-12 19:13:01 start processing ... http://data.githubarchive.org/2015-09-13-1.json.gz
+## entries generated from githubarchive.org: 13,414
+2015-09-12 19:13:06 end processing
+2015-09-12 19:13:06 start inserting to mongodb 
+Deleting entries older than 1442024033807
+## deleted: 16,680
+start re-index
+### documents: 459,029
+2015-09-12 19:14:22 end inserting to mongodb 
+###  2015-09-12 19:14:27  MongoDB Stats ###
+Documents: 459,029
+Size: 257.4 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 19:14:27 start: mongodb documents since  1442105967000
+2015-09-12 19:14:30: #new mongodb documents found .... 3676
+2015-09-12 19:14:30: start generating CSV files
+2015-09-12 19:14:31: end generating CSV files
+2015-09-12 19:14:31: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 19:15:54:Found  67,324  documents of type=RepoInfo2
+2015-09-12 19:15:59:Found  5,000  repositories for finding languages
+2015-09-12 19:15:59:Start PyCurl for  5,000  repositories
+2015-09-12 19:58:18:End PyCurl
+###############################################
+2015-09-12 20:13:02 start processing ... http://data.githubarchive.org/2015-09-13-2.json.gz
+## entries generated from githubarchive.org: 13,649
+2015-09-12 20:13:07 end processing
+2015-09-12 20:13:07 start inserting to mongodb 
+Deleting entries older than 1442027634203
+## deleted: 17,189
+start re-index
+### documents: 458,142
+2015-09-12 20:14:19 end inserting to mongodb 
+###  2015-09-12 20:14:23  MongoDB Stats ###
+Documents: 458,142
+Size: 256.4 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 20:14:23 start: mongodb documents since  1442109563000
+2015-09-12 20:14:26: #new mongodb documents found .... 3629
+2015-09-12 20:14:26: start generating CSV files
+2015-09-12 20:14:26: end generating CSV files
+2015-09-12 20:14:26: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 20:15:49:Found  67,309  documents of type=RepoInfo2
+2015-09-12 20:15:55:Found  5,000  repositories for finding languages
+2015-09-12 20:15:55:Start PyCurl for  5,000  repositories
+2015-09-12 20:58:09:End PyCurl
+###############################################
+2015-09-12 21:13:01 start processing ... http://data.githubarchive.org/2015-09-13-3.json.gz
+## entries generated from githubarchive.org: 13,475
+2015-09-12 21:13:06 end processing
+2015-09-12 21:13:06 start inserting to mongodb 
+Deleting entries older than 1442031230535
+## deleted: 16,804
+start re-index
+### documents: 457,437
+2015-09-12 21:14:16 end inserting to mongodb 
+###  2015-09-12 21:14:16  MongoDB Stats ###
+Documents: 457,437
+Size: 256.0 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 21:14:17 start: mongodb documents since  1442113157000
+2015-09-12 21:14:20: #new mongodb documents found .... 3675
+2015-09-12 21:14:20: start generating CSV files
+2015-09-12 21:14:20: end generating CSV files
+2015-09-12 21:14:20: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 21:15:41:Found  67,208  documents of type=RepoInfo2
+2015-09-12 21:15:46:Found  5,000  repositories for finding languages
+2015-09-12 21:15:46:Start PyCurl for  5,000  repositories
+2015-09-12 21:57:55:End PyCurl
+###############################################
+2015-09-12 22:13:01 start processing ... http://data.githubarchive.org/2015-09-13-4.json.gz
+## entries generated from githubarchive.org: 13,137
+2015-09-12 22:13:05 end processing
+2015-09-12 22:13:05 start inserting to mongodb 
+Deleting entries older than 1442034831120
+## deleted: 15,718
+start re-index
+### documents: 457,406
+2015-09-12 22:14:16 end inserting to mongodb 
+###  2015-09-12 22:14:21  MongoDB Stats ###
+Documents: 457,406
+Size: 255.9 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 22:14:21 start: mongodb documents since  1442116761000
+2015-09-12 22:14:25: #new mongodb documents found .... 3596
+2015-09-12 22:14:25: start generating CSV files
+2015-09-12 22:14:25: end generating CSV files
+2015-09-12 22:14:25: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 22:15:47:Found  66,993  documents of type=RepoInfo2
+2015-09-12 22:15:53:Found  5,000  repositories for finding languages
+2015-09-12 22:15:53:Start PyCurl for  5,000  repositories
+2015-09-12 22:58:02:End PyCurl
+###############################################
+2015-09-12 23:13:02 start processing ... http://data.githubarchive.org/2015-09-13-5.json.gz
+## entries generated from githubarchive.org: 12,589
+2015-09-12 23:13:06 end processing
+2015-09-12 23:13:06 start inserting to mongodb 
+Deleting entries older than 1442038430479
+## deleted: 15,275
+start re-index
+### documents: 457,255
+2015-09-12 23:14:16 end inserting to mongodb 
+###  2015-09-12 23:14:16  MongoDB Stats ###
+Documents: 457,255
+Size: 255.9 MB
+Pre-allocated space: 629.6 MB
+2015-09-12 23:14:17 start: mongodb documents since  1442120357000
+2015-09-12 23:14:20: #new mongodb documents found .... 3361
+2015-09-12 23:14:20: start generating CSV files
+2015-09-12 23:14:20: end generating CSV files
+2015-09-12 23:14:20: #Nodes: Nodes:1,017,616 (Repositories:551,197 People:425,855 Organization:40,563)  #Relations:
+production
+2015-09-12 23:15:42:Found  66,808  documents of type=RepoInfo2
+2015-09-12 23:15:48:Found  5,000  repositories for finding languages
+2015-09-12 23:15:48:Start PyCurl for  5,000  repositories
+2015-09-12 23:58:00:End PyCurl

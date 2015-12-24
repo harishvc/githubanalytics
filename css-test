@@ -1,0 +1,12 @@
+<style>.ellipsis { text-overflow: ellipsis; }</style>
+<div class="ellipsis">
+<a href ="http://www.cnn.com" >This is an example textshowing nothing interesting but the truncated content via text-overflow shorthand property.</a></div>
+
+
+.ellipsis {
+  //text-overflow: ellipsis;
+
+  /* Required for text-overflow to do anything */
+  white-space: nowrap;
+  overflow: hidden;
+}
