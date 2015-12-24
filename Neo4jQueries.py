@@ -1,11 +1,14 @@
 from py2neo import authenticate, Graph
 import os.path
 import bleach
+import sys
 from flask import Flask
 app = Flask(__name__)
 
 def FindSimilarRepositories(InputrepoK):
 	#Sanitize input
+	print("got ......",InputrepoK)
+	sys.stdout.flush()
 	Inputrepo = bleach.clean(InputrepoK).strip()
 	host  = os.environ['LOCALNEO4JIPPORT']
 	login = os.environ['LOCALNEO4JLOGIN']

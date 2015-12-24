@@ -14,7 +14,7 @@ if (os.environ['deployEnv'] == "production"):
     connection = MongoClient(MONGO_URL)
     db = connection.githublive.pushevent
 else: 
-    MONGO_URL = os.environ['connectURLReaddev']
+    MONGO_URL = os.environ['connectURLRead']
     connection = MongoClient(MONGO_URL)
     db = connection.githubdev.pushevent
         

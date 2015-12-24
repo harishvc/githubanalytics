@@ -1,0 +1,857 @@
+###############################################
+2015-03-17 00:13:01 start processing ... http://data.githubarchive.org/2015-03-17-6.json.gz
+## entries generated from githubarchive.org: 17,297
+2015-03-17 00:13:07 end processing
+2015-03-17 00:13:07 start inserting to mongodb 
+Deleting entries older than 1426490042575
+## deleted: 21,309
+start re-index
+### documents: 690,037
+2015-03-17 00:14:41 end inserting to mongodb 
+###  2015-03-17 00:14:44  MongoDB Stats ###
+Documents: 690,037
+Size: 408.1 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 00:14:50 start: mongodb documents since  1426571990000
+2015-03-17 00:14:57: #new mongodb documents found .... 4762
+2015-03-17 00:14:57: start generating CSV files
+2015-03-17 00:14:58: end generating CSV files
+2015-03-17 00:14:58: #Nodes: Nodes:232,982 (Repositories:109,462 People:110,085 Organization:13,435)  #Relations: Relations:181,424 (Repositories->People:158,325, Repositories->Organization:23,099)
+2015-03-17 00:15:27: start inserting .....
+2015-03-17 00:15:27: start processing repositories.csv .....
+2015-03-17 00:15:29: end processing repositories.csv
+2015-03-17 00:15:29: start processing organizations.csv .....
+2015-03-17 00:15:30: end processing organizations.csv
+2015-03-17 00:15:30: start processing inorganization-relations.csv .....
+2015-03-17 00:15:31: end processing inorganization-relations.csv
+2015-03-17 00:15:31: start processing people.csv .....
+2015-03-17 00:15:33: end processing people.csv
+2015-03-17 00:15:33: start processing isactor-relations.csv .....
+2015-03-17 00:15:36: end processing isaction-relations.csv
+2015-03-17 00:15:36: end inserting
+2015-03-17 00:15:36: #Nodes: Nodes:236,748 (Repositories:111,442 People:111,734 Organization:13,572)  #Relations: Relations:184,659 (Repositories->People:161,174, Repositories->Organization:23,485)
+2015-03-17 00:16:26: Deleting nodes and relations older than 28 hours ...
+2015-03-17 00:17:03: #Nodes: Nodes:232,390 (Repositories:109,197 People:109,779 Organization:13,414)  #Relations: Relations:181,301 (Repositories->People:158,117, Repositories->Organization:23,184)
+2015-03-17 00:17:41:Found  74,372  documents of type=RepoInfo
+2015-03-17 00:17:49:Start PyCurl for  5,000  repositories
+2015-03-17 01:00:31:End PyCurl
+###############################################
+2015-03-17 01:13:02 start processing ... http://data.githubarchive.org/2015-03-17-7.json.gz
+## entries generated from githubarchive.org: 18,658
+2015-03-17 01:13:08 end processing
+2015-03-17 01:13:08 start inserting to mongodb 
+Deleting entries older than 1426493649987
+## deleted: 23,214
+start re-index
+### documents: 688,209
+2015-03-17 01:14:47 end inserting to mongodb 
+###  2015-03-17 01:14:49  MongoDB Stats ###
+Documents: 688,209
+Size: 408.3 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 01:14:50 start: mongodb documents since  1426575590000
+2015-03-17 01:14:56: #new mongodb documents found .... 5149
+2015-03-17 01:14:56: start generating CSV files
+2015-03-17 01:14:57: end generating CSV files
+2015-03-17 01:14:57: #Nodes: Nodes:232,390 (Repositories:109,197 People:109,779 Organization:13,414)  #Relations: Relations:181,301 (Repositories->People:158,117, Repositories->Organization:23,184)
+2015-03-17 01:15:40: start inserting .....
+2015-03-17 01:15:40: start processing repositories.csv .....
+2015-03-17 01:15:42: end processing repositories.csv
+2015-03-17 01:15:42: start processing organizations.csv .....
+2015-03-17 01:15:43: end processing organizations.csv
+2015-03-17 01:15:43: start processing inorganization-relations.csv .....
+2015-03-17 01:15:43: end processing inorganization-relations.csv
+2015-03-17 01:15:43: start processing people.csv .....
+2015-03-17 01:15:45: end processing people.csv
+2015-03-17 01:15:45: start processing isactor-relations.csv .....
+2015-03-17 01:15:47: end processing isaction-relations.csv
+2015-03-17 01:15:47: end inserting
+2015-03-17 01:15:47: #Nodes: Nodes:236,337 (Repositories:111,253 People:111,513 Organization:13,571)  #Relations: Relations:184,547 (Repositories->People:160,989, Repositories->Organization:23,558)
+2015-03-17 01:16:22: Deleting nodes and relations older than 28 hours ...
+2015-03-17 01:17:01: #Nodes: Nodes:232,332 (Repositories:109,191 People:109,713 Organization:13,428)  #Relations: Relations:181,457 (Repositories->People:158,151, Repositories->Organization:23,306)
+2015-03-17 01:17:43:Found  73,230  documents of type=RepoInfo
+2015-03-17 01:17:50:Start PyCurl for  5,000  repositories
+2015-03-17 02:00:30:End PyCurl
+###############################################
+2015-03-17 02:13:02 start processing ... http://data.githubarchive.org/2015-03-17-8.json.gz
+## entries generated from githubarchive.org: 23,471
+2015-03-17 02:13:10 end processing
+2015-03-17 02:13:10 start inserting to mongodb 
+Deleting entries older than 1426497263029
+## deleted: 27,843
+start re-index
+### documents: 686,597
+2015-03-17 02:15:02 end inserting to mongodb 
+###  2015-03-17 02:15:05  MongoDB Stats ###
+Documents: 686,597
+Size: 407.6 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 02:15:06 start: mongodb documents since  1426579206000
+2015-03-17 02:15:13: #new mongodb documents found .... 6089
+2015-03-17 02:15:13: start generating CSV files
+2015-03-17 02:15:13: end generating CSV files
+2015-03-17 02:15:13: #Nodes: Nodes:232,332 (Repositories:109,191 People:109,713 Organization:13,428)  #Relations: Relations:181,457 (Repositories->People:158,151, Repositories->Organization:23,306)
+2015-03-17 02:15:55: start inserting .....
+2015-03-17 02:15:55: start processing repositories.csv .....
+2015-03-17 02:15:59: end processing repositories.csv
+2015-03-17 02:15:59: start processing organizations.csv .....
+2015-03-17 02:16:00: end processing organizations.csv
+2015-03-17 02:16:00: start processing inorganization-relations.csv .....
+2015-03-17 02:16:00: end processing inorganization-relations.csv
+2015-03-17 02:16:00: start processing people.csv .....
+2015-03-17 02:16:03: end processing people.csv
+2015-03-17 02:16:03: start processing isactor-relations.csv .....
+2015-03-17 02:16:06: end processing isaction-relations.csv
+2015-03-17 02:16:06: end inserting
+2015-03-17 02:16:06: #Nodes: Nodes:237,324 (Repositories:111,754 People:111,930 Organization:13,640)  #Relations: Relations:185,880 (Repositories->People:162,055, Repositories->Organization:23,825)
+2015-03-17 02:16:42: Deleting nodes and relations older than 28 hours ...
+2015-03-17 02:17:21: #Nodes: Nodes:233,654 (Repositories:109,889 People:110,274 Organization:13,491)  #Relations: Relations:182,983 (Repositories->People:159,424, Repositories->Organization:23,559)
+2015-03-17 02:18:03:Found  72,395  documents of type=RepoInfo
+2015-03-17 02:18:10:Start PyCurl for  5,000  repositories
+2015-03-17 03:00:52:End PyCurl
+###############################################
+2015-03-17 03:13:01 start processing ... http://data.githubarchive.org/2015-03-17-9.json.gz
+## entries generated from githubarchive.org: 25,464
+2015-03-17 03:13:13 end processing
+2015-03-17 03:13:13 start inserting to mongodb 
+Deleting entries older than 1426500873130
+## deleted: 30,078
+start re-index
+### documents: 684,884
+2015-03-17 03:15:14 end inserting to mongodb 
+###  2015-03-17 03:15:18  MongoDB Stats ###
+Documents: 684,884
+Size: 406.7 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 03:15:19 start: mongodb documents since  1426582819000
+2015-03-17 03:15:24: #new mongodb documents found .... 6842
+2015-03-17 03:15:24: start generating CSV files
+2015-03-17 03:15:25: end generating CSV files
+2015-03-17 03:15:25: #Nodes: Nodes:233,654 (Repositories:109,889 People:110,274 Organization:13,491)  #Relations: Relations:182,983 (Repositories->People:159,424, Repositories->Organization:23,559)
+2015-03-17 03:16:05: start inserting .....
+2015-03-17 03:16:05: start processing repositories.csv .....
+2015-03-17 03:16:08: end processing repositories.csv
+2015-03-17 03:16:08: start processing organizations.csv .....
+2015-03-17 03:16:08: end processing organizations.csv
+2015-03-17 03:16:08: start processing inorganization-relations.csv .....
+2015-03-17 03:16:09: end processing inorganization-relations.csv
+2015-03-17 03:16:09: start processing people.csv .....
+2015-03-17 03:16:12: end processing people.csv
+2015-03-17 03:16:12: start processing isactor-relations.csv .....
+2015-03-17 03:16:15: end processing isaction-relations.csv
+2015-03-17 03:16:15: end inserting
+2015-03-17 03:16:15: #Nodes: Nodes:239,139 (Repositories:112,625 People:112,767 Organization:13,747)  #Relations: Relations:187,829 (Repositories->People:163,648, Repositories->Organization:24,181)
+2015-03-17 03:16:53: Deleting nodes and relations older than 28 hours ...
+2015-03-17 03:17:35: #Nodes: Nodes:235,654 (Repositories:110,863 People:111,158 Organization:13,633)  #Relations: Relations:185,076 (Repositories->People:161,129, Repositories->Organization:23,947)
+2015-03-17 03:18:20:Found  71,743  documents of type=RepoInfo
+2015-03-17 03:18:27:Start PyCurl for  5,000  repositories
+2015-03-17 04:01:13:End PyCurl
+###############################################
+2015-03-17 04:13:02 start processing ... http://data.githubarchive.org/2015-03-17-10.json.gz
+## entries generated from githubarchive.org: 25,721
+2015-03-17 04:13:12 end processing
+2015-03-17 04:13:12 start inserting to mongodb 
+Deleting entries older than 1426504475070
+## deleted: 28,977
+start re-index
+### documents: 684,596
+2015-03-17 04:15:15 end inserting to mongodb 
+###  2015-03-17 04:15:18  MongoDB Stats ###
+Documents: 684,596
+Size: 406.7 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 04:15:19 start: mongodb documents since  1426586419000
+2015-03-17 04:15:25: #new mongodb documents found .... 7051
+2015-03-17 04:15:25: start generating CSV files
+2015-03-17 04:15:26: end generating CSV files
+2015-03-17 04:15:26: #Nodes: Nodes:235,654 (Repositories:110,863 People:111,158 Organization:13,633)  #Relations: Relations:185,076 (Repositories->People:161,129, Repositories->Organization:23,947)
+2015-03-17 04:16:16: start inserting .....
+2015-03-17 04:16:16: start processing repositories.csv .....
+2015-03-17 04:16:22: end processing repositories.csv
+2015-03-17 04:16:22: start processing organizations.csv .....
+2015-03-17 04:16:23: end processing organizations.csv
+2015-03-17 04:16:23: start processing inorganization-relations.csv .....
+2015-03-17 04:16:24: end processing inorganization-relations.csv
+2015-03-17 04:16:24: start processing people.csv .....
+2015-03-17 04:16:30: end processing people.csv
+2015-03-17 04:16:30: start processing isactor-relations.csv .....
+2015-03-17 04:16:35: end processing isaction-relations.csv
+2015-03-17 04:16:35: end inserting
+2015-03-17 04:16:35: #Nodes: Nodes:241,305 (Repositories:113,669 People:113,752 Organization:13,884)  #Relations: Relations:190,115 (Repositories->People:165,511, Repositories->Organization:24,604)
+2015-03-17 04:17:16: Deleting nodes and relations older than 28 hours ...
+2015-03-17 04:17:54: #Nodes: Nodes:237,721 (Repositories:111,813 People:112,139 Organization:13,769)  #Relations: Relations:187,270 (Repositories->People:162,904, Repositories->Organization:24,366)
+2015-03-17 04:18:38:Found  71,287  documents of type=RepoInfo
+2015-03-17 04:18:46:Start PyCurl for  5,000  repositories
+2015-03-17 05:01:40:End PyCurl
+###############################################
+2015-03-17 05:13:01 start processing ... http://data.githubarchive.org/2015-03-17-11.json.gz
+## entries generated from githubarchive.org: 24,358
+2015-03-17 05:13:12 end processing
+2015-03-17 05:13:12 start inserting to mongodb 
+Deleting entries older than 1426508072358
+## deleted: 25,488
+start re-index
+### documents: 686,471
+2015-03-17 05:15:11 end inserting to mongodb 
+###  2015-03-17 05:15:13  MongoDB Stats ###
+Documents: 686,471
+Size: 407.8 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 05:15:13 start: mongodb documents since  1426590013000
+2015-03-17 05:15:20: #new mongodb documents found .... 6785
+2015-03-17 05:15:20: start generating CSV files
+2015-03-17 05:15:20: end generating CSV files
+2015-03-17 05:15:20: #Nodes: Nodes:237,721 (Repositories:111,813 People:112,139 Organization:13,769)  #Relations: Relations:187,270 (Repositories->People:162,904, Repositories->Organization:24,366)
+2015-03-17 05:15:57: start inserting .....
+2015-03-17 05:15:57: start processing repositories.csv .....
+2015-03-17 05:15:59: end processing repositories.csv
+2015-03-17 05:15:59: start processing organizations.csv .....
+2015-03-17 05:16:00: end processing organizations.csv
+2015-03-17 05:16:00: start processing inorganization-relations.csv .....
+2015-03-17 05:16:01: end processing inorganization-relations.csv
+2015-03-17 05:16:01: start processing people.csv .....
+2015-03-17 05:16:04: end processing people.csv
+2015-03-17 05:16:04: start processing isactor-relations.csv .....
+2015-03-17 05:16:06: end processing isaction-relations.csv
+2015-03-17 05:16:06: end inserting
+2015-03-17 05:16:06: #Nodes: Nodes:243,056 (Repositories:114,519 People:114,525 Organization:14,012)  #Relations: Relations:192,107 (Repositories->People:167,092, Repositories->Organization:25,015)
+2015-03-17 05:16:41: Deleting nodes and relations older than 28 hours ...
+2015-03-17 05:17:20: #Nodes: Nodes:239,091 (Repositories:112,498 People:112,735 Organization:13,858)  #Relations: Relations:188,790 (Repositories->People:164,098, Repositories->Organization:24,692)
+2015-03-17 05:18:01:Found  72,917  documents of type=RepoInfo
+2015-03-17 05:18:09:Start PyCurl for  5,000  repositories
+2015-03-17 06:01:05:End PyCurl
+###############################################
+2015-03-17 06:13:01 start processing ... http://data.githubarchive.org/2015-03-17-12.json.gz
+## entries generated from githubarchive.org: 26,695
+2015-03-17 06:13:11 end processing
+2015-03-17 06:13:11 start inserting to mongodb 
+Deleting entries older than 1426511677286
+## deleted: 31,580
+start re-index
+### documents: 684,558
+2015-03-17 06:15:18 end inserting to mongodb 
+###  2015-03-17 06:15:21  MongoDB Stats ###
+Documents: 684,558
+Size: 407.4 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 06:15:22 start: mongodb documents since  1426593622000
+2015-03-17 06:15:28: #new mongodb documents found .... 7352
+2015-03-17 06:15:28: start generating CSV files
+2015-03-17 06:15:29: end generating CSV files
+2015-03-17 06:15:29: #Nodes: Nodes:239,091 (Repositories:112,498 People:112,735 Organization:13,858)  #Relations: Relations:188,790 (Repositories->People:164,098, Repositories->Organization:24,692)
+2015-03-17 06:16:15: start inserting .....
+2015-03-17 06:16:15: start processing repositories.csv .....
+2015-03-17 06:16:18: end processing repositories.csv
+2015-03-17 06:16:18: start processing organizations.csv .....
+2015-03-17 06:16:19: end processing organizations.csv
+2015-03-17 06:16:19: start processing inorganization-relations.csv .....
+2015-03-17 06:16:20: end processing inorganization-relations.csv
+2015-03-17 06:16:20: start processing people.csv .....
+2015-03-17 06:16:24: end processing people.csv
+2015-03-17 06:16:24: start processing isactor-relations.csv .....
+2015-03-17 06:16:28: end processing isaction-relations.csv
+2015-03-17 06:16:28: end inserting
+2015-03-17 06:16:28: #Nodes: Nodes:244,685 (Repositories:115,348 People:115,225 Organization:14,112)  #Relations: Relations:193,765 (Repositories->People:168,448, Repositories->Organization:25,317)
+2015-03-17 06:17:09: Deleting nodes and relations older than 28 hours ...
+2015-03-17 06:17:54: #Nodes: Nodes:240,018 (Repositories:112,994 People:113,098 Organization:13,926)  #Relations: Relations:189,812 (Repositories->People:164,895, Repositories->Organization:24,917)
+2015-03-17 06:18:44:Found  71,784  documents of type=RepoInfo
+2015-03-17 06:18:52:Start PyCurl for  5,000  repositories
+2015-03-17 07:01:31:End PyCurl
+###############################################
+2015-03-17 07:13:01 start processing ... http://data.githubarchive.org/2015-03-17-13.json.gz
+## entries generated from githubarchive.org: 33,439
+2015-03-17 07:13:15 end processing
+2015-03-17 07:13:15 start inserting to mongodb 
+Deleting entries older than 1426515295460
+## deleted: 34,741
+start re-index
+### documents: 686,243
+2015-03-17 07:15:36 end inserting to mongodb 
+###  2015-03-17 07:15:41  MongoDB Stats ###
+Documents: 686,243
+Size: 409.3 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 07:15:42 start: mongodb documents since  1426597242000
+2015-03-17 07:15:49: #new mongodb documents found .... 8526
+2015-03-17 07:15:49: start generating CSV files
+2015-03-17 07:15:49: end generating CSV files
+2015-03-17 07:15:49: #Nodes: Nodes:240,018 (Repositories:112,994 People:113,098 Organization:13,926)  #Relations: Relations:189,812 (Repositories->People:164,895, Repositories->Organization:24,917)
+2015-03-17 07:16:33: start inserting .....
+2015-03-17 07:16:33: start processing repositories.csv .....
+2015-03-17 07:16:36: end processing repositories.csv
+2015-03-17 07:16:36: start processing organizations.csv .....
+2015-03-17 07:16:37: end processing organizations.csv
+2015-03-17 07:16:37: start processing inorganization-relations.csv .....
+2015-03-17 07:16:37: end processing inorganization-relations.csv
+2015-03-17 07:16:37: start processing people.csv .....
+2015-03-17 07:16:42: end processing people.csv
+2015-03-17 07:16:42: start processing isactor-relations.csv .....
+2015-03-17 07:16:45: end processing isaction-relations.csv
+2015-03-17 07:16:45: end inserting
+2015-03-17 07:16:45: #Nodes: Nodes:246,791 (Repositories:116,362 People:116,167 Organization:14,262)  #Relations: Relations:195,804 (Repositories->People:170,140, Repositories->Organization:25,664)
+2015-03-17 07:17:23: Deleting nodes and relations older than 28 hours ...
+2015-03-17 07:18:09: #Nodes: Nodes:241,426 (Repositories:113,593 People:113,774 Organization:14,059)  #Relations: Relations:191,240 (Repositories->People:166,084, Repositories->Organization:25,156)
+2015-03-17 07:18:58:Found  71,310  documents of type=RepoInfo
+2015-03-17 07:19:05:Start PyCurl for  5,000  repositories
+2015-03-17 08:01:50:End PyCurl
+###############################################
+2015-03-17 08:13:02 start processing ... http://data.githubarchive.org/2015-03-17-14.json.gz
+## entries generated from githubarchive.org: 37,769
+2015-03-17 08:13:17 end processing
+2015-03-17 08:13:17 start inserting to mongodb 
+Deleting entries older than 1426518913904
+## deleted: 39,297
+start re-index
+### documents: 687,721
+2015-03-17 08:15:55 end inserting to mongodb 
+###  2015-03-17 08:15:57  MongoDB Stats ###
+Documents: 687,721
+Size: 410.3 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 08:15:58 start: mongodb documents since  1426600858000
+2015-03-17 08:16:05: #new mongodb documents found .... 9619
+2015-03-17 08:16:05: start generating CSV files
+2015-03-17 08:16:06: end generating CSV files
+2015-03-17 08:16:06: #Nodes: Nodes:241,426 (Repositories:113,593 People:113,774 Organization:14,059)  #Relations: Relations:191,240 (Repositories->People:166,084, Repositories->Organization:25,156)
+2015-03-17 08:16:46: start inserting .....
+2015-03-17 08:16:46: start processing repositories.csv .....
+2015-03-17 08:16:50: end processing repositories.csv
+2015-03-17 08:16:50: start processing organizations.csv .....
+2015-03-17 08:16:51: end processing organizations.csv
+2015-03-17 08:16:51: start processing inorganization-relations.csv .....
+2015-03-17 08:16:51: end processing inorganization-relations.csv
+2015-03-17 08:16:51: start processing people.csv .....
+2015-03-17 08:16:56: end processing people.csv
+2015-03-17 08:16:56: start processing isactor-relations.csv .....
+2015-03-17 08:17:00: end processing isaction-relations.csv
+2015-03-17 08:17:00: end inserting
+2015-03-17 08:17:00: #Nodes: Nodes:248,951 (Repositories:117,326 People:117,220 Organization:14,405)  #Relations: Relations:197,843 (Repositories->People:171,879, Repositories->Organization:25,964)
+2015-03-17 08:17:37: Deleting nodes and relations older than 28 hours ...
+2015-03-17 08:18:23: #Nodes: Nodes:243,794 (Repositories:114,702 People:114,920 Organization:14,172)  #Relations: Relations:193,367 (Repositories->People:167,910, Repositories->Organization:25,457)
+2015-03-17 08:19:08:Found  71,279  documents of type=RepoInfo
+2015-03-17 08:19:17:Start PyCurl for  5,000  repositories
+2015-03-17 09:02:27:End PyCurl
+###############################################
+2015-03-17 09:13:01 start processing ... http://data.githubarchive.org/2015-03-17-15.json.gz
+## entries generated from githubarchive.org: 36,361
+2015-03-17 09:13:14 end processing
+2015-03-17 09:13:14 start inserting to mongodb 
+Deleting entries older than 1426522508782
+## deleted: 38,140
+start re-index
+### documents: 688,990
+2015-03-17 09:15:51 end inserting to mongodb 
+###  2015-03-17 09:15:55  MongoDB Stats ###
+Documents: 688,990
+Size: 411.1 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 09:15:56 start: mongodb documents since  1426604456000
+2015-03-17 09:16:03: #new mongodb documents found .... 10085
+2015-03-17 09:16:03: start generating CSV files
+2015-03-17 09:16:03: end generating CSV files
+2015-03-17 09:16:03: #Nodes: Nodes:243,794 (Repositories:114,702 People:114,920 Organization:14,172)  #Relations: Relations:193,367 (Repositories->People:167,910, Repositories->Organization:25,457)
+2015-03-17 09:16:46: start inserting .....
+2015-03-17 09:16:46: start processing repositories.csv .....
+2015-03-17 09:16:50: end processing repositories.csv
+2015-03-17 09:16:50: start processing organizations.csv .....
+2015-03-17 09:16:52: end processing organizations.csv
+2015-03-17 09:16:52: start processing inorganization-relations.csv .....
+2015-03-17 09:16:53: end processing inorganization-relations.csv
+2015-03-17 09:16:53: start processing people.csv .....
+2015-03-17 09:16:58: end processing people.csv
+2015-03-17 09:16:58: start processing isactor-relations.csv .....
+2015-03-17 09:17:02: end processing isaction-relations.csv
+2015-03-17 09:17:02: end inserting
+2015-03-17 09:17:02: #Nodes: Nodes:251,672 (Repositories:118,657 People:118,464 Organization:14,551)  #Relations: Relations:200,543 (Repositories->People:174,204, Repositories->Organization:26,339)
+2015-03-17 09:17:42: Deleting nodes and relations older than 28 hours ...
+2015-03-17 09:18:26: #Nodes: Nodes:246,692 (Repositories:116,131 People:116,235 Organization:14,326)  #Relations: Relations:196,245 (Repositories->People:170,444, Repositories->Organization:25,801)
+2015-03-17 09:19:14:Found  71,302  documents of type=RepoInfo
+2015-03-17 09:19:22:Start PyCurl for  5,000  repositories
+2015-03-17 10:02:39:End PyCurl
+###############################################
+2015-03-17 10:13:01 start processing ... http://data.githubarchive.org/2015-03-17-16.json.gz
+## entries generated from githubarchive.org: 35,431
+2015-03-17 10:13:15 end processing
+2015-03-17 10:13:15 start inserting to mongodb 
+Deleting entries older than 1426526107320
+## deleted: 36,071
+start re-index
+### documents: 691,470
+2015-03-17 10:15:48 end inserting to mongodb 
+###  2015-03-17 10:15:50  MongoDB Stats ###
+Documents: 691,470
+Size: 413.1 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 10:15:51 start: mongodb documents since  1426608051000
+2015-03-17 10:15:59: #new mongodb documents found .... 9753
+2015-03-17 10:15:59: start generating CSV files
+2015-03-17 10:15:59: end generating CSV files
+2015-03-17 10:15:59: #Nodes: Nodes:246,692 (Repositories:116,131 People:116,235 Organization:14,326)  #Relations: Relations:196,245 (Repositories->People:170,444, Repositories->Organization:25,801)
+2015-03-17 10:16:44: start inserting .....
+2015-03-17 10:16:44: start processing repositories.csv .....
+2015-03-17 10:16:48: end processing repositories.csv
+2015-03-17 10:16:48: start processing organizations.csv .....
+2015-03-17 10:16:49: end processing organizations.csv
+2015-03-17 10:16:49: start processing inorganization-relations.csv .....
+2015-03-17 10:16:50: end processing inorganization-relations.csv
+2015-03-17 10:16:50: start processing people.csv .....
+2015-03-17 10:16:54: end processing people.csv
+2015-03-17 10:16:54: start processing isactor-relations.csv .....
+2015-03-17 10:16:58: end processing isaction-relations.csv
+2015-03-17 10:16:58: end inserting
+2015-03-17 10:16:58: #Nodes: Nodes:254,225 (Repositories:119,889 People:119,644 Organization:14,692)  #Relations: Relations:202,971 (Repositories->People:176,326, Repositories->Organization:26,645)
+2015-03-17 10:17:38: Deleting nodes and relations older than 28 hours ...
+2015-03-17 10:18:22: #Nodes: Nodes:248,795 (Repositories:117,154 People:117,158 Organization:14,483)  #Relations: Relations:198,330 (Repositories->People:172,248, Repositories->Organization:26,082)
+2015-03-17 10:19:09:Found  71,383  documents of type=RepoInfo
+2015-03-17 10:19:17:Start PyCurl for  5,000  repositories
+2015-03-17 11:02:44:End PyCurl
+###############################################
+2015-03-17 11:13:01 start processing ... http://data.githubarchive.org/2015-03-17-17.json.gz
+## entries generated from githubarchive.org: 32,823
+2015-03-17 11:13:14 end processing
+2015-03-17 11:13:14 start inserting to mongodb 
+Deleting entries older than 1426529716501
+## deleted: 34,968
+start re-index
+### documents: 692,416
+2015-03-17 11:15:57 end inserting to mongodb 
+###  2015-03-17 11:16:00  MongoDB Stats ###
+Documents: 692,416
+Size: 413.4 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 11:16:01 start: mongodb documents since  1426611661000
+2015-03-17 11:16:07: #new mongodb documents found .... 9362
+2015-03-17 11:16:07: start generating CSV files
+2015-03-17 11:16:08: end generating CSV files
+2015-03-17 11:16:08: #Nodes: Nodes:248,795 (Repositories:117,154 People:117,158 Organization:14,483)  #Relations: Relations:198,330 (Repositories->People:172,248, Repositories->Organization:26,082)
+2015-03-17 11:16:53: start inserting .....
+2015-03-17 11:16:53: start processing repositories.csv .....
+2015-03-17 11:16:56: end processing repositories.csv
+2015-03-17 11:16:56: start processing organizations.csv .....
+2015-03-17 11:16:58: end processing organizations.csv
+2015-03-17 11:16:58: start processing inorganization-relations.csv .....
+2015-03-17 11:16:59: end processing inorganization-relations.csv
+2015-03-17 11:16:59: start processing people.csv .....
+2015-03-17 11:17:03: end processing people.csv
+2015-03-17 11:17:03: start processing isactor-relations.csv .....
+2015-03-17 11:17:07: end processing isaction-relations.csv
+2015-03-17 11:17:07: end inserting
+2015-03-17 11:17:07: #Nodes: Nodes:255,934 (Repositories:120,761 People:120,387 Organization:14,786)  #Relations: Relations:204,973 (Repositories->People:178,061, Repositories->Organization:26,912)
+2015-03-17 11:17:46: Deleting nodes and relations older than 28 hours ...
+2015-03-17 11:18:34: #Nodes: Nodes:249,564 (Repositories:117,591 People:117,494 Organization:14,479)  #Relations: Relations:199,574 (Repositories->People:173,423, Repositories->Organization:26,151)
+2015-03-17 11:19:23:Found  71,393  documents of type=RepoInfo
+2015-03-17 11:19:31:Start PyCurl for  5,000  repositories
+2015-03-17 12:03:14:End PyCurl
+###############################################
+2015-03-17 12:13:02 start processing ... http://data.githubarchive.org/2015-03-17-18.json.gz
+## entries generated from githubarchive.org: 29,603
+2015-03-17 12:13:16 end processing
+2015-03-17 12:13:16 start inserting to mongodb 
+Deleting entries older than 1426533307915
+## deleted: 32,755
+start re-index
+### documents: 692,293
+2015-03-17 12:15:48 end inserting to mongodb 
+###  2015-03-17 12:15:52  MongoDB Stats ###
+Documents: 692,293
+Size: 413.2 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 12:15:53 start: mongodb documents since  1426615253000
+2015-03-17 12:15:59: #new mongodb documents found .... 8509
+2015-03-17 12:15:59: start generating CSV files
+2015-03-17 12:16:00: end generating CSV files
+2015-03-17 12:16:00: #Nodes: Nodes:249,564 (Repositories:117,591 People:117,494 Organization:14,479)  #Relations: Relations:199,574 (Repositories->People:173,423, Repositories->Organization:26,151)
+2015-03-17 12:16:40: start inserting .....
+2015-03-17 12:16:40: start processing repositories.csv .....
+2015-03-17 12:16:43: end processing repositories.csv
+2015-03-17 12:16:43: start processing organizations.csv .....
+2015-03-17 12:16:44: end processing organizations.csv
+2015-03-17 12:16:44: start processing inorganization-relations.csv .....
+2015-03-17 12:16:45: end processing inorganization-relations.csv
+2015-03-17 12:16:45: start processing people.csv .....
+2015-03-17 12:16:49: end processing people.csv
+2015-03-17 12:16:49: start processing isactor-relations.csv .....
+2015-03-17 12:16:52: end processing isaction-relations.csv
+2015-03-17 12:16:52: end inserting
+2015-03-17 12:16:52: #Nodes: Nodes:256,145 (Repositories:120,936 People:120,442 Organization:14,767)  #Relations: Relations:205,447 (Repositories->People:178,551, Repositories->Organization:26,896)
+2015-03-17 12:17:31: Deleting nodes and relations older than 28 hours ...
+2015-03-17 12:18:17: #Nodes: Nodes:248,889 (Repositories:117,347 People:117,126 Organization:14,416)  #Relations: Relations:199,262 (Repositories->People:173,177, Repositories->Organization:26,085)
+2015-03-17 12:19:01:Found  71,470  documents of type=RepoInfo
+2015-03-17 12:19:09:Start PyCurl for  5,000  repositories
+2015-03-17 13:02:28:End PyCurl
+###############################################
+2015-03-17 13:13:01 start processing ... http://data.githubarchive.org/2015-03-17-19.json.gz
+## entries generated from githubarchive.org: 31,645
+2015-03-17 13:13:12 end processing
+2015-03-17 13:13:12 start inserting to mongodb 
+Deleting entries older than 1426536910070
+## deleted: 33,626
+start re-index
+### documents: 693,415
+2015-03-17 13:15:50 end inserting to mongodb 
+###  2015-03-17 13:15:53  MongoDB Stats ###
+Documents: 693,415
+Size: 414.1 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 13:15:54 start: mongodb documents since  1426618854000
+2015-03-17 13:16:02: #new mongodb documents found .... 8419
+2015-03-17 13:16:02: start generating CSV files
+2015-03-17 13:16:02: end generating CSV files
+2015-03-17 13:16:02: #Nodes: Nodes:248,889 (Repositories:117,347 People:117,126 Organization:14,416)  #Relations: Relations:199,262 (Repositories->People:173,177, Repositories->Organization:26,085)
+2015-03-17 13:16:49: start inserting .....
+2015-03-17 13:16:49: start processing repositories.csv .....
+2015-03-17 13:16:52: end processing repositories.csv
+2015-03-17 13:16:52: start processing organizations.csv .....
+2015-03-17 13:16:54: end processing organizations.csv
+2015-03-17 13:16:54: start processing inorganization-relations.csv .....
+2015-03-17 13:16:54: end processing inorganization-relations.csv
+2015-03-17 13:16:54: start processing people.csv .....
+2015-03-17 13:16:59: end processing people.csv
+2015-03-17 13:16:59: start processing isactor-relations.csv .....
+2015-03-17 13:17:02: end processing isaction-relations.csv
+2015-03-17 13:17:02: end inserting
+2015-03-17 13:17:02: #Nodes: Nodes:255,604 (Repositories:120,686 People:120,196 Organization:14,722)  #Relations: Relations:205,202 (Repositories->People:178,425, Repositories->Organization:26,777)
+2015-03-17 13:17:42: Deleting nodes and relations older than 28 hours ...
+2015-03-17 13:18:29: #Nodes: Nodes:248,032 (Repositories:116,889 People:116,756 Organization:14,387)  #Relations: Relations:198,603 (Repositories->People:172,679, Repositories->Organization:25,924)
+2015-03-17 13:19:19:Found  71,637  documents of type=RepoInfo
+2015-03-17 13:19:27:Start PyCurl for  5,000  repositories
+2015-03-17 14:02:45:End PyCurl
+###############################################
+2015-03-17 14:13:01 start processing ... http://data.githubarchive.org/2015-03-17-20.json.gz
+## entries generated from githubarchive.org: 30,685
+2015-03-17 14:13:13 end processing
+2015-03-17 14:13:13 start inserting to mongodb 
+Deleting entries older than 1426540507561
+## deleted: 34,731
+start re-index
+### documents: 692,463
+2015-03-17 14:15:48 end inserting to mongodb 
+###  2015-03-17 14:15:49  MongoDB Stats ###
+Documents: 692,463
+Size: 413.3 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 14:15:50 start: mongodb documents since  1426622450000
+2015-03-17 14:15:57: #new mongodb documents found .... 8672
+2015-03-17 14:15:57: start generating CSV files
+2015-03-17 14:15:58: end generating CSV files
+2015-03-17 14:15:58: #Nodes: Nodes:248,032 (Repositories:116,889 People:116,756 Organization:14,387)  #Relations: Relations:198,603 (Repositories->People:172,679, Repositories->Organization:25,924)
+2015-03-17 14:16:39: start inserting .....
+2015-03-17 14:16:39: start processing repositories.csv .....
+2015-03-17 14:16:43: end processing repositories.csv
+2015-03-17 14:16:43: start processing organizations.csv .....
+2015-03-17 14:16:43: end processing organizations.csv
+2015-03-17 14:16:43: start processing inorganization-relations.csv .....
+2015-03-17 14:16:44: end processing inorganization-relations.csv
+2015-03-17 14:16:44: start processing people.csv .....
+2015-03-17 14:16:48: end processing people.csv
+2015-03-17 14:16:48: start processing isactor-relations.csv .....
+2015-03-17 14:16:51: end processing isaction-relations.csv
+2015-03-17 14:16:51: end inserting
+2015-03-17 14:16:51: #Nodes: Nodes:254,932 (Repositories:120,379 People:119,872 Organization:14,681)  #Relations: Relations:204,641 (Repositories->People:178,034, Repositories->Organization:26,607)
+2015-03-17 14:17:31: Deleting nodes and relations older than 28 hours ...
+2015-03-17 14:18:16: #Nodes: Nodes:247,568 (Repositories:116,727 People:116,527 Organization:14,314)  #Relations: Relations:198,364 (Repositories->People:172,542, Repositories->Organization:25,822)
+2015-03-17 14:19:04:Found  71,722  documents of type=RepoInfo
+2015-03-17 14:19:13:Start PyCurl for  5,000  repositories
+2015-03-17 15:02:15:End PyCurl
+###############################################
+2015-03-17 15:13:02 start processing ... http://data.githubarchive.org/2015-03-17-21.json.gz
+## entries generated from githubarchive.org: 29,415
+2015-03-17 15:13:13 end processing
+2015-03-17 15:13:13 start inserting to mongodb 
+Deleting entries older than 1426544096325
+## deleted: 35,091
+start re-index
+### documents: 689,968
+2015-03-17 15:15:37 end inserting to mongodb 
+###  2015-03-17 15:15:39  MongoDB Stats ###
+Documents: 689,968
+Size: 411.0 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 15:15:40 start: mongodb documents since  1426626040000
+2015-03-17 15:15:46: #new mongodb documents found .... 8538
+2015-03-17 15:15:46: start generating CSV files
+2015-03-17 15:15:47: end generating CSV files
+2015-03-17 15:15:47: #Nodes: Nodes:247,568 (Repositories:116,727 People:116,527 Organization:14,314)  #Relations: Relations:198,364 (Repositories->People:172,542, Repositories->Organization:25,822)
+2015-03-17 15:16:31: start inserting .....
+2015-03-17 15:16:31: start processing repositories.csv .....
+2015-03-17 15:16:34: end processing repositories.csv
+2015-03-17 15:16:34: start processing organizations.csv .....
+2015-03-17 15:16:35: end processing organizations.csv
+2015-03-17 15:16:35: start processing inorganization-relations.csv .....
+2015-03-17 15:16:36: end processing inorganization-relations.csv
+2015-03-17 15:16:36: start processing people.csv .....
+2015-03-17 15:16:41: end processing people.csv
+2015-03-17 15:16:41: start processing isactor-relations.csv .....
+2015-03-17 15:16:44: end processing isaction-relations.csv
+2015-03-17 15:16:44: end inserting
+2015-03-17 15:16:44: #Nodes: Nodes:254,238 (Repositories:120,111 People:119,522 Organization:14,605)  #Relations: Relations:204,190 (Repositories->People:177,673, Repositories->Organization:26,517)
+2015-03-17 15:17:25: Deleting nodes and relations older than 28 hours ...
+2015-03-17 15:18:13: #Nodes: Nodes:247,312 (Repositories:116,668 People:116,350 Organization:14,294)  #Relations: Relations:198,123 (Repositories->People:172,367, Repositories->Organization:25,756)
+2015-03-17 15:19:03:Found  71,863  documents of type=RepoInfo
+2015-03-17 15:19:11:Start PyCurl for  5,000  repositories
+2015-03-17 16:02:21:End PyCurl
+###############################################
+2015-03-17 16:13:01 start processing ... http://data.githubarchive.org/2015-03-17-22.json.gz
+## entries generated from githubarchive.org: 26,548
+2015-03-17 16:13:11 end processing
+2015-03-17 16:13:11 start inserting to mongodb 
+Deleting entries older than 1426547687237
+## deleted: 28,542
+start re-index
+### documents: 691,239
+2015-03-17 16:15:26 end inserting to mongodb 
+###  2015-03-17 16:15:32  MongoDB Stats ###
+Documents: 691,239
+Size: 412.1 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 16:15:33 start: mongodb documents since  1426629633000
+2015-03-17 16:15:40: #new mongodb documents found .... 7550
+2015-03-17 16:15:40: start generating CSV files
+2015-03-17 16:15:40: end generating CSV files
+2015-03-17 16:15:40: #Nodes: Nodes:247,312 (Repositories:116,668 People:116,350 Organization:14,294)  #Relations: Relations:198,123 (Repositories->People:172,367, Repositories->Organization:25,756)
+2015-03-17 16:16:23: start inserting .....
+2015-03-17 16:16:23: start processing repositories.csv .....
+2015-03-17 16:16:26: end processing repositories.csv
+2015-03-17 16:16:26: start processing organizations.csv .....
+2015-03-17 16:16:27: end processing organizations.csv
+2015-03-17 16:16:27: start processing inorganization-relations.csv .....
+2015-03-17 16:16:27: end processing inorganization-relations.csv
+2015-03-17 16:16:27: start processing people.csv .....
+2015-03-17 16:16:32: end processing people.csv
+2015-03-17 16:16:32: start processing isactor-relations.csv .....
+2015-03-17 16:16:35: end processing isaction-relations.csv
+2015-03-17 16:16:35: end inserting
+2015-03-17 16:16:35: #Nodes: Nodes:252,998 (Repositories:119,568 People:118,882 Organization:14,548)  #Relations: Relations:202,976 (Repositories->People:176,664, Repositories->Organization:26,312)
+2015-03-17 16:17:14: Deleting nodes and relations older than 28 hours ...
+2015-03-17 16:18:01: #Nodes: Nodes:246,186 (Repositories:116,195 People:115,755 Organization:14,236)  #Relations: Relations:196,985 (Repositories->People:171,428, Repositories->Organization:25,557)
+2015-03-17 16:18:48:Found  71,970  documents of type=RepoInfo
+2015-03-17 16:18:59:Start PyCurl for  5,000  repositories
+2015-03-17 17:01:51:End PyCurl
+###############################################
+2015-03-17 17:13:02 start processing ... http://data.githubarchive.org/2015-03-17-23.json.gz
+## entries generated from githubarchive.org: 22,909
+2015-03-17 17:13:10 end processing
+2015-03-17 17:13:10 start inserting to mongodb 
+Deleting entries older than 1426551277897
+## deleted: 26,259
+start re-index
+### documents: 691,213
+2015-03-17 17:15:16 end inserting to mongodb 
+###  2015-03-17 17:15:21  MongoDB Stats ###
+Documents: 691,213
+Size: 412.0 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 17:15:22 start: mongodb documents since  1426633222000
+2015-03-17 17:15:29: #new mongodb documents found .... 6603
+2015-03-17 17:15:29: start generating CSV files
+2015-03-17 17:15:30: end generating CSV files
+2015-03-17 17:15:30: #Nodes:
+2015-03-17 17:16:04:Found  72,116  documents of type=RepoInfo
+2015-03-17 17:16:13:Start PyCurl for  5,000  repositories
+2015-03-17 17:59:04:End PyCurl
+###############################################
+2015-03-17 18:13:01 start processing ... http://data.githubarchive.org/2015-03-18-0.json.gz
+## entries generated from githubarchive.org: 21,935
+2015-03-17 18:13:09 end processing
+2015-03-17 18:13:09 start inserting to mongodb 
+Deleting entries older than 1426554876309
+## deleted: 24,818
+start re-index
+### documents: 691,645
+2015-03-17 18:15:16 end inserting to mongodb 
+###  2015-03-17 18:15:20  MongoDB Stats ###
+Documents: 691,645
+Size: 412.0 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 18:15:20 start: mongodb documents since  1426636820000
+2015-03-17 18:15:29: #new mongodb documents found .... 5836
+2015-03-17 18:15:29: start generating CSV files
+2015-03-17 18:15:29: end generating CSV files
+2015-03-17 18:15:29: #Nodes: Nodes:246,186 (Repositories:116,195 People:115,755 Organization:14,236)  #Relations:
+2015-03-17 18:16:34:Found  72,305  documents of type=RepoInfo
+2015-03-17 18:16:41:Start PyCurl for  5,000  repositories
+2015-03-17 18:59:34:End PyCurl
+###############################################
+2015-03-17 19:13:02 start processing ... http://data.githubarchive.org/2015-03-18-1.json.gz
+## entries generated from githubarchive.org: 20,307
+2015-03-17 19:13:10 end processing
+2015-03-17 19:13:10 start inserting to mongodb 
+Deleting entries older than 1426558472963
+## deleted: 23,863
+start re-index
+### documents: 691,326
+2015-03-17 19:15:11 end inserting to mongodb 
+###  2015-03-17 19:15:16  MongoDB Stats ###
+Documents: 691,326
+Size: 411.6 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 19:15:17 start: mongodb documents since  1426640417000
+2015-03-17 19:15:24: #new mongodb documents found .... 5534
+2015-03-17 19:15:24: start generating CSV files
+2015-03-17 19:15:24: end generating CSV files
+2015-03-17 19:15:24: #Nodes: Nodes:246,186 (Repositories:116,195 People:115,755 Organization:14,236)  #Relations: Relations:196,985 (Repositories->People:171,428, Repositories->Organization:25,557)
+2015-03-17 19:16:05: start inserting .....
+2015-03-17 19:16:05: start processing repositories.csv .....
+2015-03-17 19:16:08: end processing repositories.csv
+2015-03-17 19:16:08: start processing organizations.csv .....
+2015-03-17 19:16:08: end processing organizations.csv
+2015-03-17 19:16:08: start processing inorganization-relations.csv .....
+2015-03-17 19:16:09: end processing inorganization-relations.csv
+2015-03-17 19:16:09: start processing people.csv .....
+2015-03-17 19:16:11: end processing people.csv
+2015-03-17 19:16:11: start processing isactor-relations.csv .....
+2015-03-17 19:16:13: end processing isaction-relations.csv
+2015-03-17 19:16:13: end inserting
+2015-03-17 19:16:13: #Nodes: Nodes:251,314 (Repositories:118,788 People:118,058 Organization:14,468)  #Relations: Relations:201,164 (Repositories->People:175,142, Repositories->Organization:26,022)
+2015-03-17 19:16:51: Deleting nodes and relations older than 28 hours ...
+2015-03-17 19:17:26:Found  72,539  documents of type=RepoInfo
+2015-03-17 19:17:34:Start PyCurl for  5,000  repositories
+2015-03-17 20:02:30:End PyCurl
+###############################################
+2015-03-17 20:13:01 start processing ... http://data.githubarchive.org/2015-03-18-2.json.gz
+## entries generated from githubarchive.org: 20,569
+2015-03-17 20:13:09 end processing
+2015-03-17 20:13:09 start inserting to mongodb 
+Deleting entries older than 1426562054996
+## deleted: 23,347
+start re-index
+### documents: 691,722
+2015-03-17 20:14:52 end inserting to mongodb 
+###  2015-03-17 20:14:54  MongoDB Stats ###
+Documents: 691,722
+Size: 412.4 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 20:14:55 start: mongodb documents since  1426643995000
+2015-03-17 20:15:02: #new mongodb documents found .... 5545
+2015-03-17 20:15:02: start generating CSV files
+2015-03-17 20:15:03: end generating CSV files
+2015-03-17 20:15:03: #Nodes: Nodes:230,197 (Repositories:108,247 People:108,442 Organization:13,508)  #Relations: Relations:182,938 (Repositories->People:159,208, Repositories->Organization:23,730)
+2015-03-17 20:15:42: start inserting .....
+2015-03-17 20:15:42: start processing repositories.csv .....
+2015-03-17 20:15:44: end processing repositories.csv
+2015-03-17 20:15:44: start processing organizations.csv .....
+2015-03-17 20:15:44: end processing organizations.csv
+2015-03-17 20:15:44: start processing inorganization-relations.csv .....
+2015-03-17 20:15:45: end processing inorganization-relations.csv
+2015-03-17 20:15:45: start processing people.csv .....
+2015-03-17 20:15:47: end processing people.csv
+2015-03-17 20:15:47: start processing isactor-relations.csv .....
+2015-03-17 20:15:49: end processing isaction-relations.csv
+2015-03-17 20:15:49: end inserting
+2015-03-17 20:15:49: #Nodes: Nodes:234,990 (Repositories:110,640 People:110,659 Organization:13,691)  #Relations: Relations:186,819 (Repositories->People:162,721, Repositories->Organization:24,098)
+2015-03-17 20:16:26: Deleting nodes and relations older than 28 hours ...
+2015-03-17 20:17:07: #Nodes: Nodes:228,289 (Repositories:107,149 People:107,731 Organization:13,409)  #Relations: Relations:181,499 (Repositories->People:158,050, Repositories->Organization:23,449)
+2015-03-17 20:17:54:Found  72,751  documents of type=RepoInfo
+2015-03-17 20:18:02:Start PyCurl for  5,000  repositories
+2015-03-17 21:00:43:End PyCurl
+###############################################
+2015-03-17 21:13:01 start processing ... http://data.githubarchive.org/2015-03-18-3.json.gz
+## entries generated from githubarchive.org: 19,006
+2015-03-17 21:13:08 end processing
+2015-03-17 21:13:08 start inserting to mongodb 
+Deleting entries older than 1426565671851
+## deleted: 22,190
+start re-index
+### documents: 691,761
+2015-03-17 21:15:08 end inserting to mongodb 
+###  2015-03-17 21:15:08  MongoDB Stats ###
+Documents: 691,761
+Size: 412.3 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 21:15:09 start: mongodb documents since  1426647609000
+2015-03-17 21:15:17: #new mongodb documents found .... 5382
+2015-03-17 21:15:17: start generating CSV files
+2015-03-17 21:15:17: end generating CSV files
+2015-03-17 21:15:17: #Nodes: Nodes:228,289 (Repositories:107,149 People:107,731 Organization:13,409)  #Relations: Relations:181,499 (Repositories->People:158,050, Repositories->Organization:23,449)
+2015-03-17 21:15:56: start inserting .....
+2015-03-17 21:15:56: start processing repositories.csv .....
+2015-03-17 21:15:58: end processing repositories.csv
+2015-03-17 21:15:58: start processing organizations.csv .....
+2015-03-17 21:15:59: end processing organizations.csv
+2015-03-17 21:15:59: start processing inorganization-relations.csv .....
+2015-03-17 21:15:59: end processing inorganization-relations.csv
+2015-03-17 21:15:59: start processing people.csv .....
+2015-03-17 21:16:02: end processing people.csv
+2015-03-17 21:16:02: start processing isactor-relations.csv .....
+2015-03-17 21:16:04: end processing isaction-relations.csv
+2015-03-17 21:16:04: end inserting
+2015-03-17 21:16:04: #Nodes: Nodes:232,847 (Repositories:109,463 People:109,801 Organization:13,583)  #Relations: Relations:185,233 (Repositories->People:161,447, Repositories->Organization:23,786)
+2015-03-17 21:16:41: Deleting nodes and relations older than 28 hours ...
+2015-03-17 21:17:21: #Nodes: Nodes:227,233 (Repositories:106,666 People:107,238 Organization:13,329)  #Relations: Relations:180,536 (Repositories->People:157,313, Repositories->Organization:23,223)
+2015-03-17 21:18:04:Found  73,009  documents of type=RepoInfo
+2015-03-17 21:18:14:Start PyCurl for  5,000  repositories
+2015-03-17 22:01:12:End PyCurl
+###############################################
+2015-03-17 22:13:02 start processing ... http://data.githubarchive.org/2015-03-18-4.json.gz
+## entries generated from githubarchive.org: 16,604
+2015-03-17 22:13:08 end processing
+2015-03-17 22:13:08 start inserting to mongodb 
+Deleting entries older than 1426569258666
+## deleted: 19,027
+start re-index
+### documents: 692,636
+2015-03-17 22:14:56 end inserting to mongodb 
+###  2015-03-17 22:14:58  MongoDB Stats ###
+Documents: 692,636
+Size: 412.6 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 22:14:59 start: mongodb documents since  1426651199000
+2015-03-17 22:15:07: #new mongodb documents found .... 4819
+2015-03-17 22:15:07: start generating CSV files
+2015-03-17 22:15:07: end generating CSV files
+2015-03-17 22:15:07: #Nodes: Nodes:227,233 (Repositories:106,666 People:107,238 Organization:13,329)  #Relations: Relations:180,536 (Repositories->People:157,313, Repositories->Organization:23,223)
+2015-03-17 22:15:46: start inserting .....
+2015-03-17 22:15:46: start processing repositories.csv .....
+2015-03-17 22:15:47: end processing repositories.csv
+2015-03-17 22:15:47: start processing organizations.csv .....
+2015-03-17 22:15:48: end processing organizations.csv
+2015-03-17 22:15:48: start processing inorganization-relations.csv .....
+2015-03-17 22:15:48: end processing inorganization-relations.csv
+2015-03-17 22:15:48: start processing people.csv .....
+2015-03-17 22:15:50: end processing people.csv
+2015-03-17 22:15:50: start processing isactor-relations.csv .....
+2015-03-17 22:15:51: end processing isaction-relations.csv
+2015-03-17 22:15:51: end inserting
+2015-03-17 22:15:51: #Nodes: Nodes:231,041 (Repositories:108,641 People:108,932 Organization:13,468)  #Relations: Relations:183,641 (Repositories->People:160,100, Repositories->Organization:23,541)
+2015-03-17 22:16:29: Deleting nodes and relations older than 28 hours ...
+2015-03-17 22:17:08: #Nodes: Nodes:225,967 (Repositories:106,107 People:106,605 Organization:13,255)  #Relations: Relations:179,265 (Repositories->People:156,195, Repositories->Organization:23,070)
+2015-03-17 22:17:54:Found  73,468  documents of type=RepoInfo
+2015-03-17 22:18:02:Start PyCurl for  5,000  repositories
+2015-03-17 23:00:54:End PyCurl
+###############################################
+2015-03-17 23:13:01 start processing ... http://data.githubarchive.org/2015-03-18-5.json.gz
+## entries generated from githubarchive.org: 16,525
+2015-03-17 23:13:07 end processing
+2015-03-17 23:13:07 start inserting to mongodb 
+Deleting entries older than 1426572853970
+## deleted: 18,985
+start re-index
+### documents: 693,367
+2015-03-17 23:14:51 end inserting to mongodb 
+###  2015-03-17 23:14:53  MongoDB Stats ###
+Documents: 693,367
+Size: 412.9 MB
+Pre-allocated space: 629.6 MB
+2015-03-17 23:14:54 start: mongodb documents since  1426654794000
+2015-03-17 23:15:02: #new mongodb documents found .... 4624
+2015-03-17 23:15:02: start generating CSV files
+2015-03-17 23:15:02: end generating CSV files
+2015-03-17 23:15:02: #Nodes: Nodes:225,967 (Repositories:106,107 People:106,605 Organization:13,255)  #Relations: Relations:179,265 (Repositories->People:156,195, Repositories->Organization:23,070)
+2015-03-17 23:15:41: start inserting .....
+2015-03-17 23:15:41: start processing repositories.csv .....
+2015-03-17 23:15:43: end processing repositories.csv
+2015-03-17 23:15:43: start processing organizations.csv .....
+2015-03-17 23:15:43: end processing organizations.csv
+2015-03-17 23:15:43: start processing inorganization-relations.csv .....
+2015-03-17 23:15:43: end processing inorganization-relations.csv
+2015-03-17 23:15:43: start processing people.csv .....
+2015-03-17 23:15:45: end processing people.csv
+2015-03-17 23:15:45: start processing isactor-relations.csv .....
+2015-03-17 23:15:47: end processing isaction-relations.csv
+2015-03-17 23:15:47: end inserting
+2015-03-17 23:15:47: #Nodes: Nodes:229,609 (Repositories:107,965 People:108,243 Organization:13,401)  #Relations: Relations:182,263 (Repositories->People:158,904, Repositories->Organization:23,359)
+2015-03-17 23:16:24: Deleting nodes and relations older than 28 hours ...
+2015-03-17 23:17:03: #Nodes: Nodes:224,887 (Repositories:105,611 People:106,085 Organization:13,191)  #Relations: Relations:178,295 (Repositories->People:155,346, Repositories->Organization:22,949)
+2015-03-17 23:17:46:Found  73,905  documents of type=RepoInfo
+2015-03-17 23:17:55:Start PyCurl for  5,000  repositories
+2015-03-18 00:00:53:End PyCurl

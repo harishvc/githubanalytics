@@ -1,0 +1,17 @@
+2015-03-06 22:24:01 start: creating new nodes and relations since  1425701341000
+Nodes:108,708 (Repositories:48,892 People:52,453 Organization:7,363) Relations:75,834 (Repositories->People:64,541, Repositories->Organization:11,293)
+2015-03-06 22:24:08: start batch ... 1
+2015-03-06 22:24:41: start batch ... 2
+2015-03-06 22:25:09: start batch ... 3
+2015-03-06 22:25:34: start commit transactions ....
+2015-03-06 22:25:56: end commit transactions .....
+2015-03-06 22:25:56 end: generating new nodes and building new relations ...
+2015-03-06 22:25:56: #Nodes: Nodes:108,774 (Repositories:48,927 People:52,483 Organization:7,364)  #Relations: Relations:75,870 (Repositories->People:64,576, Repositories->Organization:11,294)
+2015-03-06 22:25:58: Deleting nodes and relations older than 24 hours ...
+2015-03-06 22:25:59: #Nodes: Nodes:108,774 (Repositories:48,927 People:52,483 Organization:7,364)  #Relations: Relations:75,870 (Repositories->People:64,576, Repositories->Organization:11,294)
+2015-03-06 22:33:01 start: creating new nodes and relations since  1425701881000
+Nodes:108,774 (Repositories:48,927 People:52,483 Organization:7,364) Relations:75,870 (Repositories->People:64,576, Repositories->Organization:11,294)
+2015-03-06 22:51:02 start: creating new nodes and relations since  1425702962000
+Nodes:109,704 (Repositories:48,927 People:52,483 Organization:7,364) Relations:75,870 (Repositories->People:64,576, Repositories->Organization:11,294)
+2015-03-06 22:51:09: #entries to process ....4413
+2015-03-06 22:51:09: start batch ... 1

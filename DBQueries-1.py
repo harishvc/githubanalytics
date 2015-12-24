@@ -27,7 +27,7 @@ if (os.environ['deployEnv'] == "production"):
     connection = MongoClient(MONGO_URL)
     db = connection.githublive.pushevent
 else: 
-    MONGO_URL = os.environ['connectURLRead']
+    MONGO_URL = os.environ['connectURLReaddev']
     connection = MongoClient(MONGO_URL)
     db = connection.githubdev.pushevent
 
@@ -43,14 +43,13 @@ LISNBP = "<li class=\"list-group-item nbp\">"
 LIS2 = "<li class=\"list-group-item2\">"
 LIE = "</li>"
 SB12 = "<div class=\"col-sm-12 clearfloat\">"
-SB5  = "<div class=\"col-sm-5\">"
-SB7  = "<div class=\"col-sm-7\">"
-SB5T  = "<div class=\"col-sm-5\"><style>.ellipsis { text-overflow: ellipsis; }</style><div class=\"ellipsis\">"
-SB7T  = "<div class=\"col-sm-7\"><style>.ellipsis { text-overflow: ellipsis; }</style><div class=\"ellipsis\">"
+SB5  = "<div class=\"col-sm-5\"><style>.ellipsis { text-overflow: ellipsis; }</style><div class=\"ellipsis\">"
+SB7  = "<div class=\"col-sm-7\"><style>.ellipsis { text-overflow: ellipsis; }</style><div class=\"ellipsis\">"
 DE = "</div>"
-DET = "</div></div>"
+DE2 = "</div></div>"
 LGIHS = "<h3 class=\"list-group-item-heading text-success\">"
 LGIHE = "</h3>" 
+                
         
 def ProcessQuery(query,offset, per_page):
     if (query == ""):
@@ -87,7 +86,11 @@ def ProcessQuery(query,offset, per_page):
             return (0, "", ReportTopLanguages("Top Languages"),"")
         elif  (query.startswith("repository")):
             repoName =  query.replace('repository ', '')
-            response2 = ""
+            #show interesting topics
+            response2 = "<input type=\"hidden\" name=\"qvalue\" value=" + repoName + "></input>\
+                      <input type=\"hidden\" name=\"qtype\" value=\"full_name\"></input>\
+                      <p><span id=\"trendingtopics\"></span><p><div id=\"wrapperfindtrendingtopics\"> \
+                      <a href=\"javascript:void();\" id=\"findtrendingtopics\">Find interesting topics</a></div></p>"
             return (0,"",ProcessRepositories(repoName),response2)  
         elif  (query.startswith("organization")):
             return Search(bleach.clean(query.replace('organization ', '').strip()),"organization",offset, per_page)
@@ -335,14 +338,25 @@ def Search(query,type,offset, per_page):
         tmp2 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(lbranches) + " branches" if (lbranches > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>1 branch"
         tmp3 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(lactors) + " contributors</span>" if (lactors > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>1 contributor</span>"
         tmp4 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + HSR(qregx,ritem['my_documents']['_id']['organization']) + "</span>" if ritem['my_documents']['_id']['organization']!= "Unspecified" else ""
-        output += "<li class=\"list-group-item\">" + SB5T + path1  + fn + path2 + HSR(qregx,fn) + path3 + DET + SB7T + tmp1 + tmp2 + tmp3 + tmp4 + DET + "</li>"  
+        output += "<li class=\"list-group-item\">" + SB5 + path1  + fn + path2 + HSR(qregx,fn) + path3 + DE2 + SB7 + tmp1 + tmp2 + tmp3 + tmp4 + DE2 + "</li>"        
+    
     if (len(output) > 0 ):
         if (type == "all"):
             sh = "<p class=\"tpadding text-success\">Repository matches (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
         elif (type == "organization"):
                 sh = "<p class=\"tpadding text-success\">" + "Repositories inside organization " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+                #Link to find trending topics for organization
+                response2 =  "<input type=\"hidden\" name=\"qvalue\" value=" + query + "></input>\
+                      <input type=\"hidden\" name=\"qtype\" value=" + type + "></input>\
+                      <p><span id=\"trendingtopics\"></span><p><div id=\"wrapperfindtrendingtopics\"> \
+                      <a href=\"javascript:void();\" id=\"findtrendingtopics\">Find interesting topics</a></div></p>"
         elif (type == "contributor"):
                 sh = "<p class=\"tpadding text-success\">" + "Repositories <strong>" + actorname + "</strong> has contributed to (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"
+                #Link to find trending topics for contributor
+                response2 =  "<input type=\"hidden\" name=\"qvalue\" value=" + query + "></input>\
+                      <input type=\"hidden\" name=\"qtype\" value=\"actoremail\"></input>\
+                      <p><span id=\"trendingtopics\"></span><p><div id=\"wrapperfindtrendingtopics\"> \
+                      <a href=\"javascript:void();\" id=\"findtrendingtopics\">Find interesting topics</a></div></p>"
         elif (type == "language"):
                 sh = "<p class=\"tpadding text-success\">Repositories written in " + query + " (processing time " + str(MyMoment.HTM(QST,"")).strip() +")</p>"            
         return ( total,  sh , "<ul class=\"list-group\">" + output + "</ul>", response2)
@@ -373,6 +387,8 @@ def ReportTopRepositoriesBy(heading,sortBy,type):
     path1 = "<a href=\"/?q=repository "
     path2 = "&amp;action=Search\"  class=\"repositoryinfo\">"
     path3 = "</a>"
+    #truncateS = "<style>.ellipsis { text-overflow: ellipsis; }</style><div class=\"ellipsis\">"
+    #truncateE ="</div>"
     output =""
     t2 = "class=\"list-group-item\""
     NewQuery =  "CreateEvent"
@@ -404,10 +420,13 @@ def ReportTopRepositoriesBy(heading,sortBy,type):
         tmp0 = "<i class=\"lrpadding fa fa-star fa-1x\"></i>" + numformat(row['stars']) + " stars" if (int(row['stars']) > 1) else "<i class=\"lrpadding fa fa-star fa-1x\"></i>1 star" if (int(row['stars']) == 1)  else ""
         tmp1 = "<i class=\"lrpadding fa fa-clock-o fa-1x\"></i>" + numformat(row['total']) + " commits"
         tmp2 =  "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches" if ( int(row['branches']) > 1) else "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + "1 branch"        #tmp2 = "<i class=\"lrpadding fa fa-code-fork fa-1x\"></i>" + str(row['branches']) + " branches"    
-        tmp3 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors</span>" if ( int(row['authors']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>" + "1 contributor</span>"
-        tmp4 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + str(row['organization']) + "</span>" if ('organization' in row.keys()) else "" 
+        #tmp3 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors</span>" if ( int(row['authors']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>" + "1 contributor</span>"
+        #tmp4 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + str(row['organization']) + "</span>" if ('organization' in row.keys()) else "" 
+        tmp3 = "<i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors" if ( int(row['authors']) > 1) else "<i class=\"lrpadding fa fa-user fa-1x\"></i>" + "1 contributor"
+        tmp4 = "<i class=\"lrpadding fa fa-home fa-1x\"></i>" + str(row['organization']) if ('organization' in row.keys()) else "" 
         tmp5 = "<sup><i class=\"rpadding fa fa-bullhorn fa-1x\">New</i></sup>" if ('CreateEvent' in row['type']) else "" 
-        output += LIS + SB5T + path1 + row['full_name'].encode('utf-8').strip() + path2 + row['full_name'].encode('utf-8').strip() + path3 + tmp5 + DET + SB7T + tmp0 + tmp1 + tmp2 + tmp3  + tmp4 + DET + LIE    
+        #output += LIS + SB5 + truncateS + path1 +row['full_name'].encode('utf-8').strip() + path2 +  row['full_name'].encode('utf-8').strip() + path3  + tmp5 + truncateE + DE + SB7 + truncateS + tmp0 + tmp1 + tmp2 + tmp3  + tmp4 + truncateE + DE + LIE
+        output += LIS + SB5 + path1 +row['full_name'].encode('utf-8').strip() + path2 +  row['full_name'].encode('utf-8').strip() + path3  + tmp5 + DE2 + SB7 +  tmp0 + tmp1 + tmp2 + tmp3  + tmp4 + DE2 + LIE    
     return ( sh + ULS + output  + ULE)
 
 def ReportTopOrganizations(heading):
@@ -432,7 +451,7 @@ def ReportTopOrganizations(heading):
         if row['organization']:
             tmp1 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-users fa-1x\"></i>" + str(row['authors']) + " contributors</span>" if ( int(row['authors']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-user fa-1x\"></i>" + "1 contributor</span>"
             tmp2 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-file-code-o fa-1x\"></i>" + str(row['rnum']) + " repositories</span>" if ( int(row['rnum']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-file-code-o fa-1x\"></i>" + "1 repository</span>"
-            output += LIS + SB5 + path1 + row['organization'] + path2 + row['organization'] + path3 + DE + SB7 + tmp1 + tmp2  + DE + LIE
+            output += LIS + SB5 + path1 + row['organization'] + path2 + row['organization'] + path3 + DE2 + SB7 + tmp1 + tmp2  + DE2 + LIE
             
     return ( sh + ULS + output  + ULE)
 
@@ -459,7 +478,7 @@ def ReportTopContributors(heading):
         if row['actoremail']:
             tmp1 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-file-code-o fa-1x\"></i>" + str(row['rnum']) + " repositories</span>" if ( int(row['rnum']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-file-code-o fa-1x\"></i>" + "1 repository</span>"
             tmp2 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + str(row['onum']) + " organizations</span>" if ( int(row['onum']) > 1) else "<span class=\"nobr\"><i class=\"lrpadding fa fa-home fa-1x\"></i>" + "1 organization</span>"
-            output += LIS + SB5 + path1 + row['actoremail'] + path2 + row['actorname'] + path3 + DE + SB7 + tmp1 + tmp2  + DE + LIE
+            output += LIS + SB5 + path1 + row['actoremail'] + path2 + row['actorname'] + path3 + DE2 + SB7 + tmp1 + tmp2  + DE2 + LIE
             
     return ( sh + ULS + output  + ULE)
 
@@ -483,7 +502,7 @@ def ReportTopLanguages(heading):
     for row in mycursor["result"]:
         tmp1 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-file-code-o fa-1x\"></i>" + numformat(row['lcount']) + " repositories</span>" 
         tmp2 = "<span class=\"nobr\"><i class=\"lrpadding fa fa-info fa-1x\"></i>" + numformat(row['bcount']) + " bytes</span>"
-        output += LIS + SB5 + path1 + row['language'] + path2 + row['language'] + path3 + DE + SB7 + tmp1 + tmp2 + DE + LIE
+        output += LIS + SB5 + path1 + row['language'] + path2 + row['language'] + path3 + DE2 + SB7 + tmp1 + tmp2 + DE2 + LIE
             
     return ( sh + ULS + output  + ULE)
 
