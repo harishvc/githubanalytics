@@ -285,3 +285,4 @@ production
 2015-12-24 11:17:23:Found  68,007  documents of type=RepoInfo2
 2015-12-24 11:17:43:Found  5,000  repositories for finding languages
 2015-12-24 11:17:43:Start PyCurl for  5,000  repositories
+2015-12-24 12:01:25:End PyCurl
