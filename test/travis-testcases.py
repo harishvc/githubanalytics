@@ -5,20 +5,14 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from sauceclient import SauceClient
 import os
 
-
-#Get Travis environment variable
-if os.environ.get('TRAVIS_BUILD_NUMBER') is not None:
-    build = os.environ.get('TRAVIS_BUILD_NUMBER')
-else:
-    build = ""
-
 class AskGitHubTestSuite(unittest.TestCase):
     def setUp(self):
         #Sauce Labs
         self.desired_cap = {
         #'platform': "Mac OS X 10.9",
+        'tunnel-identifier': os.environ.get('TRAVIS_JOB_NUMBER'), #IMPORTANT!!!
         'browserName': "chrome",
-        'build': build,
+        'build': os.environ.get('TRAVIS_BUILD_NUMBER'),
         'name': "AskGitHub: Latest from GitHub",
         'tags': [ "python","flask","mongo","neo4j","github"],
         'username': os.environ.get('SauceLogin'),
