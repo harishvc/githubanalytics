@@ -29,7 +29,7 @@ class AskGitHubTestSuite(unittest.TestCase):
         self.driver = webdriver.Remote(command_executor="http://%s:%s@ondemand.saucelabs.com:80/wd/hub" % (self.SauceLogin, self.SauceAccessKey),desired_capabilities=self.desired_cap)
         #self.URL = "http://askgithub.com"
         # Travis-CI & Sauce Labs
-        URL = "http://localhost:" + os.environ.get('PORT') 
+        self.URL = "http://localhost:" + os.environ.get('PORT') 
         self.driver.get(self.URL)
         self.status = True
         self.message = ""
