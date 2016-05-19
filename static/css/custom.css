@@ -1,0 +1,127 @@
+@font-face {
+        font-family: 'digi';
+        src: url('/static/css/digi.ttf');
+}
+
+@media (max-width: 1200px) {
+ .row {
+  margin-left: -50px;
+ }
+}
+
+ .row {
+  margin-right: 0px;	
+ }
+
+.digital {
+    font-family: 'digi';
+    font-size: 350%;
+    display: inline;
+} 
+
+#searchbox {
+	padding-top: 1px;
+	padding-bottom: 1px;
+	margin-left: -15px; 
+ }
+
+#progress { 
+  display: none;
+  padding-top: 30px;
+ }
+
+#navhome {
+    pointer-events : none;
+}
+
+#findtrendingtopics{
+  background: #4c66a4;
+  color: #FFF;
+  text-decoration: none;
+  padding: 5px 10px 5px;	
+}
+
+.rpadding {
+	padding-left: 1px;
+    padding-right: 2px;
+}
+
+.lrpadding {
+    padding-left: 10px;
+    padding-right: 2px;
+}
+
+.tpadding{
+	padding-top: 10px;	
+}
+
+.nlpadding{
+	padding-left: 0px;
+}
+
+//Contributors using list group badge
+.cstyle {
+	padding-left: 15px;
+    background-color: #fff;	
+}
+
+.list-group-item {
+	padding: 5px 5px;	
+	padding-bottom: 20px;  //Handle large font size
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.clearfloat {
+	float: none;
+}
+
+.nbp{
+	padding-bottom: 5px;  //Remove extra padding at bottom
+}
+.jumbotron {
+	background-color: #fff;
+	margin-bottom: 0px;
+	text-align: left;
+    padding: 0.5em 0.6em;
+    p {
+        font-size: 1.5em;
+    }
+}
+
+
+body {
+   padding-left: 50px;
+   padding-top: 75px; 
+}
+
+.circle-icon {
+    background: #FFFF00;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+a.list-group-item .text-success{
+	color: #3c763d;
+}
+.nobr	{ white-space:nowrap; }
+
+.pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+}
+.pagination-page-info b {
+    color: black;
+    //background: #FFFF00;
+    padding-left: 2px;
+    padding: .1em .25em;
+    font-size: 150%;
+}

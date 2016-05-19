@@ -1,119 +1,36 @@
-#Source: https://github.com/mganache/helloapp/
 #References
 #https://realpython.com/blog/python/primer-on-jinja-templating/
 
-from flask import Flask
+from flask import Flask, make_response, send_from_directory,render_template, g, current_app, request
+from flask import request
+from flask import jsonify
 from flask import render_template
 from datetime import datetime, timedelta
 import json
 import os.path, time
-import operator
-from pymongo import MongoClient
 from jinja2 import Template
 import HTMLParser
 from json import loads
+import bleach
+from json import dumps
 
-#TODO: https://pythonhosted.org/Flask-Cache/
-#from flask.ext.cache import Cache
 
-#Production settings
-MONGO_URL = os.environ['connectURL']
-connection = MongoClient(MONGO_URL)
-#TODO: Remove hardcoded value + read from settings
-db = connection.githublive.pushevent
+#Background queue
+from rq import Queue
+from worker import conn
+BQ = Queue(connection=conn)
+from Neo4jQueries import FindSimilarRepositories     
 
-#Development settings
-#MONGO_URL = ""
-#connection = MongoClient(MONGO_URL)
-#db =
+#Pagination
+from flask.ext.paginate import Pagination
 
+#Local modules
+import Suggestions
+import DBQueries
 
 #Global variables
-LimitActiveLanguages=5
-LimitActiveLanguagesBubble=10
-LimitActiveRepositories=5
-LimitActiveUsers=5
-
-
-def TotalEntries ():
-    return db.count()
-
-def FindOneTimeStamp(type):
-    pipeline= [
-           { '$match': {} }, 
-           { '$project': { '_id': 0, 'created_at': '$created_at'}},
-           { '$sort' : { 'created_at': type }},
-           { '$limit': 1}
-           ]
-    mycursor = db.aggregate(pipeline)
-    for record in mycursor["result"]:
-        return (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(record["created_at"]/1000)))
-
-def ActiveLanguages ():
-    pipeline= [
-           { '$match': {'$and': [{"language":{"$ne":"null"}},{"language":{"$ne":None}}] }},  
-           { '$group': {'_id': {'language': '$language'}, 'count': { '$sum' : 1 }}},
-           { '$project': { '_id': 0, 'language': '$_id.language', 'count': '$count' } },
-           { '$sort' : { 'count': -1 }},
-           { '$limit': LimitActiveLanguages}
-           ]
-    mycursor = db.aggregate(pipeline)
-    return mycursor
-
-def ActiveLanguagesBubble ():
-    a1 =[]
-    pipeline= [
-           { '$match': {'$and': [{"language":{"$ne":"null"}},{"language":{"$ne":None}}] }},  
-           { '$group': {'_id': {'language': '$language'}, 'count': { '$sum' : 1 }}},
-           { '$project': { '_id': 0, 'language': '$_id.language', 'count': '$count' } },
-           { '$sort' : { 'count': -1 }},
-           { '$limit': LimitActiveLanguagesBubble}
-           ]
-    mycursor = db.aggregate(pipeline);
-    #convert cursor to array
-    for record in mycursor["result"]:
-           #remove unicode
-           t1 = "{:,}".format(record["count"])
-           #size2 is formatted
-           a1.append({"name":str(record["language"]), "size":str(record["count"]),"size2":str(t1)});  
-    #create custom dictionary
-    return ({"name": "something", "children": a1})
-
-
-def ActiveRepositories ():
-    pipeline= [
-           { '$match': {}}, 
-           { '$group': {'_id': {'url': '$url',  'name': "$name", 'language': "$language"}, 'count': { '$sum' : 1 }}},
-           { '$project': { '_id': 0, 'url': '$_id.url', 'count': '$count',  'name': "$_id.name", 'language': "$_id.language" } },
-           { '$sort' : { 'count': -1 }},
-           { '$limit': LimitActiveRepositories}
-           ]
-    mycursor = db.aggregate(pipeline)
-    #print "#############" , mycursor['result']
-    return mycursor
-
-def ActiveUsers ():
-    pipeline= [
-           { '$match': {}}, 
-           { '$group': {'_id': {'actorlogin': '$actorlogin',  'actorname': "$actorname"}, 'count': { '$sum' : 1 }}},
-           { '$project': { '_id': 0, 'actorname': '$_id.actorname', 'count': '$count',  'actorlogin': "$_id.actorlogin"} },
-           { '$sort' : { 'count': -1 }},
-           { '$limit': LimitActiveUsers}
-           ]
-    mycursor = db.aggregate(pipeline)
-    return mycursor
-
-def CloseDB():
-    connection.close()
-
-class mydict(dict):
-        def __str__(self):
-            return json.dumps(self) 
-        
-
-#TODO
-#http://stackoverflow.com/questions/850795/clearing-python-lists    
-#def refresh_data():
+NORESULT="<h2 class=\"searchstatus text-danger\">You've got me stumped!</h2>"    #No result
+PER_PAGE = 10 #search results per page
 
 app = Flask(__name__)
 
@@ -122,30 +39,144 @@ app = Flask(__name__)
 def numformat(value):
     return "{:,}".format(value)
 app.jinja_env.filters['numformat'] = numformat
-   
-@app.route('/')
-@app.route('/index')
+#############################   
+#Handle homepage   
+@app.route('/',methods=['GET'])
+@app.route('/index',methods=['GET'])
 def index():
-    #refresh_data()
-    return render_template("index.html",
-        title = 'GitHub Analytics',
-	    LCA = ActiveLanguagesBubble(),
-        AR = ActiveRepositories(),
-        AU = ActiveUsers(),
-        total = TotalEntries(),
-        start = FindOneTimeStamp(1),
-        end = FindOneTimeStamp(-1)
-	)
+    query = ""
+    processed_text1  = ""
+    response2 = ""
+    resultheading = ""
+    #Debug
+    #time.sleep(5)
+    page, per_page, offset = get_page_items()    
+    total = 0
+    pagination = get_pagination(page=page,
+                                per_page=per_page,
+                                total=total,
+                                format_total=True,
+                                format_number=True,
+                                )
+    if request.method == 'GET':
+        if 'q' in request.args:
+            app.logger.debug("query from user ===> %s<===", request.args['q'])
+            #Sanitize & Remove trailing space
+            query = bleach.clean(request.args['q']).strip()
+            app.logger.debug("query from user after bleach ===> %s<===", query)
+            #Start: Uncomment to trigger slow response time
+            #app.logger.debug ("sleeping .....")
+            #time.sleep(15)
+            #app.logger.debug ("awake .....")
+            #End: Uncomment to trigger slow response time
+            (total, resultheading,processed_text1,response2) = DBQueries.ProcessQuery(query,offset, per_page)
+            pagination = get_pagination(page=page,
+                                per_page=per_page,
+                                total=total,
+                                format_total=True,
+                                format_number=True,
+                                record_name='repositories',
+                                )
+            if (processed_text1 == "EMPTY") :
+                t1 = Suggestions.compare("now") if (query == "") else Suggestions.compare(query)  
+                processed_text1 =  NORESULT + t1
+    else:
+        query =""
+        processed_text1 =""
+        response2 = ""
+    return render_template("index-bootstrap.html",
+        page=page,
+        total=total,
+        per_page=per_page,
+        pagination=pagination,                   
+        title = 'Ask GitHub',
+        showGAcode = os.environ['showGAcode'],
+        appenv = os.environ['deployEnv'],
+        query = [{"text": query}],
+        resultheading = resultheading,
+        response2 = response2,     
+        processed_text = processed_text1)
+    
+
+@app.route('/_findsimilarrepositories')
+def findsimilarrepositories():
+    reponame = bleach.clean(request.args['a']).strip()
+    #print("staring queue ...")
+    SR = BQ.enqueue(FindSimilarRepositories,reponame)
+    while SR.result is None:
+        time.sleep(1)
+    #print("ending queue .....")
+    return jsonify(similarrepos=SR.result)
+
+@app.route('/_listlanguages')
+def listlanguages():
+    reponame = bleach.clean(request.args['a']).strip()
+    #TODO: Handle empty reponame
+    Languages = DBQueries.LanguageBreakdown(reponame)
+    return jsonify(languages=Languages)
+
+
+def get_css_framework():
+    return 'bootstrap3'
+def get_link_size():
+    return 'sm'  #option lg
+def show_single_page_or_not():
+    return False
+def get_page_items():
+    page = int(request.args.get('page', 1))
+    per_page = request.args.get('per_page')
+    if not per_page:
+        per_page = PER_PAGE
+    else:
+        per_page = int(per_page)
+    offset = (page - 1) * per_page
+    return page, per_page, offset
+def get_pagination(**kwargs):
+    kwargs.setdefault('record_name', 'repositories')
+    return Pagination(css_framework=get_css_framework(),
+                      link_size=get_link_size(),
+                      show_single_page=show_single_page_or_not(),
+                      **kwargs
+                      )
+    
+    
+#TEST
+#@app.route('/test/')
+#def test():
+#    return render_template("test.html")
+
+#Handle errors        
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+@app.errorhandler(500)
+def error(e):
+    print(e)
+    return render_template('500.html'), 500
 @app.route('/hello')
 def hello(name=None):
      return render_template('hello.html', name=name)
-
+@app.route('/tsearch')
+def tsearch(name=None):
+    query = bleach.clean(request.args['q']).strip()
+    #print query
+    #Minimum 5 characters for query 
+    if (len(query) <= 4 ): 
+        t = [] #return nothing!
+    else:
+        t = DBQueries.Typeahead(query) 
+       
+    return make_response(dumps(t))
+@app.route('/robots.txt')
+@app.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=os.environ['PORT'])
-    #DEV
-    #app.run(debug=True)
+    if (os.environ['deployEnv'] == "production"):
+        IP = "0.0.0.0" 
+        if os.environ.get('CIURL') is not None:
+            IP = os.environ.get('CIURL')
+        app.run(host=IP, port=os.environ['PORT']) 
+    else:
+        app.run(host=os.environ['myIP'],debug=True)

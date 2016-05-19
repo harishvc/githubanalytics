@@ -1,6 +1,0 @@
-li:not(:last-child) {
-    margin-bottom: 5px;
-}
-text {
-  font: 10px sans-serif;
-}

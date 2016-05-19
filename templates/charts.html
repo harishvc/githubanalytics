@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1><a href="/">{{title}}</a></h1>
+
+<h2>Active Repositories</h2>
+<div id="activerepositories">Active Repositories
+<div id="tooltip" class="hidden">
+    <p><span id="value">100</span>
+    </p>
+</div>
+</div>
+
+<ul>
+{% for record in AR["result"] %}
+<li>
+	   {% if record["language"] == None %}
+	   <a href="{{record['repo_url']}}">{{record['repo_name']}}</a>
+	   {% else %}
+       <a href="{{record['repo_url']}}">{{record['repo_name']}}</a>&nbsp;&nbsp;Language: {{record['language']}}
+       {% endif %}
+</li>
+{% endfor %}
+</ul>	
+
+
+
+<h2>Active languages</h2>
+<div id="bubbles">Bubbles</div>
+
+<h2>User Commit Frequency</h2>
+<div id="commitfrequency">Commit Frequency</div>
+
+{% endblock %}

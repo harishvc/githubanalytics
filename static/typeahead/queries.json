@@ -1,0 +1,38 @@
+[
+{ 
+  "label": "trending now",
+  "value": "trending now",
+  "tokens": ["active","what","hot","new","trending", "repo", "trend","ask","question"]
+},
+{ 
+  "label": "top repositories",
+  "value": "top repositories sorted by contributors",
+  "tokens": ["active","repo", "top", "contributor","ask","question"]
+},
+{ 
+  "label": "top organizations",
+  "value": "top organizations",
+  "tokens": ["active","org", "top","ask","question"]
+},
+{ 
+  "label": "top contributors",
+  "value": "top contributors",
+  "tokens": ["active","org", "top", "contributor","ask","question"]
+},
+{ 
+  "label": "top languages",
+  "value": "top languages",
+  "tokens": ["active","org", "top", "language","ask","question"]
+},
+{ 
+  "label": "top new repositories",
+  "value": "top new repositories sorted by contributors",
+  "tokens": ["active","repo", "top", "new","contributor","ask","question"]
+},
+{ 
+  "label": "dashboard",
+  "value": "dashboard",
+  "tokens": ["active","repo", "top","new" ,"commit","ask","question","dashboard", "visual"]
+}
+]
+
