@@ -1,15 +1,13 @@
- 
-GitHub Analytics [![Travis CI](https://travis-ci.org/harishvc/githubanalytics.svg)](https://travis-ci.org/harishvc/githubanalytics)  [![Sauce Test Status](https://saucelabs.com/buildstatus/harishvc)](https://saucelabs.com/u/harishvc)
+GitHub Analytics 
 ===============
 
 Analyze GitHub public timeline &amp; provide insights.
 
-Developed using Python &amp; Node.js using NoSQL databases [MongoDB](http://www.mongodb.org/) &amp; [Neo4j](http://neo4j.com/). Hosted on [Heroku](https://www.heroku.com/) 
-and powered by [Compose](https://www.compose.io/).
-* Fetch and parse public GitHub activity from [GitHub Archive](https://www.githubarchive.org/). Event type ```PushEvent``` are parsed using Node.js and inserted into MongoDB 
-* Nodes and relations are built using Cypher query language and inserted into Neo4j for insights and recommendations 
-* Application is developed in Python using Flask framework
-* Interested? Visit [Ask GitHub](http://askgithub.com)
+Tech stack includes Python, Node.js, [MongoDB](http://www.mongodb.org/) &amp; [Neo4j](http://neo4j.com/) 
+ * Fetch and parse public GitHub activity from [GitHub Archive](https://www.githubarchive.org/). Event type ```PushEvent``` are parsed using Node.js and inserted into MongoDB 
+ * Nodes and relations are built using Cypher query language and inserted into Neo4j for insights and recommendations 
+ * Application is developed in Python using Flask framework
+
 
 ### Deployment Steps
 Step1: Set environment variables
@@ -37,7 +35,7 @@ neoURL=""              #neo4j connection string
 
 Step 2: Get GitHub Archive public activity for the past hour
 ````
-$> node FetchParseGitHubArchive.js //Add this script to Heroku scheduler 
+$> node FetchParseGitHubArchive.js  //Add this script to a scheduler 
 ```` 
 
 Step 3: Start Flask
@@ -58,18 +56,9 @@ $>cd bin                               #bin folder inside repository
 $>python MongoInsert.py                #insert recommendations inside mongo
 ````
 
-### Hosted on [Heroku](https://www.heroku.com/) and powered by [Compose](https://www.compose.io/)
-Interested? Visit [Ask GitHub](http://askgithub.com)
+### Related Links
+ * Ask [GitHub GraphGist](http://gist.neo4j.org/?d9adad5c248385bea68c) won the [2015 Neo4j Data Challenge in the category Creative Graph Search and Insights](http://neo4j.com/blog/winners-neo4j-graphgist-winter-challenge-2015/)
+ * branch "datachallenge" contains the code branch for GitHub <a href="https://github.com/blog/1864-third-annual-github-data-challenge">third annual data challenge</a>
 
-
-### Neo4j 2015 Data Challenge
-Ask [GitHub GraphGist](http://gist.neo4j.org/?d9adad5c248385bea68c) won the [2015 Neo4j Data Challenge in the category Creative Graph Search and Insights](http://neo4j.com/blog/winners-neo4j-graphgist-winter-challenge-2015/)
-
-### 2014 GitHub Data Challenge
-branch "datachallenge" contains the code branch for GitHub <a href="https://github.com/blog/1864-third-annual-github-data-challenge">third annual data challenge</a>
-
-
-###TODO
-[Open issues on GitHub](https://github.com/harishvc/githubanalytics/issues)
 
 [![Analytics](https://ga-beacon.appspot.com/UA-55381661-1/githubanalytics/readme)](https://github.com/igrigorik/ga-beacon)
